@@ -1,18 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "T0EqqQvzJs0=",
+  "dgSpecHash": "eJdtjljkfP4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\najap\\RiderProjects\\SatinRoad\\server\\Infra\\Infra.csproj",
+  "projectFilePath": "/Users/malthehager/School/3.Semester/Projekt/SatinRoad/server/Infra/Infra.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\najap\\.nuget\\packages\\linq2db\\6.5.0\\linq2db.6.5.0.nupkg.sha512",
-    "C:\\Users\\najap\\.nuget\\packages\\linq2db.analyzers\\6.5.0\\linq2db.analyzers.6.5.0.nupkg.sha512",
-    "C:\\Users\\najap\\.nuget\\packages\\microsoft.data.sqlite\\11.0.0-rc.1.26425.128\\microsoft.data.sqlite.11.0.0-rc.1.26425.128.nupkg.sha512",
-    "C:\\Users\\najap\\.nuget\\packages\\microsoft.data.sqlite.core\\11.0.0-rc.1.26425.128\\microsoft.data.sqlite.core.11.0.0-rc.1.26425.128.nupkg.sha512",
-    "C:\\Users\\najap\\.nuget\\packages\\sqlite\\3.53.4\\sqlite.3.53.4.nupkg.sha512",
-    "C:\\Users\\najap\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\3.0.5\\sqlitepclraw.bundle_e_sqlite3.3.0.5.nupkg.sha512",
-    "C:\\Users\\najap\\.nuget\\packages\\sqlitepclraw.config.e_sqlite3\\3.0.5\\sqlitepclraw.config.e_sqlite3.3.0.5.nupkg.sha512",
-    "C:\\Users\\najap\\.nuget\\packages\\sqlitepclraw.core\\3.0.5\\sqlitepclraw.core.3.0.5.nupkg.sha512",
-    "C:\\Users\\najap\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\3.0.5\\sqlitepclraw.provider.e_sqlite3.3.0.5.nupkg.sha512"
+    "/Users/malthehager/.nuget/packages/linq2db/6.5.0/linq2db.6.5.0.nupkg.sha512",
+    "/Users/malthehager/.nuget/packages/linq2db.analyzers/6.5.0/linq2db.analyzers.6.5.0.nupkg.sha512",
+    "/Users/malthehager/.nuget/packages/microsoft.data.sqlite/11.0.0-rc.1.26425.128/microsoft.data.sqlite.11.0.0-rc.1.26425.128.nupkg.sha512",
+    "/Users/malthehager/.nuget/packages/microsoft.data.sqlite.core/11.0.0-rc.1.26425.128/microsoft.data.sqlite.core.11.0.0-rc.1.26425.128.nupkg.sha512",
+    "/Users/malthehager/.nuget/packages/sqlite/3.53.4/sqlite.3.53.4.nupkg.sha512",
+    "/Users/malthehager/.nuget/packages/sqlitepclraw.bundle_e_sqlite3/3.0.5/sqlitepclraw.bundle_e_sqlite3.3.0.5.nupkg.sha512",
+    "/Users/malthehager/.nuget/packages/sqlitepclraw.config.e_sqlite3/3.0.5/sqlitepclraw.config.e_sqlite3.3.0.5.nupkg.sha512",
+    "/Users/malthehager/.nuget/packages/sqlitepclraw.core/3.0.5/sqlitepclraw.core.3.0.5.nupkg.sha512",
+    "/Users/malthehager/.nuget/packages/sqlitepclraw.provider.e_sqlite3/3.0.5/sqlitepclraw.provider.e_sqlite3.3.0.5.nupkg.sha512"
   ],
   "logs": []
 }
