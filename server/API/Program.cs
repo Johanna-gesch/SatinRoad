@@ -17,6 +17,8 @@ builder.Services.AddOpenApiDocument(settings => settings.SchemaSettings.SchemaPr
 
 builder.Services.AddCors();
 
+builder.Services.AddScoped<MySeeder>();
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
@@ -27,7 +29,11 @@ app.UseOpenApi();
 
 app.UseSwaggerUi();
 
-//Create tables here
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<MySeeder>();
+    seeder.Seed();
+}
 
 app.MapControllers();
 
