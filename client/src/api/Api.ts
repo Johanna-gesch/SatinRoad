@@ -15,6 +15,10 @@ export interface Product {
   productName: string;
 }
 
+export interface ProductCreateProductParams {
+  ProductName?: string;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -291,6 +295,25 @@ export class Api<
         path: `/GetProducts`,
         method: "GET",
         format: "json",
+        ...params,
+      }),
+  };
+  createProduct = {
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductCreateProduct
+     * @request POST:/CreateProduct
+     */
+    productCreateProduct: (
+      query: ProductCreateProductParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/CreateProduct`,
+        method: "POST",
+        query: query,
         ...params,
       }),
   };
