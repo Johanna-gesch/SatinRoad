@@ -1,5 +1,7 @@
 using Infra;
+using Infra.Entities;
 using LinqToDB;
+using Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,9 @@ var dataOptions = new DataOptions<MyDataConnection>(options);
 
 builder.Services.AddScoped<MyDataConnection>(_ => new MyDataConnection(dataOptions));
 
-//Create services here
+builder.Services.AddScoped<ProductService>();
+
+builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
 
 builder.Services.AddOpenApiDocument(settings => settings.SchemaSettings.SchemaProcessors.Add(new RequireNotNullableSchemaProcessor()));
 
