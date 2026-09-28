@@ -10,6 +10,10 @@
  * ---------------------------------------------------------------
  */
 
+export interface CreateCategoryRequestDto {
+  categoryName: string;
+}
+
 export interface Product {
   productId: string;
   productName: string;
@@ -278,6 +282,26 @@ export class HttpClient<SecurityDataType = unknown> {
 export class Api<
   SecurityDataType extends unknown,
 > extends HttpClient<SecurityDataType> {
+  createCategory = {
+    /**
+     * No description
+     *
+     * @tags Category
+     * @name CategoryCreateCategory
+     * @request POST:/CreateCategory
+     */
+    categoryCreateCategory: (
+      data: CreateCategoryRequestDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/CreateCategory`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+  };
   getProducts = {
     /**
      * No description
