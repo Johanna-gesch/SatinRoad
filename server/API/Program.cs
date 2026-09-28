@@ -12,7 +12,10 @@ var dataOptions = new DataOptions<MyDataConnection>(options);
 
 builder.Services.AddScoped<MyDataConnection>(_ => new MyDataConnection(dataOptions));
 
-//Create services here
+builder.Services.AddScoped<ProductService>();
+
+builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
+
 builder.Services.AddExceptionHandler<ProblemExceptionHandler>();
 builder.Services.AddOpenApiDocument(settings => settings.SchemaSettings.SchemaProcessors.Add(new RequireNotNullableSchemaProcessor()));
 
