@@ -1,6 +1,8 @@
 using API;
 using Infra;
+using Infra.Entities;
 using LinqToDB;
+using Service;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = "Data Source=dev.db";
@@ -19,6 +21,8 @@ builder.Services.AddProblemDetails();
 
 builder.Services.AddScoped<MySeeder>();
 
+builder.Services.AddScoped<IRepository<Category>, CategoryRepository>();
+builder.Services.AddScoped<CategoryService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
