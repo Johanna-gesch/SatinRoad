@@ -15,6 +15,11 @@ export interface Product {
   productName: string;
 }
 
+export interface User {
+  userId: string;
+  userName: string;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -289,6 +294,22 @@ export class Api<
     productGetProducts: (params: RequestParams = {}) =>
       this.request<Product[], any>({
         path: `/GetProducts`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+  };
+  getUsers = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserGetUsers
+     * @request GET:/GetUsers
+     */
+    userGetUsers: (params: RequestParams = {}) =>
+      this.request<User[], any>({
+        path: `/GetUsers`,
         method: "GET",
         format: "json",
         ...params,

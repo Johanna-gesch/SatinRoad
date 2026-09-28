@@ -1,3 +1,4 @@
+using Infra;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 

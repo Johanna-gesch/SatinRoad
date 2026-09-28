@@ -21,7 +21,10 @@
     <ItemGroup>
       <Folder Include="CategoryServiceTests\" />
       <Folder Include="ProductServiceTests\" />
-      <Folder Include="UserServiceTests\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Infra\Infra.csproj" />
     </ItemGroup>
 
 </Project>
