@@ -1,13 +1,20 @@
 ﻿using Infra;
 using Infra.Entities;
+using Service.DTOs.ProductDTOs;
 
 namespace Service;
 
 public class ProductService(IRepository<Product> productRepo)
 {
-    public void Insert(Product entity)
+    public void Insert(CreateProductDto dto)
     {
-        throw new NotImplementedException();
+        var newProduct = new Product
+        {
+            ProductId = Guid.NewGuid().ToString(),
+            ProductName = dto.ProductName,
+        };
+        
+        productRepo.Insert(newProduct);
     }
 
     public Product? GetById(string id)
