@@ -24,4 +24,9 @@ public class CategoryRepository(MyDataConnection dc) : IRepository<Category>
     {
         throw new NotImplementedException();
     }
+
+    public List<Category> GetAll()
+    {
+        throw new NotImplementedException();
+    }
 }
