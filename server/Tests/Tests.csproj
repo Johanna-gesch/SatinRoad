@@ -20,11 +20,11 @@
 
     <ItemGroup>
       <Folder Include="CategoryServiceTests\" />
-      <Folder Include="ProductServiceTests\" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Infra\Infra.csproj" />
+      <ProjectReference Include="..\Service\Service.csproj" />
     </ItemGroup>
 
 </Project>
