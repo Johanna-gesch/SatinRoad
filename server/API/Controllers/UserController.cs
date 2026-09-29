@@ -24,6 +24,12 @@ public class UserController (UserService service) : ControllerBase
         return service.GetById(userId);
 
     }
+
+    [HttpPut(nameof(UpdateUser))]
+    public void UpdateUser(UpdateUserDto dto)
+    {
+        service.Update(dto);
+    }
     
     
 }
