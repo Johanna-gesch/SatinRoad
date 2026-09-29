@@ -24,7 +24,16 @@ export interface Product {
   productName: string;
 }
 
+export interface ProductGetProductByIdParams {
+  id?: string;
+}
+
 export interface ProductCreateProductParams {
+  ProductName?: string;
+}
+
+export interface ProductUpdateProductParams {
+  ProductId?: string;
   ProductName?: string;
 }
 
@@ -343,6 +352,26 @@ export class Api<
         ...params,
       }),
   };
+  getProductById = {
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductGetProductById
+     * @request GET:/GetProductById
+     */
+    productGetProductById: (
+      query: ProductGetProductByIdParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<Product | null, any>({
+        path: `/GetProductById`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+  };
   createProduct = {
     /**
      * No description
@@ -358,6 +387,25 @@ export class Api<
       this.request<void, any>({
         path: `/CreateProduct`,
         method: "POST",
+        query: query,
+        ...params,
+      }),
+  };
+  updateProduct = {
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductUpdateProduct
+     * @request PUT:/UpdateProduct
+     */
+    productUpdateProduct: (
+      query: ProductUpdateProductParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/UpdateProduct`,
+        method: "PUT",
         query: query,
         ...params,
       }),

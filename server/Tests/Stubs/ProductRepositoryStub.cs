@@ -6,6 +6,8 @@ namespace Tests;
 public class ProductRepositoryStub : IRepository<Product>
 {
     public Product InsertedProduct;
+    public Product? ExistingProduct;
+    public Product? UpdatedProduct;
     public void Insert(Product entity)
     {
         InsertedProduct = entity;
@@ -13,12 +15,12 @@ public class ProductRepositoryStub : IRepository<Product>
 
     public Product? GetById(string id)
     {
-        throw new NotImplementedException();
+        return ExistingProduct;
     }
 
     public void Update(Product entity)
     {
-        throw new NotImplementedException();
+        UpdatedProduct = entity;
     }
 
     public void Delete(string id)
