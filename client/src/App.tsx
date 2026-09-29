@@ -1,7 +1,6 @@
 import "./index.css";
 import {useEffect, useState} from "react";
-import {Api, type Product, type User} from "@/api/Api.ts";
-import {Api, type Product, type Category} from "@/api/Api.ts";
+import { Api, type Product, type User} from "@/api/Api.ts";
 
 export const MyApi = new Api();
 
@@ -9,6 +8,7 @@ export function App() {
 
   const [products, setProducts] = useState<Product[]>([]);
   const [users, setUsers] = useState<User[]>([]);
+
 
   useEffect(() => {
     MyApi.getUsers.userGetUsers().then(r => {
@@ -23,7 +23,7 @@ export function App() {
       setProducts(r)
     })
   }, []);
-  
+
   function handleCreateCategory(){
     MyApi.createCategory.categoryCreateCategory({ categoryName })
         .then(() => alert("Category created"));

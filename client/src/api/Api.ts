@@ -28,6 +28,10 @@ export interface ProductCreateProductParams {
   ProductName?: string;
 }
 
+export interface UserGetUserByIdParams {
+  userId?: string;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -327,22 +331,6 @@ export class Api<
         ...params,
       }),
   };
-  getUsers = {
-    /**
-     * No description
-     *
-     * @tags User
-     * @name UserGetUsers
-     * @request GET:/GetUsers
-     */
-    userGetUsers: (params: RequestParams = {}) =>
-      this.request<User[], any>({
-        path: `/GetUsers`,
-        method: "GET",
-        format: "json",
-        ...params,
-      }),
-  };
   createProduct = {
     /**
      * No description
@@ -359,6 +347,42 @@ export class Api<
         path: `/CreateProduct`,
         method: "POST",
         query: query,
+        ...params,
+      }),
+  };
+  getUsers = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserGetUsers
+     * @request GET:/GetUsers
+     */
+    userGetUsers: (params: RequestParams = {}) =>
+      this.request<User[], any>({
+        path: `/GetUsers`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+  };
+  getUserById = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserGetUserById
+     * @request GET:/GetUserById
+     */
+    userGetUserById: (
+      query: UserGetUserByIdParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<User, any>({
+        path: `/GetUserById`,
+        method: "GET",
+        query: query,
+        format: "json",
         ...params,
       }),
   };
