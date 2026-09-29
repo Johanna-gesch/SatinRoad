@@ -50,8 +50,21 @@ export interface ProductDeleteProductParams {
   id?: string;
 }
 
+export interface UserCreateUserParams {
+  UserName?: string;
+}
+
 export interface UserGetUserByIdParams {
   userId?: string;
+}
+
+export interface UserUpdateUserParams {
+  UserId?: string;
+  UserName?: string;
+}
+
+export interface UserDeleteUserParams {
+  id?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -466,6 +479,25 @@ export class Api<
         ...params,
       }),
   };
+  createUser = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserCreateUser
+     * @request POST:/CreateUser
+     */
+    userCreateUser: (
+      query: UserCreateUserParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/CreateUser`,
+        method: "POST",
+        query: query,
+        ...params,
+      }),
+  };
   getUsers = {
     /**
      * No description
@@ -499,6 +531,44 @@ export class Api<
         method: "GET",
         query: query,
         format: "json",
+        ...params,
+      }),
+  };
+  updateUser = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserUpdateUser
+     * @request PUT:/UpdateUser
+     */
+    userUpdateUser: (
+      query: UserUpdateUserParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/UpdateUser`,
+        method: "PUT",
+        query: query,
+        ...params,
+      }),
+  };
+  deleteUser = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserDeleteUser
+     * @request DELETE:/DeleteUser
+     */
+    userDeleteUser: (
+      query: UserDeleteUserParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/DeleteUser`,
+        method: "DELETE",
+        query: query,
         ...params,
       }),
   };
