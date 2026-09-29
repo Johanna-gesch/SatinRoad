@@ -14,6 +14,11 @@ export interface CreateCategoryRequestDto {
   categoryName: string;
 }
 
+export interface Category {
+  categoryId: string;
+  categoryName: string;
+}
+
 export interface Product {
   productId: string;
   productName: string;
@@ -312,6 +317,22 @@ export class Api<
         method: "POST",
         body: data,
         type: ContentType.Json,
+        ...params,
+      }),
+  };
+  getAll = {
+    /**
+     * No description
+     *
+     * @tags Category
+     * @name CategoryGetAll
+     * @request GET:/GetAll
+     */
+    categoryGetAll: (params: RequestParams = {}) =>
+      this.request<Category[], any>({
+        path: `/GetAll`,
+        method: "GET",
+        format: "json",
         ...params,
       }),
   };

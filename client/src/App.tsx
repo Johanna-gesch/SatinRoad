@@ -11,7 +11,8 @@ export function App() {
     const [editingProductId, setEditingProductId] = useState<string | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [productNameField, setProductNameField] = useState("");
-    const [categoryName, setCategoryName] = useState("");
+  const [categoryName, setCategoryName] = useState("");
+  const [categories, setCategories] = useState<Category[]>([]);
 
     useEffect(() => {
         MyApi.getProducts.productGetProducts().then(r => {
@@ -23,7 +24,13 @@ export function App() {
       setProducts(r)
     })
   }, []);
-  
+
+    useEffect(() => {
+        MyApi.getAll.categoryGetAll().then(r => {
+            setCategories(r)
+        })
+    }, []);
+   
   function handleCreateCategory(){
     MyApi.createCategory.categoryCreateCategory({ categoryName })
         .then(() => alert("Category created"));
@@ -116,6 +123,12 @@ export function App() {
             {product.productName}
           </div>
       ))}
+
+        {categories.map(category => (
+            <div key={category.categoryId}>
+                {category.categoryName}
+            </div>
+        ))}
     </div>
   );
 }
