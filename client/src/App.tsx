@@ -3,22 +3,16 @@ import { useEffect, useState } from "react";
 import { Api, type Product, type User, type Category } from "@/api/Api.ts";
 import { CategoriesPage } from "@/pages/CategoriesPage";
 import { ProductsPage } from "@/pages/ProductsPage";
+import { UsersPage } from "@/Pages/UsersPage.tsx"
 
 export const MyApi = new Api();
 
 export function App() {
     const [products, setProducts] = useState<Product[]>([]);
-    const [users, setUsers] = useState<User[]>([]);
 
     const [productNameField, setProductNameField] = useState("");
     const [editingProductId, setEditingProductId] = useState<string | null>(null);
-
-    useEffect(() => {
-        MyApi.getUsers.userGetUsers().then(r => {
-            setUsers(r);
-        });
-    }, []);
-
+    
     useEffect(() => {
         MyApi.getProducts.productGetProducts().then(r => {
             setProducts(r);
@@ -55,7 +49,7 @@ export function App() {
     return (
         <div>
             <CategoriesPage />
-
+            <UsersPage />
             Create Product:
             <input
                 placeholder={"Product Name"}
@@ -83,12 +77,6 @@ export function App() {
                     <button onClick={() => handleEditOrSaveProduct(product)}>
                         {editingProductId === product.productId ? "Save" : "Edit"}
                     </button>
-                </div>
-            ))}
-
-            {users.map(user => (
-                <div key={user.userId}>
-                    {user.userName}
                 </div>
             ))}
         </div>
