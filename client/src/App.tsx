@@ -1,16 +1,16 @@
 import "./index.css";
 import { useEffect, useState } from "react";
 import { Api, type Product, type User, type Category } from "@/api/Api.ts";
+import { CategoriesPage } from "@/pages/CategoriesPage";
+import { ProductsPage } from "@/pages/ProductsPage";
 
 export const MyApi = new Api();
 
 export function App() {
     const [products, setProducts] = useState<Product[]>([]);
     const [users, setUsers] = useState<User[]>([]);
-    const [categories, setCategories] = useState<Category[]>([]);
 
     const [productNameField, setProductNameField] = useState("");
-    const [categoryName, setCategoryName] = useState("");
     const [editingProductId, setEditingProductId] = useState<string | null>(null);
 
     useEffect(() => {
@@ -24,18 +24,7 @@ export function App() {
             setProducts(r);
         });
     }, []);
-
-    useEffect(() => {
-        MyApi.getAll.categoryGetAll().then(r => {
-            setCategories(r);
-        });
-    }, []);
-
-    function handleCreateCategory() {
-        MyApi.createCategory.categoryCreateCategory({ categoryName })
-            .then(() => alert("Category created"));
-    }
-
+    
     function handleCreateProduct() {
         MyApi.createProduct.productCreateProduct({ ProductName: productNameField })
             .then(() => setProductNameField(""))
@@ -65,12 +54,7 @@ export function App() {
 
     return (
         <div>
-            <input
-                value={categoryName}
-                onChange={e => setCategoryName(e.target.value)}
-                placeholder="New category name"
-            />
-            <button onClick={handleCreateCategory}>Create category</button>
+            <CategoriesPage />
 
             Create Product:
             <input
@@ -105,12 +89,6 @@ export function App() {
             {users.map(user => (
                 <div key={user.userId}>
                     {user.userName}
-                </div>
-            ))}
-
-            {categories.map(category => (
-                <div key={category.categoryId}>
-                    {category.categoryName}
                 </div>
             ))}
         </div>
