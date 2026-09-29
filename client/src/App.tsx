@@ -1,41 +1,24 @@
 import "./index.css";
 import { useEffect, useState } from "react";
 import { Api, type Product, type User, type Category } from "@/api/Api.ts";
+import { CategoriesPage } from "@/pages/CategoriesPage";
+import { ProductsPage } from "@/pages/ProductsPage";
+import { UsersPage } from "@/Pages/UsersPage.tsx"
 
 export const MyApi = new Api();
 
 export function App() {
     const [products, setProducts] = useState<Product[]>([]);
-    const [users, setUsers] = useState<User[]>([]);
-    const [categories, setCategories] = useState<Category[]>([]);
 
     const [productNameField, setProductNameField] = useState("");
-    const [categoryName, setCategoryName] = useState("");
     const [editingProductId, setEditingProductId] = useState<string | null>(null);
-
-    useEffect(() => {
-        MyApi.getUsers.userGetUsers().then(r => {
-            setUsers(r);
-        });
-    }, []);
-
+    
     useEffect(() => {
         MyApi.getProducts.productGetProducts().then(r => {
             setProducts(r);
         });
     }, []);
-
-    useEffect(() => {
-        MyApi.getAll.categoryGetAll().then(r => {
-            setCategories(r);
-        });
-    }, []);
-
-    function handleCreateCategory() {
-        MyApi.createCategory.categoryCreateCategory({ categoryName })
-            .then(() => alert("Category created"));
-    }
-
+    
     function handleCreateProduct() {
         MyApi.createProduct.productCreateProduct({ ProductName: productNameField })
             .then(() => setProductNameField(""))
@@ -65,13 +48,8 @@ export function App() {
 
     return (
         <div>
-            <input
-                value={categoryName}
-                onChange={e => setCategoryName(e.target.value)}
-                placeholder="New category name"
-            />
-            <button onClick={handleCreateCategory}>Create category</button>
-
+            <CategoriesPage />
+            <UsersPage />
             Create Product:
             <input
                 placeholder={"Product Name"}
@@ -99,18 +77,6 @@ export function App() {
                     <button onClick={() => handleEditOrSaveProduct(product)}>
                         {editingProductId === product.productId ? "Save" : "Edit"}
                     </button>
-                </div>
-            ))}
-
-            {users.map(user => (
-                <div key={user.userId}>
-                    {user.userName}
-                </div>
-            ))}
-
-            {categories.map(category => (
-                <div key={category.categoryId}>
-                    {category.categoryName}
                 </div>
             ))}
         </div>
