@@ -52,8 +52,8 @@ export interface ProductUpdateProductParams {
   ProductName?: string;
 }
 
-export interface UserCreateUserParams {
-  UserName?: string;
+export interface ProductDeleteProductParams {
+  id?: string;
 }
 
 export interface UserCreateUserParams {
@@ -486,21 +486,21 @@ export class Api<
         ...params,
       }),
   };
-  createUser = {
+  deleteProduct = {
     /**
      * No description
      *
-     * @tags User
-     * @name UserCreateUser
-     * @request POST:/CreateUser
+     * @tags Product
+     * @name ProductDeleteProduct
+     * @request DELETE:/DeleteProduct
      */
-    userCreateUser: (
-      query: UserCreateUserParams = {},
+    productDeleteProduct: (
+      query: ProductDeleteProductParams = {},
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/CreateUser`,
-        method: "POST",
+        path: `/DeleteProduct`,
+        method: "DELETE",
         query: query,
         ...params,
       }),
