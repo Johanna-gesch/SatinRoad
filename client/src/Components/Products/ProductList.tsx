@@ -34,6 +34,15 @@ export function ProductList({products, setProducts}: ProductListProps) {
         }
     }
 
+    function handleDelete(product: Product) {
+        MyApi.deleteProduct.productDeleteProduct({id: product.productId})
+            .then(r => {
+                MyApi.getProducts.productGetProducts().then(r => {
+                    setProducts(r)
+                })
+            })
+    }
+
     return (
         <div>
             {products.map(product => (
@@ -55,6 +64,7 @@ export function ProductList({products, setProducts}: ProductListProps) {
                     <button onClick={() => handleEditOrSaveProduct(product)}>
                         {editingProductId === product.productId ? "Save" : "Edit"}
                     </button>
+                    <button onClick={() => handleDelete(product)}>Delete</button>
                 </div>
             ))}
         </div>

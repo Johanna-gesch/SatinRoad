@@ -21,7 +21,7 @@ public class UserRepositoryStub : IRepository<User>
         throw new NotImplementedException();
     }
 
-    public void Delete(string id)
+    public void Delete(User entity)
     {
         throw new NotImplementedException();
     }
