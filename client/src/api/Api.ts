@@ -19,6 +19,12 @@ export interface Category {
   categoryName: string;
 }
 
+export interface UpdateCategoryRequestDto {
+  /** @minLength 1 */
+  categoryIdForLookup: string;
+  newCategoryName?: string | null;
+}
+
 export interface Product {
   productId: string;
   productName: string;
@@ -46,8 +52,8 @@ export interface ProductUpdateProductParams {
   ProductName?: string;
 }
 
-export interface ProductDeleteProductParams {
-  id?: string;
+export interface UserCreateUserParams {
+  UserName?: string;
 }
 
 export interface UserGetUserByIdParams {
@@ -373,6 +379,26 @@ export class Api<
         ...params,
       }),
   };
+  updateCategory = {
+    /**
+     * No description
+     *
+     * @tags Category
+     * @name CategoryUpdateCategory
+     * @request PUT:/UpdateCategory
+     */
+    categoryUpdateCategory: (
+      data: UpdateCategoryRequestDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/UpdateCategory`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+  };
   getProducts = {
     /**
      * No description
@@ -447,21 +473,21 @@ export class Api<
         ...params,
       }),
   };
-  deleteProduct = {
+  createUser = {
     /**
      * No description
      *
-     * @tags Product
-     * @name ProductDeleteProduct
-     * @request DELETE:/DeleteProduct
+     * @tags User
+     * @name UserCreateUser
+     * @request POST:/CreateUser
      */
-    productDeleteProduct: (
-      query: ProductDeleteProductParams = {},
+    userCreateUser: (
+      query: UserCreateUserParams = {},
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/DeleteProduct`,
-        method: "DELETE",
+        path: `/CreateUser`,
+        method: "POST",
         query: query,
         ...params,
       }),

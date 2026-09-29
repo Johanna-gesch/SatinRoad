@@ -24,4 +24,10 @@ public class CategoryController(CategoryService service) : ControllerBase
     {
         return service.GetById(id);
     }
+
+    [HttpPut(nameof(UpdateCategory))]
+    public void UpdateCategory([FromBody] UpdateCategoryRequestDto dto)
+    {
+        service.UpdateCategory(dto);
+    }
 }

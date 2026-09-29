@@ -26,4 +26,14 @@ public class CategoryService(IRepository<Category> categories)
     {
         return categories.GetById(id);
     }
+
+    public void UpdateCategory(UpdateCategoryRequestDto dto)
+    {
+        var category = categories.GetById(dto.CategoryIdForLookup)
+                       ?? throw new ValidationException("Category doesn't exist");
+        if (dto.NewCategoryName is not null)
+            category.CategoryName = dto.NewCategoryName;
+        
+        categories.Update(category);
+    }
 }
