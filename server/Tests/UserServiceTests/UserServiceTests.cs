@@ -1,12 +1,34 @@
 using Infra;
 using Infra.Entities;
 using Service;
+using Service.DTOs.UserDTOs;
 using Tests.Stubs;
 
 namespace Tests.UserServiceTests;
 
 public class UserServiceTests
 {
+    [Fact]
+    public void CreateUser_InsertToRepository()
+    {
+        // Arrange
+        var repoStub = new UserRepositoryStub();
+        var service = new UserService(repoStub);
+
+        var dto = new CreateUserDto
+        {
+            UserName = "Bob"
+        };
+        
+        // act 
+        service.Insert(dto);
+        
+        // Assert
+        Assert.NotNull(repoStub.InsertedUser);
+        Assert.Equal("Bob", repoStub.InsertedUser.UserName);
+        Assert.False(string.IsNullOrEmpty(repoStub.InsertedUser.UserId));
+    }
+    
     [Fact]
     public void GetAll_ReturnsAllUsersFromRepository()
     {

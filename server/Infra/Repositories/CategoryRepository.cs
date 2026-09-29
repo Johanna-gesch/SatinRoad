@@ -12,7 +12,8 @@ public class CategoryRepository(MyDataConnection dc) : IRepository<Category>
 
     public Category? GetById(string id)
     {
-        throw new NotImplementedException();
+        return dc.GetTable<Category>()
+            .FirstOrDefault(c => c.CategoryId == id);
     }
 
     public void Update(Category entity)

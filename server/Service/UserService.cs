@@ -1,14 +1,20 @@
 using Infra;
 using Infra.Entities;
+using Service.DTOs.UserDTOs;
 using ValidationException = Infra.ValidationException;
 
 namespace Service;
 
 public class UserService (IRepository<User> userRepo)
 {
-    public void Insert(User entity)
+    public void Insert(CreateUserDto dto)
     {
-        throw new NotImplementedException();
+        var newUser = new User
+        {
+            UserId = Guid.NewGuid().ToString(),
+            UserName = dto.UserName,
+        };
+        userRepo.Insert(newUser);
     }
 
     public User? GetById(string id)
