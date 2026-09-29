@@ -44,9 +44,9 @@ export function ProductList({products, setProducts}: ProductListProps) {
     }
 
     return (
-        <div>
+        <div className={"products"}>
             {products.map(product => (
-                <div key={product.productId}>
+                <div key={product.productId} className={"productCard"}>
                     {editingProductId === product.productId ? (
                         <input
                             value={product.productName}
@@ -61,10 +61,13 @@ export function ProductList({products, setProducts}: ProductListProps) {
                     ) : (
                         <>{product.productName}</>
                     )}
-                    <button onClick={() => handleEditOrSaveProduct(product)}>
-                        {editingProductId === product.productId ? "Save" : "Edit"}
-                    </button>
-                    <button onClick={() => handleDelete(product)}>Delete</button>
+                    <br></br>
+                    <div className={"productBtns"}>
+                        <button onClick={() => handleEditOrSaveProduct(product)}>
+                            {editingProductId === product.productId ? "Save" : "Edit"}
+                        </button>
+                        <button onClick={() => handleDelete(product)}>Delete</button>
+                    </div>
                 </div>
             ))}
         </div>

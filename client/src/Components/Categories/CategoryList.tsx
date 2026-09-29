@@ -11,7 +11,7 @@ export function CategoryList() {
     }, []);
 
     return (
-        <div>
+        <div className={"categories"}>
             {categories.map(c => (
                 <div key={c.categoryId}>{c.categoryName}</div>
             ))}

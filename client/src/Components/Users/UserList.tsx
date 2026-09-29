@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Api, type Product, type Category} from "@/api/Api.ts";
+import {Api, type User} from "@/api/Api.ts";
 
 export const MyApi = new Api();
 
@@ -13,7 +13,7 @@ export function UserList() {
     }, []);
     
     return (
-        <div>
+        <div className={"users"}>
             {users.map(user => (
                 <div key={user.userId}>
                     {user.userName}
