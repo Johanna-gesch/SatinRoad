@@ -1,5 +1,5 @@
-import {Api, type Product, type Category} from "@/api/Api.ts";
-import {useEffect, useState} from "react";
+import {Api} from "@/api/Api.ts";
+import {useState} from "react";
 
 export const MyApi = new Api();
 
