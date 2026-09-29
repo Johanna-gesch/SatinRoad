@@ -37,7 +37,9 @@ public class UserService (IRepository<User> userRepo)
 
     public void Delete(string id)
     {
-        throw new NotImplementedException();
+        var user = userRepo.GetById(id)
+                   ?? throw new ValidationException("User not found");
+        userRepo.Delete(user);
     }
     
     public List<User> GetAll()
