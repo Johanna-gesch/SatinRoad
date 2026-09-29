@@ -19,12 +19,17 @@ public class ProductService(IRepository<Product> productRepo)
 
     public Product? GetById(string id)
     {
-        throw new NotImplementedException();
+        return productRepo.GetById(id);
     }
 
-    public void Update(Product entity)
+    public void Update(UpdateProductDto dto)
     {
-        throw new NotImplementedException();
+        var product = productRepo.GetById(dto.ProductId);
+        
+        if (!string.IsNullOrWhiteSpace(dto.ProductName))
+            product.ProductName = dto.ProductName;
+        
+        productRepo.Update(product);
     }
 
     public void Delete(string id)

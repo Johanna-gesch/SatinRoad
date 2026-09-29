@@ -10,12 +10,25 @@
  * ---------------------------------------------------------------
  */
 
+export interface CreateCategoryRequestDto {
+  categoryName: string;
+}
+
 export interface Product {
   productId: string;
   productName: string;
 }
 
+export interface ProductGetProductByIdParams {
+  id?: string;
+}
+
 export interface ProductCreateProductParams {
+  ProductName?: string;
+}
+
+export interface ProductUpdateProductParams {
+  ProductId?: string;
   ProductName?: string;
 }
 
@@ -282,6 +295,26 @@ export class HttpClient<SecurityDataType = unknown> {
 export class Api<
   SecurityDataType extends unknown,
 > extends HttpClient<SecurityDataType> {
+  createCategory = {
+    /**
+     * No description
+     *
+     * @tags Category
+     * @name CategoryCreateCategory
+     * @request POST:/CreateCategory
+     */
+    categoryCreateCategory: (
+      data: CreateCategoryRequestDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/CreateCategory`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+  };
   getProducts = {
     /**
      * No description
@@ -294,6 +327,26 @@ export class Api<
       this.request<Product[], any>({
         path: `/GetProducts`,
         method: "GET",
+        format: "json",
+        ...params,
+      }),
+  };
+  getProductById = {
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductGetProductById
+     * @request GET:/GetProductById
+     */
+    productGetProductById: (
+      query: ProductGetProductByIdParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<Product | null, any>({
+        path: `/GetProductById`,
+        method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),
@@ -313,6 +366,25 @@ export class Api<
       this.request<void, any>({
         path: `/CreateProduct`,
         method: "POST",
+        query: query,
+        ...params,
+      }),
+  };
+  updateProduct = {
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductUpdateProduct
+     * @request PUT:/UpdateProduct
+     */
+    productUpdateProduct: (
+      query: ProductUpdateProductParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/UpdateProduct`,
+        method: "PUT",
         query: query,
         ...params,
       }),

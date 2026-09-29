@@ -13,10 +13,22 @@ public class ProductController(ProductService service) : ControllerBase
         return service.GetAll();
     }
 
+    [HttpGet(nameof(GetProductById))]
+    public Product? GetProductById(string id)
+    {
+        return service.GetById(id);
+    }
+
     [HttpPost(nameof(CreateProduct))]
     public void CreateProduct(CreateProductDto dto)
     {
         service.Insert(dto);
+    }
+
+    [HttpPut(nameof(UpdateProduct))]
+    public void UpdateProduct(UpdateProductDto dto)
+    {
+        service.Update(dto);
     }
     
 }
