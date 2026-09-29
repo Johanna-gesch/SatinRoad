@@ -400,6 +400,25 @@ export class Api<
         ...params,
       }),
   };
+  updateProduct = {
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductUpdateProduct
+     * @request PUT:/UpdateProduct
+     */
+    productUpdateProduct: (
+      query: ProductUpdateProductParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/UpdateProduct`,
+        method: "PUT",
+        query: query,
+        ...params,
+      }),
+  };
   getUsers = {
     /**
      * No description
@@ -433,25 +452,6 @@ export class Api<
         method: "GET",
         query: query,
         format: "json",
-        ...params,
-      }),
-  };
-  updateProduct = {
-    /**
-     * No description
-     *
-     * @tags Product
-     * @name ProductUpdateProduct
-     * @request PUT:/UpdateProduct
-     */
-    productUpdateProduct: (
-      query: ProductUpdateProductParams = {},
-      params: RequestParams = {},
-    ) =>
-      this.request<void, any>({
-        path: `/UpdateProduct`,
-        method: "PUT",
-        query: query,
         ...params,
       }),
   };
