@@ -1,14 +1,20 @@
 using Infra;
 using Infra.Entities;
+using Service.DTOs.UserDTOs;
 using ValidationException = Infra.ValidationException;
 
 namespace Service;
 
 public class UserService (IRepository<User> userRepo)
 {
-    public void Insert(User entity)
+    public void Insert(CreateUserDto dto)
     {
-        throw new NotImplementedException();
+        var newUser = new User
+        {
+            UserId = Guid.NewGuid().ToString(),
+            UserName = dto.UserName,
+        };
+        userRepo.Insert(newUser);
     }
 
     public User? GetById(string id)
@@ -19,9 +25,14 @@ public class UserService (IRepository<User> userRepo)
                ?? throw new NotFoundException($"User whit this id '{id}' is not found");
     }
 
-    public void Update(User entity)
+    public void Update(UpdateUserDto dto)
     {
-        throw new NotImplementedException();
+        var user = userRepo.GetById(dto.UserId);
+
+        if (!string.IsNullOrWhiteSpace(dto.UserName))
+            user.UserName = dto.UserName;
+        
+        userRepo.Update(user);
     }
 
     public void Delete(string id)

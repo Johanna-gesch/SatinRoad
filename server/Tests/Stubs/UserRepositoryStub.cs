@@ -5,10 +5,12 @@ namespace Tests.Stubs;
 
 public class UserRepositoryStub : IRepository<User>
 {
+    public User InsertedUser;
+    public User? UpdatedUser;
     public List<User> Users { get; set; } = new();
     public void Insert(User entity)
     {
-        throw new NotImplementedException();
+        InsertedUser = entity;
     }
 
     public User? GetById(string id)
@@ -18,7 +20,7 @@ public class UserRepositoryStub : IRepository<User>
 
     public void Update(User entity)
     {
-        throw new NotImplementedException();
+        UpdatedUser = entity;
     }
 
     public void Delete(string id)

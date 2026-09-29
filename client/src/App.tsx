@@ -2,7 +2,6 @@ import "./index.css";
 import { useEffect, useState } from "react";
 import { Api, type Product, type User, type Category } from "@/api/Api.ts";
 import { CategoriesPage } from "@/pages/CategoriesPage";
-import { ProductsPage } from "@/pages/ProductsPage";
 import { UsersPage } from "@/Pages/UsersPage.tsx"
 
 export const MyApi = new Api();

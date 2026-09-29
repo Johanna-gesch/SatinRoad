@@ -42,6 +42,15 @@ export interface ProductUpdateProductParams {
   ProductName?: string;
 }
 
+export interface UserCreateUserParams {
+  UserName?: string;
+}
+
+export interface UserUpdateUserParams {
+  UserId?: string;
+  UserName?: string;
+}
+
 export interface UserGetUserByIdParams {
   userId?: string;
 }
@@ -414,6 +423,44 @@ export class Api<
     ) =>
       this.request<void, any>({
         path: `/UpdateProduct`,
+        method: "PUT",
+        query: query,
+        ...params,
+      }),
+  };
+  createUser = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserCreateUser
+     * @request POST:/CreateUser
+     */
+    userCreateUser: (
+      query: UserCreateUserParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/CreateUser`,
+        method: "POST",
+        query: query,
+        ...params,
+      }),
+  };
+  updateUser = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserUpdateUser
+     * @request PUT:/UpdateUser
+     */
+    userUpdateUser: (
+      query: UserUpdateUserParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/UpdateUser`,
         method: "PUT",
         query: query,
         ...params,
