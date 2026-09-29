@@ -42,6 +42,10 @@ export interface ProductUpdateProductParams {
   ProductName?: string;
 }
 
+export interface ProductDeleteProductParams {
+  id?: string;
+}
+
 export interface UserGetUserByIdParams {
   userId?: string;
 }
@@ -415,6 +419,25 @@ export class Api<
       this.request<void, any>({
         path: `/UpdateProduct`,
         method: "PUT",
+        query: query,
+        ...params,
+      }),
+  };
+  deleteProduct = {
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductDeleteProduct
+     * @request DELETE:/DeleteProduct
+     */
+    productDeleteProduct: (
+      query: ProductDeleteProductParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/DeleteProduct`,
+        method: "DELETE",
         query: query,
         ...params,
       }),
