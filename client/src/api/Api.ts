@@ -29,6 +29,10 @@ export interface User {
   userName: string;
 }
 
+export interface CategoryGetByIdParams {
+  id?: string;
+}
+
 export interface ProductGetProductByIdParams {
   id?: string;
 }
@@ -341,6 +345,26 @@ export class Api<
       this.request<Category[], any>({
         path: `/GetAll`,
         method: "GET",
+        format: "json",
+        ...params,
+      }),
+  };
+  getById = {
+    /**
+     * No description
+     *
+     * @tags Category
+     * @name CategoryGetById
+     * @request GET:/GetById
+     */
+    categoryGetById: (
+      query: CategoryGetByIdParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<Category | null, any>({
+        path: `/GetById`,
+        method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),

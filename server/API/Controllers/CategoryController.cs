@@ -18,4 +18,10 @@ public class CategoryController(CategoryService service) : ControllerBase
     {
         return service.GetAll();
     }
+
+    [HttpGet(nameof(GetById))]
+    public Category? GetById(string id)
+    {
+        return service.GetById(id);
+    }
 }

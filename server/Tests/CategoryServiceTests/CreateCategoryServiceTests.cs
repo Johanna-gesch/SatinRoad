@@ -46,4 +46,21 @@ public class CreateCategoryServiceTests
         Assert.Contains(result, c => c.CategoryName == "Drugs");
         Assert.Contains(result, c => c.CategoryName == "Weapons");
     }
+
+    [Fact]
+    public void GetById_ReturnsCorrectCategory()
+    {
+        //Arrange
+        var stub = new CategoryRepositoryStub();
+        var service = new CategoryService(stub);
+        
+        stub.Categories.Add(new Category { CategoryId = "1", CategoryName = "Drugs"});
+
+        //Act
+        var result = service.GetById("1");
+        
+        //Assert
+        Assert.NotNull(result);
+        Assert.Equal("Drugs", result.CategoryName);
+    }
 }
