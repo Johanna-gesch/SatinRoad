@@ -15,7 +15,7 @@ public class CategoryRepositoryStub : IRepository<Category>
 
     public Category? GetById(string id)
     {
-        throw new NotImplementedException();
+        return Categories.FirstOrDefault(c => c.CategoryId == id);
     }
 
     public void Update(Category entity)
