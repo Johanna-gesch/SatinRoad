@@ -25,7 +25,7 @@ public class CategoryRepositoryStub : IRepository<Category>
         UpdatedCategory = entity;
     }
 
-    public void Delete(string id)
+    public void Delete(Category entity)
     {
         DeletedCategoryId = id;
     }

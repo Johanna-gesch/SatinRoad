@@ -84,6 +84,36 @@ public class UserServiceTests
         // Act & Assert
         Assert.Throws<NotFoundException>(() => service.GetById("Missing"));
     }
+
+    [Fact]
+    public void UpdateUser_UpdateUserName()
+    {
+        //Arrange
+        var existingUser = new User
+        {
+            UserId = "1",
+            UserName = "Bob",
+        };
+
+        var repoStub = new UserRepositoryStub()
+        {
+            ExistingUser = existingUser
+        };
+
+        var service = new UserService(repoStub);
+
+        var dto = new UpdateUserDto
+        {
+            UserId = "1",
+            UserName = "New name"
+        };
+        // Act
+        service.Update(dto);
+        
+        //Assert
+        Assert.Equal("New name", repoStub.UpdatedUser!.UserName);
+        
+    }
     
 
     
