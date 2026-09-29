@@ -23,7 +23,7 @@ public class UserRepositoryStub : IRepository<User>
         UpdatedUser = entity;
     }
 
-    public void Delete(string id)
+    public void Delete(User entity)
     {
         throw new NotImplementedException();
     }

@@ -30,5 +30,11 @@ public class ProductController(ProductService service) : ControllerBase
     {
         service.Update(dto);
     }
+
+    [HttpDelete(nameof(DeleteProduct))]
+    public void DeleteProduct(string id)
+    {
+        service.Delete(id);
+    }
     
 }

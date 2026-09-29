@@ -8,6 +8,7 @@ public class ProductRepositoryStub : IRepository<Product>
     public Product InsertedProduct;
     public Product? ExistingProduct;
     public Product? UpdatedProduct;
+    public Product? DeletedProduct;
     public void Insert(Product entity)
     {
         InsertedProduct = entity;
@@ -23,9 +24,9 @@ public class ProductRepositoryStub : IRepository<Product>
         UpdatedProduct = entity;
     }
 
-    public void Delete(string id)
+    public void Delete(Product entity)
     {
-        throw new NotImplementedException();
+        DeletedProduct = entity;
     }
 
     public List<Product> GetAll()

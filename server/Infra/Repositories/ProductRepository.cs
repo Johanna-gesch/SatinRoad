@@ -13,8 +13,7 @@ public class ProductRepository(MyDataConnection dc) : IRepository<Product>
 
     public Product? GetById(string id)
     {
-        return dc.Products.FirstOrDefault(p => p.ProductId == id) ??
-               throw new ValidationException("Product not found");
+        return dc.Products.FirstOrDefault(p => p.ProductId == id);
     }
 
     public void Update(Product entity)
@@ -22,9 +21,9 @@ public class ProductRepository(MyDataConnection dc) : IRepository<Product>
         dc.Update(entity);
     }
 
-    public void Delete(string id)
+    public void Delete(Product entity)
     {
-        throw new NotImplementedException();
+        dc.Delete(entity);
     }
     
     public List<Product> GetAll()

@@ -20,7 +20,7 @@ public class UserRepository (MyDataConnection dc) : IRepository<User>
         throw new NotImplementedException();
     }
 
-    public void Delete(string id)
+    public void Delete(User entity)
     {
         throw new NotImplementedException();
     }
