@@ -25,14 +25,21 @@ public class UserService (IRepository<User> userRepo)
                ?? throw new NotFoundException($"User whit this id '{id}' is not found");
     }
 
-    public void Update(User entity)
+    public void Update(UpdateUserDto dto)
     {
-        throw new NotImplementedException();
+        var user = userRepo.GetById(dto.UserId);
+
+        if (!string.IsNullOrWhiteSpace(dto.UserName))
+            user.UserName = dto.UserName;
+        
+        userRepo.Update(user);
     }
 
     public void Delete(string id)
     {
-        throw new NotImplementedException();
+        var user = userRepo.GetById(id)
+                   ?? throw new ValidationException("User not found");
+        userRepo.Delete(user);
     }
     
     public List<User> GetAll()

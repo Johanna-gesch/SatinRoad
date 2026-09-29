@@ -9,6 +9,51 @@ namespace Tests.UserServiceTests;
 public class UserServiceTests
 {
     [Fact]
+    public void DeleteUser_DeletesTheCorrectUser()
+    {
+        // Arrange
+        var existingUser = new User
+        {
+            UserId = "1",
+            UserName = "Bob",
+        };
+
+        var repoStub = new UserRepositoryStub
+        {
+            ExistingUser = existingUser
+        };
+
+        var service = new UserService(repoStub);
+        
+        //Act 
+        service.Delete("1");
+        
+        //Assert
+        Assert.Equal(existingUser, repoStub.DeletedUser);
+    }
+    
+    [Fact]
+    public void DeleteUser_throwsValidationException_UserDoesNotExist()
+    {
+        //Arrange
+        var repoStub = new UserRepositoryStub
+        {
+            ExistingUser = null
+        };
+
+        var service = new UserService(repoStub);
+        
+        //Act & Assert
+        var exception = Assert.Throws<ValidationException>(
+            () => service.Delete("does not exist")
+        );
+        
+        Assert.Equal("User not found", exception.Message);
+
+
+    }
+    
+    [Fact]
     public void CreateUser_InsertToRepository()
     {
         // Arrange
@@ -83,6 +128,36 @@ public class UserServiceTests
         
         // Act & Assert
         Assert.Throws<NotFoundException>(() => service.GetById("Missing"));
+    }
+
+    [Fact]
+    public void UpdateUser_UpdateUserName()
+    {
+        //Arrange
+        var existingUser = new User
+        {
+            UserId = "1",
+            UserName = "Bob",
+        };
+
+        var repoStub = new UserRepositoryStub()
+        {
+            ExistingUser = existingUser
+        };
+
+        var service = new UserService(repoStub);
+
+        var dto = new UpdateUserDto
+        {
+            UserId = "1",
+            UserName = "New name"
+        };
+        // Act
+        service.Update(dto);
+        
+        //Assert
+        Assert.Equal("New name", repoStub.UpdatedUser!.UserName);
+        
     }
     
 

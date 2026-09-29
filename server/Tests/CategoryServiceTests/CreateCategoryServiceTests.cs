@@ -63,4 +63,33 @@ public class CreateCategoryServiceTests
         Assert.NotNull(result);
         Assert.Equal("Drugs", result.CategoryName);
     }
+
+    [Fact]
+    public void UpdateCategory_UpdatesCorrectly()
+    {
+        //Arrange
+        var stub = new CategoryRepositoryStub();
+        var service = new CategoryService(stub);
+        
+        stub.Categories.Add(new Category { CategoryId = "1", CategoryName = "Drugs"});
+        stub.Categories.Add(new Category { CategoryId = "2", CategoryName = "Jewelry"});
+
+        var dto = new UpdateCategoryRequestDto
+        {
+            CategoryIdForLookup = "1",
+            NewCategoryName = "Weapons"
+        };
+        
+        //Act
+        service.UpdateCategory(dto);
+        
+        //Assert
+        var updated = stub.Categories.First(c => c.CategoryId == "1");
+        Assert.Equal("Weapons", updated.CategoryName);
+
+        var untouched = stub.Categories.First(c => c.CategoryId == "2");
+        Assert.Equal("Jewelry", untouched.CategoryName);
+        
+        Assert.Equal("Weapons", stub.UpdatedCategory.CategoryName);
+    }
 }

@@ -7,6 +7,9 @@ public class UserRepositoryStub : IRepository<User>
 {
     public User InsertedUser;
     public User? UpdatedUser;
+    public User? ExistingUser;
+    public User? DeletedUser;
+
     public List<User> Users { get; set; } = new();
     public void Insert(User entity)
     {
@@ -15,7 +18,7 @@ public class UserRepositoryStub : IRepository<User>
 
     public User? GetById(string id)
     {
-        return Users.FirstOrDefault(u => u.UserId == id);
+        return ExistingUser ?? Users.FirstOrDefault(u => u.UserId == id);
     }
 
     public void Update(User entity)
@@ -25,7 +28,7 @@ public class UserRepositoryStub : IRepository<User>
 
     public void Delete(User entity)
     {
-        throw new NotImplementedException();
+        DeletedUser = entity;
     }
 
     public List<User> GetAll()

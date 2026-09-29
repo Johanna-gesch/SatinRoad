@@ -7,6 +7,8 @@ public class CategoryRepositoryStub : IRepository<Category>
 {
     public Category InsertedCategory;
     public List<Category> Categories { get; set; } = new();
+    public Category UpdatedCategory;
+    public string DeletedCategoryId;
     
     public void Insert(Category entity)
     {
@@ -20,12 +22,12 @@ public class CategoryRepositoryStub : IRepository<Category>
 
     public void Update(Category entity)
     {
-        throw new NotImplementedException();
+        UpdatedCategory = entity;
     }
 
     public void Delete(Category entity)
     {
-        throw new NotImplementedException();
+        DeletedCategoryId = id;
     }
 
     public List<Category> GetAll()
