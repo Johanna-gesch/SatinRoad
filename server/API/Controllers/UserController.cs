@@ -30,6 +30,12 @@ public class UserController (UserService service) : ControllerBase
     {
         service.Update(dto);
     }
+
+    [HttpDelete(nameof(DeleteUser))]
+    public void DeleteUser(string id)
+    {
+        service.Delete(id);
+    }
     
     
 }
