@@ -1,4 +1,5 @@
-﻿using Infra.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using Infra.Entities;
 using LinqToDB;
 
 namespace Infra;
@@ -12,12 +13,13 @@ public class ProductRepository(MyDataConnection dc) : IRepository<Product>
 
     public Product? GetById(string id)
     {
-        throw new NotImplementedException();
+        return dc.Products.FirstOrDefault(p => p.ProductId == id) ??
+               throw new ValidationException("Product not found");
     }
 
     public void Update(Product entity)
     {
-        throw new NotImplementedException();
+        dc.Update(entity);
     }
 
     public void Delete(string id)

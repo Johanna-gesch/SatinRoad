@@ -16,4 +16,9 @@ public class CategoryService(IRepository<Category> categories)
         
         categories.Insert(category);
     }
+
+    public List<Category> GetAll()
+    {
+        return categories.GetAll();
+    }
 }

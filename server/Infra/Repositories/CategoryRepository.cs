@@ -27,6 +27,6 @@ public class CategoryRepository(MyDataConnection dc) : IRepository<Category>
 
     public List<Category> GetAll()
     {
-        throw new NotImplementedException();
+        return dc.GetTable<Category>().ToList();
     }
 }

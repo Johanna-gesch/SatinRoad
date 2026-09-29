@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Infra.Entities;
+using Microsoft.AspNetCore.Mvc;
 using Service;
 using Service.DTOs.CategoryDTOs;
 
@@ -10,5 +11,11 @@ public class CategoryController(CategoryService service) : ControllerBase
     public void CreateCategory([FromBody] CreateCategoryRequestDto dto)
     {
         service.CreateCategory(dto);
+    }
+
+    [HttpGet(nameof(GetAll))]
+    public List<Category> GetAll()
+    {
+        return service.GetAll();
     }
 }

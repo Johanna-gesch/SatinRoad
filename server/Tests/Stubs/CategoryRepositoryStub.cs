@@ -6,6 +6,7 @@ namespace Tests.Stubs;
 public class CategoryRepositoryStub : IRepository<Category>
 {
     public Category InsertedCategory;
+    public List<Category> Categories { get; set; } = new();
     
     public void Insert(Category entity)
     {
@@ -29,6 +30,6 @@ public class CategoryRepositoryStub : IRepository<Category>
 
     public List<Category> GetAll()
     {
-        throw new NotImplementedException();
+        return Categories;
     }
 }
