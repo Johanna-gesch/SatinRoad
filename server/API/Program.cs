@@ -1,6 +1,7 @@
 using API;
 using Infra;
 using Infra.Entities;
+using Infra.Repositories;
 using LinqToDB;
 using Service;
 
@@ -13,9 +14,10 @@ var dataOptions = new DataOptions<MyDataConnection>(options);
 builder.Services.AddScoped<MyDataConnection>(_ => new MyDataConnection(dataOptions));
 
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
-
+builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddExceptionHandler<ProblemExceptionHandler>();
 builder.Services.AddOpenApiDocument(settings => settings.SchemaSettings.SchemaProcessors.Add(new RequireNotNullableSchemaProcessor()));
 

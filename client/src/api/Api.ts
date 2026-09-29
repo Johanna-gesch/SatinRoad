@@ -24,6 +24,11 @@ export interface Product {
   productName: string;
 }
 
+export interface User {
+  userId: string;
+  userName: string;
+}
+
 export interface ProductGetProductByIdParams {
   id?: string;
 }
@@ -35,6 +40,10 @@ export interface ProductCreateProductParams {
 export interface ProductUpdateProductParams {
   ProductId?: string;
   ProductName?: string;
+}
+
+export interface UserGetUserByIdParams {
+  userId?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -407,6 +416,42 @@ export class Api<
         path: `/UpdateProduct`,
         method: "PUT",
         query: query,
+        ...params,
+      }),
+  };
+  getUsers = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserGetUsers
+     * @request GET:/GetUsers
+     */
+    userGetUsers: (params: RequestParams = {}) =>
+      this.request<User[], any>({
+        path: `/GetUsers`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+  };
+  getUserById = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserGetUserById
+     * @request GET:/GetUserById
+     */
+    userGetUserById: (
+      query: UserGetUserByIdParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<User, any>({
+        path: `/GetUserById`,
+        method: "GET",
+        query: query,
+        format: "json",
         ...params,
       }),
   };

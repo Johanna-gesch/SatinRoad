@@ -1,4 +1,4 @@
-namespace API;
+namespace Infra;
 
     public class ValidationException(string message) : Exception(message);
 
