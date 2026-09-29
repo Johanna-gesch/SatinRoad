@@ -21,4 +21,9 @@ public class CategoryService(IRepository<Category> categories)
     {
         return categories.GetAll();
     }
+
+    public Category? GetById(string id)
+    {
+        return categories.GetById(id);
+    }
 }
