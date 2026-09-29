@@ -18,7 +18,7 @@ public class CategoryRepository(MyDataConnection dc) : IRepository<Category>
 
     public void Update(Category entity)
     {
-        throw new NotImplementedException();
+        dc.Update(entity);
     }
 
     public void Delete(string id)
