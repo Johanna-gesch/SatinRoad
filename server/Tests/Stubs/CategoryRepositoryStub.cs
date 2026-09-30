@@ -8,7 +8,7 @@ public class CategoryRepositoryStub : IRepository<Category>
     public Category InsertedCategory;
     public List<Category> Categories { get; set; } = new();
     public Category UpdatedCategory;
-    public Category DeletedCategoryId;
+    public string DeletedCategoryId;
     
     public void Insert(Category entity)
     {
@@ -27,7 +27,7 @@ public class CategoryRepositoryStub : IRepository<Category>
 
     public void Delete(Category entity)
     {
-        DeletedCategoryId = entity;
+        DeletedCategoryId = entity.CategoryId;
     }
 
     public List<Category> GetAll()
