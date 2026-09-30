@@ -1,5 +1,6 @@
 import {Api, type Product} from "@/api/Api.ts";
 import {type Dispatch, type SetStateAction, useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 export const MyApi = new Api();
 
@@ -11,6 +12,7 @@ type ProductListProps = {
 export function ProductList({products, setProducts}: ProductListProps) {
     const [editingProductId, setEditingProductId] = useState<string | null>(null);
     const [purchaseMessage, setPurchaseMessage] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         MyApi.getProducts.productGetProducts().then(r => {
@@ -85,7 +87,12 @@ export function ProductList({products, setProducts}: ProductListProps) {
                                 }}
                             />
                         ) : (
-                            <>{product.productName}</>
+                            <button
+                                className="productNameBtn"
+                                onClick={() => navigate(`/products/${product.productId}`)}
+                                >
+                                {product.productName}
+                            </button>
                         )}
                         <br></br>
                         <div className={"productBtns"}>
