@@ -1,6 +1,9 @@
+using Infra.Entities;
+
 namespace Infra.Repositories;
 
-public class IUserRepository
+public interface IUserRepository : IRepository<User>
 {
-    
+    User? GetByIdWithProducts(string id);
+
 }
