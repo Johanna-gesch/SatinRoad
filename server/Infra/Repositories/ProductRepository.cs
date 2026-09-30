@@ -33,11 +33,4 @@ public class ProductRepository(MyDataConnection dc) : IProductRepository
             .Where(p => p.IsBought == false)
             .ToList();
     }
-
-    public void DeleteByCategoryId(string categoryId)
-    {
-        dc.GetTable<Product>()
-            .Where(p => p.CategoryId == categoryId)
-            .Delete();
-    }
 }

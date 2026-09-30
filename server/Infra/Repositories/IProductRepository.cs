@@ -4,5 +4,5 @@ namespace Infra.Repositories;
 
 public interface IProductRepository : IRepository<Product>
 {
-    void DeleteByCategoryId(string categoryId);
+    //Future product-specific methods go here
 }
