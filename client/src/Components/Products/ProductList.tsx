@@ -49,8 +49,8 @@ export function ProductList({products, setProducts}: ProductListProps) {
     function handleBuy(product: Product) {
         MyApi.buyProduct.productBuyProduct({
             ProductId: product.productId,
-            IsBought: product.isBought,
-            BoughtAt: product.boughtAt
+            IsBought: true,
+            BoughtAt: new Date().toISOString(),
         }).then(r => {
             MyApi.getProducts.productGetProducts().then(r => {
                 setProducts(r)
@@ -67,7 +67,7 @@ export function ProductList({products, setProducts}: ProductListProps) {
                 <div className="purchasePopup">
                     <button className={"closeBtn"} onClick={() => setPurchaseMessage(null)}>X</button>
                     You successfully bought {purchaseMessage}
-                    <br />
+                    <br/>
                     😈
                 </div>
             )}
@@ -75,13 +75,20 @@ export function ProductList({products, setProducts}: ProductListProps) {
             <div className={"products"}>
                 {products.map(product => (
                     <div key={product.productId} className={"productCard"}>
+                        {product.imageUrl && (
+                            <img
+                                src={product.imageUrl}
+                                alt={product.productName}
+                                className="productImage"
+                            />
+                        )}
                         {editingProductId === product.productId ? (
                             <input
                                 value={product.productName}
                                 onChange={e => {
                                     setProducts(products.map(p =>
                                         p.productId === product.productId
-                                            ? { ...p, productName: e.target.value }
+                                            ? {...p, productName: e.target.value}
                                             : p
                                     ));
                                 }}
@@ -90,10 +97,21 @@ export function ProductList({products, setProducts}: ProductListProps) {
                             <button
                                 className="productNameBtn"
                                 onClick={() => navigate(`/products/${product.productId}`)}
-                                >
+                            >
                                 {product.productName}
                             </button>
                         )}
+                        <p className="productPrice">{product.price} kr. </p>
+                        <p className="productTimestamp">
+                            Created: {new Date(product.createdAt).toLocaleDateString()}
+                        </p>
+
+                        {product.isBought && product.boughtAt && (
+                            <p className="productBoughtAt">
+                                Bought: {new Date(product.boughtAt).toLocaleDateString()}
+                            </p>
+                        )}
+
                         <br></br>
                         <div className={"productBtns"}>
                             <button onClick={() => handleEditOrSaveProduct(product)}>

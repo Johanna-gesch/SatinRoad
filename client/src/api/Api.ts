@@ -29,10 +29,16 @@ export interface Product {
   productId: string;
   productName: string;
   isBought: boolean;
-  /** @format date-time */
-  boughtAt: string;
-  categoryId: string;
+  /** @format decimal */
+  price: number;
+  description?: string | null;
+  imageUrl?: string | null;
   vendorUserId: string;
+  /** @format date-time */
+  createdAt: string;
+  /** @format date-time */
+  boughtAt?: string | null;
+  categoryId: string;
   category: Category;
 }
 
@@ -58,6 +64,11 @@ export interface ProductGetProductByIdParams {
 export interface ProductCreateProductParams {
   ProductName?: string;
   CategoryId?: string;
+  VendorUserId?: string;
+  Description?: string | null;
+  /** @format decimal */
+  Price?: number;
+  ImageUrl?: string | null;
 }
 
 export interface ProductUpdateProductParams {
