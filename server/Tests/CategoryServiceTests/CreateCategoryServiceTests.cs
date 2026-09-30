@@ -12,7 +12,8 @@ public class CreateCategoryServiceTests
     {
         //Arrange
         var stub = new CategoryRepositoryStub();
-        var service = new CategoryService(stub);
+        var productStub = new ProductRepositoryStub();
+        var service = new CategoryService(stub, productStub);
 
         var dto = new CreateCategoryRequestDto
         {
@@ -33,7 +34,8 @@ public class CreateCategoryServiceTests
     {
         //Arrange
         var stub = new CategoryRepositoryStub();
-        var service = new CategoryService(stub);
+        var productStub = new ProductRepositoryStub();
+        var service = new CategoryService(stub, productStub);
         
         stub.Categories.Add(new Category { CategoryId = "1", CategoryName = "Drugs"});
         stub.Categories.Add(new Category {CategoryId = "2", CategoryName = "Weapons"});
@@ -52,7 +54,8 @@ public class CreateCategoryServiceTests
     {
         //Arrange
         var stub = new CategoryRepositoryStub();
-        var service = new CategoryService(stub);
+        var productStub = new ProductRepositoryStub();
+        var service = new CategoryService(stub, productStub);
         
         stub.Categories.Add(new Category { CategoryId = "1", CategoryName = "Drugs"});
 
@@ -69,7 +72,8 @@ public class CreateCategoryServiceTests
     {
         //Arrange
         var stub = new CategoryRepositoryStub();
-        var service = new CategoryService(stub);
+        var productStub = new ProductRepositoryStub();
+        var service = new CategoryService(stub, productStub);
         
         stub.Categories.Add(new Category { CategoryId = "1", CategoryName = "Drugs"});
         stub.Categories.Add(new Category { CategoryId = "2", CategoryName = "Jewelry"});

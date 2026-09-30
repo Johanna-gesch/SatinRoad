@@ -1,16 +1,17 @@
 import {useEffect, useState} from "react";
-import {Api, type Category} from "@/api/Api.ts";
+import {Api, type Category, type Product} from "@/api/Api.ts";
 
 export const MyApi = new Api();
 
-export function CategoryList() {
-    const [categories, setCategories] = useState<Category[]>([]);
+interface CategoryListProps {
+    categories: Category[];
+    setCategories: (value: Category[]) => void;
+    setProducts: (value: Product[]) => void;
+}
+
+export function CategoryList({ categories, setCategories, setProducts }: CategoryListProps) {
     const [editingId, setEditingId] = useState<string | null>(null);
     const [editingName, setEditingName] = useState("");
-
-    useEffect(() => {
-        MyApi.getAll.categoryGetAll().then(setCategories);
-    }, []);
 
     function startEditing(category: Category) {
         setEditingId(category.categoryId);
@@ -25,6 +26,14 @@ export function CategoryList() {
             setEditingId(null);
             MyApi.getAll.categoryGetAll().then(setCategories);
         })
+    }
+
+    function deleteCategory(id: string) {
+        MyApi.deleteCategory.categoryDeleteCategory({ CategoryId: id })
+            .then(() =>{
+                MyApi.getAll.categoryGetAll().then(setCategories);
+                MyApi.getProducts.productGetProducts().then(setProducts);
+            });
     }
 
     return (
@@ -47,13 +56,7 @@ export function CategoryList() {
                             {c.categoryName}
                             <button onClick={() => startEditing(c)}>Edit</button>
                             
-                            <button onClick={() => {
-                                MyApi.deleteCategory.categoryDeleteCategory({
-                                    CategoryId: c.categoryId
-                                }).then(() => {
-                                    MyApi.getAll.categoryGetAll().then(setCategories);
-                                });  
-                            }}>Delete</button>
+                            <button onClick={() => deleteCategory(c.categoryId)}>Delete</button>
                         </>
                     )}
                 </div>

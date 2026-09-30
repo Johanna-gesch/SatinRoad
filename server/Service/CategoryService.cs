@@ -17,13 +17,7 @@ public class CategoryService
         this.categories = categories;
         this.products = products;
     }
-
-    public CategoryService(IRepository<Category> categories)
-    {
-        this.categories = categories;
-        this.products = products ?? new NullProductRepository();
-    }
-        
+    
     public void CreateCategory(CreateCategoryRequestDto dto)
     {
         var category = new Category

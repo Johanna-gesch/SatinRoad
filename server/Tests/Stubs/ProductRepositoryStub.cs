@@ -1,9 +1,10 @@
 ﻿using Infra;
 using Infra.Entities;
+using Infra.Repositories;
 
 namespace Tests;
 
-public class ProductRepositoryStub : IRepository<Product>
+public class ProductRepositoryStub : IProductRepository
 {
     public Product InsertedProduct;
     public Product? ExistingProduct;
@@ -30,6 +31,11 @@ public class ProductRepositoryStub : IRepository<Product>
     }
 
     public List<Product> GetAll()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void DeleteByCategoryId(string categoryId)
     {
         throw new NotImplementedException();
     }

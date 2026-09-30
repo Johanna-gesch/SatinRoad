@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Infra.Entities;
+using Infra.Repositories;
 using LinqToDB;
 
 namespace Infra;
 
-public class ProductRepository(MyDataConnection dc) : IRepository<Product>
+public class ProductRepository(MyDataConnection dc) : IProductRepository
 {
     public void Insert(Product entity)
     {
