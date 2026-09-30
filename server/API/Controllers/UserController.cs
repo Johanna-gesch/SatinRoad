@@ -36,6 +36,12 @@ public class UserController (UserService service) : ControllerBase
     {
         service.Delete(id);
     }
+
+    [HttpGet(nameof(GetUserWithProducts))]
+    public User GetUserWithProducts(string id)
+    {
+        return service.GetIdWithProducts(id);
+    }
     
     
 }
