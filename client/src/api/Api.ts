@@ -32,12 +32,15 @@ export interface Product {
   /** @format date-time */
   boughtAt: string;
   categoryId: string;
+  vendorUserId: string;
   category: Category;
 }
 
 export interface User {
   userId: string;
   userName: string;
+  isAdmin: boolean;
+  products: Product[];
 }
 
 export interface CategoryGetByIdParams {
@@ -45,8 +48,7 @@ export interface CategoryGetByIdParams {
 }
 
 export interface CategoryDeleteCategoryParams {
-  CategoryId?: string;
-  CategoryName?: string;
+  categoryId?: string;
 }
 
 export interface ProductGetProductByIdParams {
@@ -88,6 +90,10 @@ export interface UserUpdateUserParams {
 }
 
 export interface UserDeleteUserParams {
+  id?: string;
+}
+
+export interface UserGetUserWithProductsParams {
   id?: string;
 }
 
@@ -651,6 +657,26 @@ export class Api<
         path: `/DeleteUser`,
         method: "DELETE",
         query: query,
+        ...params,
+      }),
+  };
+  getUserWithProducts = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserGetUserWithProducts
+     * @request GET:/GetUserWithProducts
+     */
+    userGetUserWithProducts: (
+      query: UserGetUserWithProductsParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<User, any>({
+        path: `/GetUserWithProducts`,
+        method: "GET",
+        query: query,
+        format: "json",
         ...params,
       }),
   };

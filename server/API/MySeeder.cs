@@ -21,6 +21,17 @@ public class MySeeder(MyDataConnection dc)
                 });
             }
         
+        if (dc.Users.Count() == 0)
+            for (int i = 1; i <= 10; i++)
+            {
+                dc.Insert(new User
+                {
+                    UserId = i.ToString(),
+                    UserName = $"User {i}",
+                    IsAdmin = i == 1
+                });
+            }
+        
         if (dc.Products.Count() == 0)
             for (int i = 1; i <= 10; i++)
             {
@@ -28,19 +39,11 @@ public class MySeeder(MyDataConnection dc)
                 {
                     ProductId = i.ToString(),
                     ProductName = $"Product {i}",
-                    CategoryId = i.ToString()
+                    CategoryId = i.ToString(),
+                    VendorUserId = ((i % 10 ) + 1).ToString()
                 });
             }
         
-        if (dc.Users.Count() == 0)
-            for (int i = 1; i <= 10; i++)
-            {
-                dc.Insert(new User
-                {
-                    UserId = i.ToString(),
-                    UserName = $"User {i}"
-                });
-            }
 
     }
 }

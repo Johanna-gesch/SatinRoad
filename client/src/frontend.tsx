@@ -10,6 +10,8 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { App } from "./App";
 import { AdminPage } from "@/Pages/AdminPage.tsx";
+import {ProductDetailsPage} from "@/Pages/ProductDetailsPage.tsx";
+import {SellerPage} from "@/Pages/SellerPage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -19,6 +21,16 @@ const router = createBrowserRouter([
     {
         path: "/admin",
         element: <AdminPage />,
+    },
+
+    {
+        path: "/products/:productId",
+        element: <ProductDetailsPage/>,
+    },
+
+    {
+        path: "/users/:userId",
+        element: <SellerPage/>,
     },
 ]);
 

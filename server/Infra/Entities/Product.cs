@@ -11,6 +11,8 @@ public class Product
     [Column, NotNull] 
     public string CategoryId { get; set; } = "";
 
+    [Column] public string VendorUserId { get; set; } = "";
+
     [Association(ThisKey = nameof(CategoryId), OtherKey = nameof(Category.CategoryId))]
     public Category Category { get; set; }
 }

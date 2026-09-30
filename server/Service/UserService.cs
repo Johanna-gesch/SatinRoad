@@ -1,11 +1,12 @@
 using Infra;
 using Infra.Entities;
+using Infra.Repositories;
 using Service.DTOs.UserDTOs;
 using ValidationException = Infra.ValidationException;
 
 namespace Service;
 
-public class UserService (IRepository<User> userRepo)
+public class UserService (IUserRepository userRepo)
 {
     public void Insert(CreateUserDto dto)
     {
@@ -45,6 +46,14 @@ public class UserService (IRepository<User> userRepo)
     public List<User> GetAll()
     {
         return userRepo.GetAll();
+    }
+
+    public User GetIdWithProducts(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            throw new ValidationException("Id can't be empty");
+        return userRepo.GetByIdWithProducts(id)
+               ?? throw new NotFoundException($"User with this id '{id}' is not found");
     }
     
     
