@@ -1,16 +1,22 @@
-import {Api} from "@/api/Api.ts";
+import {Api, type Category} from "@/api/Api.ts";
 import {useState} from "react";
 
 export const MyApi = new Api();
 
-export function CategoryCreateForm({ setCategories }) {
+interface CategoryCreateFormProps {
+    setCategories: (value: Category[]) => void;
+}
+
+export function CategoryCreateForm({ setCategories }: CategoryCreateFormProps) {
     const [name, setName] = useState("");
 
     function handleCreate() {
         MyApi.createCategory.categoryCreateCategory({ categoryName: name })
-            .then(() => setName(""));
-        
-        MyApi.getAll.categoryGetAll().then(setCategories);
+            .then(() => {
+                setName("");
+
+                MyApi.getAll.categoryGetAll().then(setCategories);
+            });
     }
 
     return (

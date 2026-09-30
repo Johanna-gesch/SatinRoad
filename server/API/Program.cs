@@ -17,6 +17,7 @@ builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<UserService>();
 
 builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddExceptionHandler<ProblemExceptionHandler>();
 builder.Services.AddOpenApiDocument(settings => settings.SchemaSettings.SchemaProcessors.Add(new RequireNotNullableSchemaProcessor()));
