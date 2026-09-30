@@ -22,7 +22,7 @@ public class UserRepository (MyDataConnection dc) : IRepository<User>
 
     public void Delete(User entity)
     {
-        throw new NotImplementedException();
+        dc.Delete(entity);
     }
 
     public List<User> GetAll()

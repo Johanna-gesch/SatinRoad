@@ -77,6 +77,10 @@ export interface UserUpdateUserParams {
   UserName?: string;
 }
 
+export interface UserDeleteUserParams {
+  id?: string;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -598,6 +602,25 @@ export class Api<
       this.request<void, any>({
         path: `/UpdateUser`,
         method: "PUT",
+        query: query,
+        ...params,
+      }),
+  };
+  deleteUser = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserDeleteUser
+     * @request DELETE:/DeleteUser
+     */
+    userDeleteUser: (
+      query: UserDeleteUserParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/DeleteUser`,
+        method: "DELETE",
         query: query,
         ...params,
       }),

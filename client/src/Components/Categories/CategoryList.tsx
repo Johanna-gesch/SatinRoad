@@ -28,7 +28,7 @@ export function CategoryList() {
     }
 
     return (
-        <div>
+        <div className={"categories"}>
             {/*Map all categories*/}
             {categories.map(c => (
                 <div key={c.categoryId}>

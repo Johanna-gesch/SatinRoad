@@ -10,6 +10,7 @@ export function ProductsPage() {
     return ( 
         <div>
             <ProductCreateForm setProducts={setProducts} />
+            <br></br>
             <ProductList products={products} setProducts={setProducts}/>
         </div>
     );
