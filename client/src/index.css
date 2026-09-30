@@ -217,6 +217,7 @@ code {
   border: none;
   border-radius: 2px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .users {
@@ -229,4 +230,45 @@ code {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+}
+
+.buyBtn {
+  width: 100px;
+  height: 30px;
+  background-color: #14b0b7;
+  color: white;
+  border: 2px solid #0b7b80;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.purchasePopup {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+  height: 150px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px 30px;
+  border-radius: 10px;
+  background-color: #e8dcd3;
+  border: 2px solid #8B0000;
+  color: #0b7b80;
+  font-size: 20px;
+  text-align: center;
+  z-index: 1000;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
 }

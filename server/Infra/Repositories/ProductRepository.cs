@@ -28,6 +28,8 @@ public class ProductRepository(MyDataConnection dc) : IRepository<Product>
     
     public List<Product> GetAll()
     {
-        return dc.Products.ToList();
+        return dc.Products
+            .Where(p => p.IsBought == false)
+            .ToList();
     }
 }

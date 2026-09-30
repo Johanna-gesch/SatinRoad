@@ -36,5 +36,11 @@ public class ProductController(ProductService service) : ControllerBase
     {
         service.Delete(id);
     }
+
+    [HttpPut(nameof(BuyProduct))]
+    public void BuyProduct(BuyProductDto dto)
+    {
+        service.Buy(dto);
+    }
     
 }
