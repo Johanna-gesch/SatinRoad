@@ -36,11 +36,31 @@ export function ProductDetailsPage() {
     return (
         <div>
             <h1> {product.productName}</h1>
+            {product.imageUrl && (
+                <img
+                    src={product.imageUrl}
+                    alt={product.productName}
+                    className="productImage"
+                />
+            )}
+
+            <p>{product.price} kr.</p>
+
+            {product.description && (
+                <p>{product.description}</p>
+            )}
+
             <p>Category: {product.category?.categoryName ?? "No category"}</p>
+
+            <p>Created: {new Date(product.createdAt).toLocaleDateString()}</p>
+
+            {product.isBought && product.boughtAt && (
+                <p>Bought: {new Date(product.boughtAt).toLocaleDateString()}</p>
+            )}
 
             <button
                 onClick={() => navigate(`/users/${product.vendorUserId}`)}
-                >
+            >
                 View seller
             </button>
             <button onClick={() => navigate("/")}>

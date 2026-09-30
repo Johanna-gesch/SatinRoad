@@ -102,9 +102,6 @@ export function ProductList({products, setProducts}: ProductListProps) {
                             </button>
                         )}
                         <p className="productPrice">{product.price} kr. </p>
-                        {product.description && (
-                            <p className="productDescription">{product.description}</p>
-                        )}
                         <p className="productTimestamp">
                             Created: {new Date(product.createdAt).toLocaleDateString()}
                         </p>
