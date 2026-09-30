@@ -30,4 +30,10 @@ public class CategoryController(CategoryService service) : ControllerBase
     {
         service.UpdateCategory(dto);
     }
+
+    [HttpDelete(nameof(DeleteCategory))]
+    public void DeleteCategory([FromQuery] string categoryId)
+    {
+        service.DeleteCategory(categoryId);
+    }
 }

@@ -28,6 +28,8 @@ export interface UpdateCategoryRequestDto {
 export interface Product {
   productId: string;
   productName: string;
+  categoryId: string;
+  category: Category;
 }
 
 export interface User {
@@ -39,17 +41,27 @@ export interface CategoryGetByIdParams {
   id?: string;
 }
 
+export interface CategoryDeleteCategoryParams {
+  CategoryId?: string;
+  CategoryName?: string;
+}
+
 export interface ProductGetProductByIdParams {
   id?: string;
 }
 
 export interface ProductCreateProductParams {
   ProductName?: string;
+  CategoryId?: string;
 }
 
 export interface ProductUpdateProductParams {
   ProductId?: string;
   ProductName?: string;
+}
+
+export interface ProductDeleteProductParams {
+  id?: string;
 }
 
 export interface UserCreateUserParams {
@@ -58,6 +70,11 @@ export interface UserCreateUserParams {
 
 export interface UserGetUserByIdParams {
   userId?: string;
+}
+
+export interface UserUpdateUserParams {
+  UserId?: string;
+  UserName?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -399,6 +416,25 @@ export class Api<
         ...params,
       }),
   };
+  deleteCategory = {
+    /**
+     * No description
+     *
+     * @tags Category
+     * @name CategoryDeleteCategory
+     * @request DELETE:/DeleteCategory
+     */
+    categoryDeleteCategory: (
+      query: CategoryDeleteCategoryParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/DeleteCategory`,
+        method: "DELETE",
+        query: query,
+        ...params,
+      }),
+  };
   getProducts = {
     /**
      * No description
@@ -473,6 +509,25 @@ export class Api<
         ...params,
       }),
   };
+  deleteProduct = {
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductDeleteProduct
+     * @request DELETE:/DeleteProduct
+     */
+    productDeleteProduct: (
+      query: ProductDeleteProductParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/DeleteProduct`,
+        method: "DELETE",
+        query: query,
+        ...params,
+      }),
+  };
   createUser = {
     /**
      * No description
@@ -525,6 +580,25 @@ export class Api<
         method: "GET",
         query: query,
         format: "json",
+        ...params,
+      }),
+  };
+  updateUser = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserUpdateUser
+     * @request PUT:/UpdateUser
+     */
+    userUpdateUser: (
+      query: UserUpdateUserParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/UpdateUser`,
+        method: "PUT",
+        query: query,
         ...params,
       }),
   };

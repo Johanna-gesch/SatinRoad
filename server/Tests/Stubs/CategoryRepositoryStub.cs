@@ -27,7 +27,7 @@ public class CategoryRepositoryStub : IRepository<Category>
 
     public void Delete(Category entity)
     {
-        DeletedCategoryId = id;
+        DeletedCategoryId = entity.CategoryId;
     }
 
     public List<Category> GetAll()

@@ -30,4 +30,11 @@ public class ProductRepository(MyDataConnection dc) : IRepository<Product>
     {
         return dc.Products.ToList();
     }
+
+    public void DeleteByCategoryId(string categoryId)
+    {
+        dc.GetTable<Product>()
+            .Where(p => p.CategoryId == categoryId)
+            .Delete();
+    }
 }

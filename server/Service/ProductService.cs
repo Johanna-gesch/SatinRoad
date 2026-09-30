@@ -13,6 +13,7 @@ public class ProductService(IRepository<Product> productRepo)
         {
             ProductId = Guid.NewGuid().ToString(),
             ProductName = dto.ProductName,
+            CategoryId = dto.CategoryId
         };
         
         productRepo.Insert(newProduct);

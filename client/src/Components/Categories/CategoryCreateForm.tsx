@@ -3,12 +3,14 @@ import {useState} from "react";
 
 export const MyApi = new Api();
 
-export function CategoryCreateForm() {
+export function CategoryCreateForm({ setCategories }) {
     const [name, setName] = useState("");
 
     function handleCreate() {
         MyApi.createCategory.categoryCreateCategory({ categoryName: name })
             .then(() => setName(""));
+        
+        MyApi.getAll.categoryGetAll().then(setCategories);
     }
 
     return (
