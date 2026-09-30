@@ -47,4 +47,19 @@ public class ProductService(IRepository<Product> productRepo)
     {
         return productRepo.GetAll();
     }
+    
+    public void Buy(BuyProductDto dto)
+    {
+        var product = productRepo.GetById(dto.ProductId) ??
+                      throw new ValidationException("Product not found");
+        
+        if (product.IsBought)
+            throw new ValidationException("Product has already been bought");
+
+        product.IsBought = true;
+        product.BoughtAt = DateTime.UtcNow;
+        
+        productRepo.Update(product);
+    }
+    
 }

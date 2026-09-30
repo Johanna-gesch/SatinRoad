@@ -28,6 +28,9 @@ export interface UpdateCategoryRequestDto {
 export interface Product {
   productId: string;
   productName: string;
+  isBought: boolean;
+  /** @format date-time */
+  boughtAt: string;
   categoryId: string;
   category: Category;
 }
@@ -62,6 +65,13 @@ export interface ProductUpdateProductParams {
 
 export interface ProductDeleteProductParams {
   id?: string;
+}
+
+export interface ProductBuyProductParams {
+  ProductId?: string;
+  IsBought?: boolean;
+  /** @format date-time */
+  BoughtAt?: string;
 }
 
 export interface UserCreateUserParams {
@@ -528,6 +538,25 @@ export class Api<
       this.request<void, any>({
         path: `/DeleteProduct`,
         method: "DELETE",
+        query: query,
+        ...params,
+      }),
+  };
+  buyProduct = {
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductBuyProduct
+     * @request PUT:/BuyProduct
+     */
+    productBuyProduct: (
+      query: ProductBuyProductParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/BuyProduct`,
+        method: "PUT",
         query: query,
         ...params,
       }),
