@@ -23,7 +23,7 @@ public class CategoryRepository(MyDataConnection dc) : IRepository<Category>
 
     public void Delete(Category entity)
     {
-        throw new NotImplementedException();
+        dc.Delete(entity);
     }
 
     public List<Category> GetAll()

@@ -46,6 +46,14 @@ export function CategoryList() {
                             {/* Normal view mode. Shows the category name */}
                             {c.categoryName}
                             <button onClick={() => startEditing(c)}>Edit</button>
+                            
+                            <button onClick={() => {
+                                MyApi.deleteCategory.categoryDeleteCategory({
+                                    CategoryId: c.categoryId
+                                }).then(() => {
+                                    MyApi.getAll.categoryGetAll().then(setCategories);
+                                });  
+                            }}>Delete</button>
                         </>
                     )}
                 </div>

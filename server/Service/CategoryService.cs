@@ -1,11 +1,29 @@
 ﻿using Infra;
 using Infra.Entities;
+using Infra.Repositories;
 using Service.DTOs.CategoryDTOs;
 
 namespace Service;
 
-public class CategoryService(IRepository<Category> categories)
+public class CategoryService
 {
+    private readonly IRepository<Category> categories;
+    private readonly IProductRepository products;
+
+    public CategoryService(
+        IRepository<Category> categories,
+        IProductRepository products)
+    {
+        this.categories = categories;
+        this.products = products;
+    }
+
+    public CategoryService(IRepository<Category> categories)
+    {
+        this.categories = categories;
+        this.products = products ?? new NullProductRepository();
+    }
+        
     public void CreateCategory(CreateCategoryRequestDto dto)
     {
         var category = new Category
@@ -35,5 +53,14 @@ public class CategoryService(IRepository<Category> categories)
             category.CategoryName = dto.NewCategoryName;
         
         categories.Update(category);
+    }
+
+    public void DeleteCategory(string categoryId)
+    {
+        products.DeleteByCategoryId(categoryId);
+
+        var category = categories.GetById(categoryId)
+                       ?? throw new ValidationException("Category doesn't exist");
+        categories.Delete(category);
     }
 }

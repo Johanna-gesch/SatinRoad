@@ -31,6 +31,8 @@ export interface Product {
   isBought: boolean;
   /** @format date-time */
   boughtAt: string;
+  categoryId: string;
+  category: Category;
 }
 
 export interface User {
@@ -42,12 +44,18 @@ export interface CategoryGetByIdParams {
   id?: string;
 }
 
+export interface CategoryDeleteCategoryParams {
+  CategoryId?: string;
+  CategoryName?: string;
+}
+
 export interface ProductGetProductByIdParams {
   id?: string;
 }
 
 export interface ProductCreateProductParams {
   ProductName?: string;
+  CategoryId?: string;
 }
 
 export interface ProductUpdateProductParams {
@@ -419,6 +427,25 @@ export class Api<
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        ...params,
+      }),
+  };
+  deleteCategory = {
+    /**
+     * No description
+     *
+     * @tags Category
+     * @name CategoryDeleteCategory
+     * @request DELETE:/DeleteCategory
+     */
+    categoryDeleteCategory: (
+      query: CategoryDeleteCategoryParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/DeleteCategory`,
+        method: "DELETE",
+        query: query,
         ...params,
       }),
   };
