@@ -10,19 +10,20 @@
  * ---------------------------------------------------------------
  */
 
-export interface CreateCategoryRequestDto {
-  categoryName: string;
+export interface CartItem {
+  cartItemId: string;
+  userId: string;
+  productId: string;
+  user: User;
+  product: Product;
 }
 
-export interface Category {
-  categoryId: string;
-  categoryName: string;
-}
-
-export interface UpdateCategoryRequestDto {
-  /** @minLength 1 */
-  categoryIdForLookup: string;
-  newCategoryName?: string | null;
+export interface User {
+  userId: string;
+  userName: string;
+  isAdmin: boolean;
+  products: Product[];
+  cart: CartItem[];
 }
 
 export interface Product {
@@ -38,15 +39,35 @@ export interface Product {
   createdAt: string;
   /** @format date-time */
   boughtAt?: string | null;
-  categoryId: string;
-  category: Category;
 }
 
-export interface User {
-  userId: string;
-  userName: string;
-  isAdmin: boolean;
-  products: Product[];
+export interface CreateCategoryRequestDto {
+  categoryName: string;
+}
+
+export interface Category {
+  categoryId: string;
+  categoryName: string;
+}
+
+export interface UpdateCategoryRequestDto {
+  /** @minLength 1 */
+  categoryIdForLookup: string;
+  newCategoryName?: string | null;
+}
+
+export interface CartAddToCartParams {
+  UserId?: string;
+  ProductId?: string;
+}
+
+export interface CartRemoveFromCartParams {
+  UserId?: string;
+  ProductId?: string;
+}
+
+export interface CartGetCartParams {
+  userId?: string;
 }
 
 export interface CategoryGetByIdParams {
@@ -372,6 +393,61 @@ export class HttpClient<SecurityDataType = unknown> {
 export class Api<
   SecurityDataType extends unknown,
 > extends HttpClient<SecurityDataType> {
+  addToCart = {
+    /**
+     * No description
+     *
+     * @tags Cart
+     * @name CartAddToCart
+     * @request POST:/AddToCart
+     */
+    cartAddToCart: (
+      query: CartAddToCartParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/AddToCart`,
+        method: "POST",
+        query: query,
+        ...params,
+      }),
+  };
+  removeFromCart = {
+    /**
+     * No description
+     *
+     * @tags Cart
+     * @name CartRemoveFromCart
+     * @request DELETE:/RemoveFromCart
+     */
+    cartRemoveFromCart: (
+      query: CartRemoveFromCartParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/RemoveFromCart`,
+        method: "DELETE",
+        query: query,
+        ...params,
+      }),
+  };
+  getCart = {
+    /**
+     * No description
+     *
+     * @tags Cart
+     * @name CartGetCart
+     * @request GET:/GetCart
+     */
+    cartGetCart: (query: CartGetCartParams = {}, params: RequestParams = {}) =>
+      this.request<CartItem[], any>({
+        path: `/GetCart`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+  };
   createCategory = {
     /**
      * No description
@@ -576,6 +652,29 @@ export class Api<
         path: `/BuyProduct`,
         method: "PUT",
         query: query,
+        ...params,
+      }),
+  };
+  uploadImage = {
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductUploadImage
+     * @request POST:/UploadImage
+     */
+    productUploadImage: (
+      data: {
+        /** @format binary */
+        file?: File | null;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<Blob, any>({
+        path: `/UploadImage`,
+        method: "POST",
+        body: data,
+        type: ContentType.FormData,
         ...params,
       }),
   };

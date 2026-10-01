@@ -10,4 +10,8 @@ public class User
     
     [Association(ThisKey = nameof(UserId), OtherKey = nameof(Product.VendorUserId))]
     public List<Product> Products { get; set; } = new();
+    
+    [Association(ThisKey = nameof(UserId), OtherKey = nameof(CartItem.UserId))]
+    public List<CartItem> Cart { get; set; } = new();
+
 }
