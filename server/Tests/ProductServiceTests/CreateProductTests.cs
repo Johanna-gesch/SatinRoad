@@ -1,6 +1,7 @@
 ﻿using Infra.Entities;
 using Service;
 using Service.DTOs.ProductDTOs;
+using Tests.Stubs;
 
 namespace Tests;
 
@@ -11,11 +12,13 @@ public class CreateProductTests
     {
         //Arrange
         var repoStub = new ProductRepositoryStub();
-        var service = new ProductService(repoStub);
+        var productCategoryRepo = new ProductCategoryRepositoryStub();
+        var service = new ProductService(repoStub, productCategoryRepo);
 
         var dto = new CreateProductDto
         {
-            ProductName = "Kidneys"
+            ProductName = "Kidneys",
+            CategoryIds = new List<string> { "cat1 "}
         };
 
         //Act

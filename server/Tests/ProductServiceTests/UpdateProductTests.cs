@@ -2,6 +2,7 @@
 using Infra.Entities;
 using Service;
 using Service.DTOs.ProductDTOs;
+using Tests.Stubs;
 
 namespace Tests;
 
@@ -21,13 +22,15 @@ public class UpdateProductTests
         {
             ExistingProduct = existingProduct
         };
+        var productCategoryStub = new ProductCategoryRepositoryStub();
 
-        var service = new ProductService(repoStub);
+        var service = new ProductService(repoStub, productCategoryStub);
 
         var dto = new UpdateProductDto
         {
             ProductId = "1",
-            ProductName = "New name"
+            ProductName = "New name",
+            CategoryIds = new List<string> {"Cat1"}
         };
 
         //Act
@@ -53,12 +56,15 @@ public class UpdateProductTests
             ExistingProduct = existingProduct
         };
 
-        var service = new ProductService(repoStub);
+        var productCategoryStub = new ProductCategoryRepositoryStub();
+        
+        var service = new ProductService(repoStub, productCategoryStub);
 
         var dto = new UpdateProductDto
         {
             ProductId = "1",
-            ProductName = ""
+            ProductName = "",
+            CategoryIds = new List<string> { "Cat1"}
         };
 
         // Act
@@ -76,8 +82,9 @@ public class UpdateProductTests
         {
             ExistingProduct = null
         };
+        var productCategoryStub = new ProductCategoryRepositoryStub();
 
-        var service = new ProductService(repoStub);
+        var service = new ProductService(repoStub, productCategoryStub);
 
         var dto = new UpdateProductDto
         {

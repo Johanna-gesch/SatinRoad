@@ -1,6 +1,7 @@
 ﻿using Infra;
 using Infra.Entities;
 using Service;
+using Tests.Stubs;
 
 namespace Tests;
 
@@ -20,8 +21,9 @@ public class DeleteProductTests
         {
             ExistingProduct = existingProduct
         };
+        var productCategoryStub = new ProductCategoryRepositoryStub();
 
-        var service = new ProductService(repoStub);
+        var service = new ProductService(repoStub, productCategoryStub);
 
         // Act
         service.Delete("1");
@@ -39,7 +41,9 @@ public class DeleteProductTests
             ExistingProduct = null
         };
 
-        var service = new ProductService(repoStub);
+        var productCategoryStub = new ProductCategoryRepositoryStub();
+
+        var service = new ProductService(repoStub, productCategoryStub);
 
         // Act & Assert
         var exception = Assert.Throws<ValidationException>(
