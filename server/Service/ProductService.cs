@@ -34,8 +34,6 @@ public class ProductService
 
         foreach (var categoryId in dto.CategoryIds)
         {
-            Console.WriteLine($"Adding category link: ProductId={newProduct.ProductId}, CategoryId='{categoryId}'");
-
             productCategoryRepo.Add(newProduct.ProductId, categoryId);
         }
     }
