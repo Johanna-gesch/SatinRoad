@@ -8,14 +8,14 @@ namespace Service;
 public class CategoryService
 {
     private readonly IRepository<Category> categories;
-    private readonly IProductRepository products;
+    private readonly IProductCategoryRepository productCategories;
 
     public CategoryService(
         IRepository<Category> categories,
-        IProductRepository products)
+        IProductCategoryRepository productCategories)
     {
         this.categories = categories;
-        this.products = products;
+        this.productCategories = productCategories;
     }
     
     public void CreateCategory(CreateCategoryRequestDto dto)
@@ -51,8 +51,8 @@ public class CategoryService
 
     public void DeleteCategory(string categoryId)
     {
-        products.DeleteByCategoryId(categoryId);
-
+        productCategories.RemoveByCategory(categoryId);
+        
         var category = categories.GetById(categoryId)
                        ?? throw new ValidationException("Category doesn't exist");
         categories.Delete(category);

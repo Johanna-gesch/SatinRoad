@@ -63,7 +63,7 @@ export interface ProductGetProductByIdParams {
 
 export interface ProductCreateProductParams {
   ProductName?: string;
-  CategoryId?: string;
+  CategoryIds?: string[];
   VendorUserId?: string;
   Description?: string | null;
   /** @format decimal */
@@ -74,6 +74,7 @@ export interface ProductCreateProductParams {
 export interface ProductUpdateProductParams {
   ProductId?: string;
   ProductName?: string;
+  CategoryIds?: string[];
 }
 
 export interface ProductDeleteProductParams {

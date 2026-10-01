@@ -9,4 +9,5 @@ public class MyDataConnection(DataOptions<MyDataConnection> options) : DataConne
     public ITable<Product> Products => this.GetTable<Product>();
     public ITable<Category> Categories => this.GetTable<Category>();
     public ITable<User> Users => this.GetTable<User>();
+    public ITable<ProductCategory> ProductCategories => this.GetTable<ProductCategory>();
 }

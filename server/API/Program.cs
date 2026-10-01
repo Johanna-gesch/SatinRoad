@@ -15,10 +15,15 @@ builder.Services.AddScoped<MyDataConnection>(_ => new MyDataConnection(dataOptio
 
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<CategoryService>();
 
 builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IRepository<User>, UserRepository>();
+builder.Services.AddScoped<IRepository<Category>, CategoryRepository>();
+builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 builder.Services.AddExceptionHandler<ProblemExceptionHandler>();
 builder.Services.AddOpenApiDocument(settings => settings.SchemaSettings.SchemaProcessors.Add(new RequireNotNullableSchemaProcessor()));
 
@@ -27,8 +32,6 @@ builder.Services.AddProblemDetails();
 
 builder.Services.AddScoped<MySeeder>();
 
-builder.Services.AddScoped<IRepository<Category>, CategoryRepository>();
-builder.Services.AddScoped<CategoryService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();

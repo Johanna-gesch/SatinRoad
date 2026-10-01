@@ -21,11 +21,13 @@ export function ProductCreateForm({ setProducts, vendorUserId }: ProductCreateFo
         }, []);
 
     function handleCreateProduct() {
+        MyApi.createProduct.productCreateProduct({ ProductName: productNameField, CategoryIds: [categoryId] })
+            .then(() => setProductNameField(""))
         if (!vendorUserId) return;
 
         MyApi.createProduct.productCreateProduct({
             ProductName: productNameField,
-            CategoryId: categoryId,
+            CategoryIds: [categoryId],
             VendorUserId: vendorUserId,
             Price: Number(price) || 0,
             Description: description || null,
@@ -57,7 +59,7 @@ export function ProductCreateForm({ setProducts, vendorUserId }: ProductCreateFo
             <select value={categoryId} onChange={e => setCategoryId(e.target.value)}>
                 <option value="">Select category</option>
                 {categories.map(c => (
-                    <option key={c.categoryId} value={c.categoryId}>
+                    <option key={c.categoryId} value={c.categoryId.toString()}>
                         {c.categoryName}
                     </option>
                 ))}
