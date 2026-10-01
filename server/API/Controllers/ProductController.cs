@@ -14,7 +14,7 @@ public class ProductController(ProductService service) : ControllerBase
     }
 
     [HttpGet(nameof(GetProductById))]
-    public Product? GetProductById(string id)
+    public Product GetProductById(string id)
     {
         return service.GetById(id);
     }

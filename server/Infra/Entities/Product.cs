@@ -14,4 +14,6 @@ public class Product
     [Column] public DateTime CreatedAt { get; set; }
 
     [Column] public DateTime? BoughtAt { get; set; }
+
+    [NotColumn] public List<Category> Categories { get; set; } = new();
 }
