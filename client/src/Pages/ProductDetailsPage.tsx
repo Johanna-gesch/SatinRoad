@@ -40,7 +40,7 @@ export function ProductDetailsPage() {
                 <img
                     src={product.imageUrl}
                     alt={product.productName}
-                    className="productImage"
+                    className="productDetailImage"
                 />
             )}
 

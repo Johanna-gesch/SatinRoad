@@ -325,4 +325,11 @@ code {
   width: 150px;
   height: 150px;
   object-fit: cover;
+
+  .productDetailImage {
+    width: min(600px, 90vw);
+    height: auto;
+    max-height: 70vh;
+    object-fit: contain;
+  }
 }
