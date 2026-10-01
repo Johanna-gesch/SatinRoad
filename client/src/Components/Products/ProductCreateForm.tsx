@@ -4,11 +4,11 @@ import {useState, type Dispatch, type SetStateAction, useEffect} from "react";
 export const MyApi = new Api();
 
 type ProductCreateFormState = {
-    setProducts: Dispatch<SetStateAction<Product[]>>;
     vendorUserId: string | null;
+    onProductCreated: () => void;
 }
 
-export function ProductCreateForm({ setProducts, vendorUserId }: ProductCreateFormState) {
+export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCreateFormState) {
     const [productNameField, setProductNameField] = useState("");
     const [categoryId, setCategoryId] = useState("");
     const [categories, setCategories] = useState<Category[]>([]);
@@ -36,11 +36,8 @@ export function ProductCreateForm({ setProducts, vendorUserId }: ProductCreateFo
                 setPrice("");
                 setDescription("");
                 setImageUrl("");
-            })
-            .then(() => {
-                MyApi.getProducts.productGetProducts().then(r => {
-                    setProducts(r);
-                });
+
+                onProductCreated();
             });
         if (!vendorUserId) {
             return<p>Sign in for creating a product</p>
@@ -53,7 +50,15 @@ export function ProductCreateForm({ setProducts, vendorUserId }: ProductCreateFo
             <input placeholder="Product Name" value={productNameField} onChange={e => setProductNameField(e.target.value)} />
             <input placeholder="Price" type="number" value={price} onChange={e => setPrice(e.target.value)} />
             <input placeholder="Description" type="textarea" value={description} onChange={e => setDescription(e.target.value)} />
-            <input placeholder="Image Url" type="file" onChange={e => setImageUrl(e.target.value)} />
+            <label htmlFor="imageUpload" className="fileBtn">
+                Browse...
+            </label>
+            <input
+                id="imageUpload"
+                type="file"
+                className="fileInput"
+                onChange={e => setImageUrl(e.target.value)}
+            />
             <select value={categoryId} onChange={e => setCategoryId(e.target.value)}>
                 <option value="">Select category</option>
                 {categories.map(c => (

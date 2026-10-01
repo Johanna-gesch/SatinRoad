@@ -1,16 +1,18 @@
 import "./index.css";
-import { CategoriesPage } from "@/Pages/CategoriesPage.tsx";
 import { ProductsPage } from "@/Pages/ProductsPage.tsx";
 import { LoginPage } from "@/Pages/LoginPage.tsx"
-import { AdminPage } from "@/Pages/AdminPage.tsx"
-import {useState} from "react";
+import {useNavigate, useOutletContext} from "react-router-dom";
 import type {User} from "@/api/Api.ts";
-import { useNavigate } from "react-router-dom";
+import type {Dispatch, SetStateAction} from "react";
 
 
 export function App() {
 
-    const [selectedUser, setSelectedUser] = useState<User | null>(null);
+    const { selectedUser, setSelectedUser } = useOutletContext<{
+        selectedUser: User | null;
+        setSelectedUser: Dispatch<SetStateAction<User | null>>;
+    }>();
+
     const navigate = useNavigate();
 
     return (
@@ -24,13 +26,11 @@ export function App() {
                     </button>
                 )}
                 {selectedUser && (
-                    <p className={"loggedInUser"}>{selectedUser.userName}</p>
+                    <button className={"loggedInUser"} onClick={() => navigate(`/users/${selectedUser.userId}/products`)}>{selectedUser.userName}</button>
                 )}
-                <h1>Categories</h1>
-                <CategoriesPage/>
 
-                <h1>Products</h1>
-                <ProductsPage/>
+                <h1>Satin Road</h1>
+                <ProductsPage activeUser={selectedUser}/>
 
                 {!selectedUser && ( // if there is no selectedUser - show loginPage
                     <LoginPage onLogin={setSelectedUser}/>
