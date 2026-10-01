@@ -1,4 +1,4 @@
-import {Api, type Product} from "@/api/Api.ts";
+import {Api, type Product, type User} from "@/api/Api.ts";
 import {type Dispatch, type SetStateAction, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
@@ -7,10 +7,10 @@ export const MyApi = new Api();
 type ProductListProps = {
     products: Product[];
     setProducts: Dispatch<SetStateAction<Product[]>>;
+    activeUser: User | null;
 };
 
-export function ProductList({products, setProducts}: ProductListProps) {
-    const [editingProductId, setEditingProductId] = useState<string | null>(null);
+export function ProductList({products, setProducts, activeUser}: ProductListProps) {
     const [purchaseMessage, setPurchaseMessage] = useState<string | null>(null);
     const navigate = useNavigate();
 
@@ -19,32 +19,6 @@ export function ProductList({products, setProducts}: ProductListProps) {
             setProducts(r);
         });
     }, []);
-
-    function handleEditOrSaveProduct(product: Product) {
-        if (editingProductId === product.productId) {
-            MyApi.updateProduct.productUpdateProduct({
-                ProductId: product.productId,
-                ProductName: product.productName,
-            })
-                .then(() => setEditingProductId(null))
-                .then(() => {
-                    MyApi.getProducts.productGetProducts().then(r => {
-                        setProducts(r);
-                    });
-                });
-        } else {
-            setEditingProductId(product.productId);
-        }
-    }
-
-    function handleDelete(product: Product) {
-        MyApi.deleteProduct.productDeleteProduct({id: product.productId})
-            .then(r => {
-                MyApi.getProducts.productGetProducts().then(r => {
-                    setProducts(r)
-                })
-            })
-    }
 
     function handleBuy(product: Product) {
         MyApi.buyProduct.productBuyProduct({
@@ -73,8 +47,13 @@ export function ProductList({products, setProducts}: ProductListProps) {
             )}
 
             <div className={"products"}>
-                {products.map(product => (
-                    <div key={product.productId} className={"productCard"}>
+                {products
+                    .filter(product => product.vendorUserId !== activeUser?.userId)
+                    .map(product => (
+                    <div
+                        key={product.productId}
+                        className="productCard"
+                    >
                         {product.imageUrl && (
                             <img
                                 src={product.imageUrl}
@@ -82,44 +61,36 @@ export function ProductList({products, setProducts}: ProductListProps) {
                                 className="productImage"
                             />
                         )}
-                        {editingProductId === product.productId ? (
-                            <input
-                                value={product.productName}
-                                onChange={e => {
-                                    setProducts(products.map(p =>
-                                        p.productId === product.productId
-                                            ? {...p, productName: e.target.value}
-                                            : p
-                                    ));
-                                }}
-                            />
-                        ) : (
-                            <button
-                                className="productNameBtn"
-                                onClick={() => navigate(`/products/${product.productId}`)}
-                            >
-                                {product.productName}
-                            </button>
-                        )}
-                        <p className="productPrice">{product.price} kr. </p>
+
+                        <button
+                            className="productNameBtn"
+                            onClick={() => navigate(`/products/${product.productId}`)}
+                        >
+                            {product.productName}
+                        </button>
+
+                        <p className="productPrice">
+                            {product.price} kr.
+                        </p>
+
                         <p className="productTimestamp">
-                            Created: {new Date(product.createdAt).toLocaleDateString()}
+                            Created:{" "}
+                            {new Date(product.createdAt).toLocaleDateString()}
                         </p>
 
                         {product.isBought && product.boughtAt && (
                             <p className="productBoughtAt">
-                                Bought: {new Date(product.boughtAt).toLocaleDateString()}
+                                Bought:{" "}
+                                {new Date(product.boughtAt).toLocaleDateString()}
                             </p>
                         )}
 
-                        <br></br>
-                        <div className={"productBtns"}>
-                            <button onClick={() => handleEditOrSaveProduct(product)}>
-                                {editingProductId === product.productId ? "Save" : "Edit"}
-                            </button>
-                            <button onClick={() => handleDelete(product)}>Delete</button>
-                        </div>
-                        <button className={"buyBtn"} onClick={() => handleBuy(product)}>BUY NOW!</button>
+                        <button
+                            className="buyBtn"
+                            onClick={() => handleBuy(product)}
+                        >
+                            BUY NOW!
+                        </button>
                     </div>
                 ))}
             </div>

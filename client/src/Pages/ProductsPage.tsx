@@ -12,9 +12,7 @@ export function ProductsPage({activeUser}: ProductsPageProps) {
 
     return ( 
         <div>
-            <ProductCreateForm setProducts={setProducts} vendorUserId={activeUser?.userId ?? null} />
-            <br></br>
-            <ProductList products={products} setProducts={setProducts}/>
+            <ProductList products={products} setProducts={setProducts} activeUser={activeUser}/>
         </div>
     );
 }

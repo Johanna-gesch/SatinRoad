@@ -5,33 +5,46 @@
  * It is included in `src/index.html`.
  */
 
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { App } from "./App";
-import { AdminPage } from "@/Pages/AdminPage.tsx";
+import {StrictMode} from "react";
+import {createRoot} from "react-dom/client";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {App} from "./App";
+import {AdminPage} from "@/Pages/AdminPage.tsx";
 import {ProductDetailsPage} from "@/Pages/ProductDetailsPage.tsx";
 import {SellerPage} from "@/Pages/SellerPage.tsx";
+import {RootLayout} from "@/RootLayout.tsx";
+import {MyProductsPage} from "@/Pages/MyProductsPage.tsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App />,
-    },
-    {
-        path: "/admin",
-        element: <AdminPage />,
+        element: <RootLayout />,
+        children: [
+            {
+                index: true,
+                element: <App />,
+            },
+            {
+                path: "/admin",
+                element: <AdminPage />,
+            },
+
+            {
+                path: "/products/:productId",
+                element: <ProductDetailsPage/>,
+            },
+
+            {
+                path: "/users/:userId",
+                element: <SellerPage/>,
+            },
+            {
+                path: "users/:userId/products",
+                element: <MyProductsPage />,
+            },
+        ]
     },
 
-    {
-        path: "/products/:productId",
-        element: <ProductDetailsPage/>,
-    },
-
-    {
-        path: "/users/:userId",
-        element: <SellerPage/>,
-    },
 ]);
 
 const elem = document.getElementById("root")!;
