@@ -17,8 +17,11 @@ public class CreateProductTests
 
         var dto = new CreateProductDto
         {
-            ProductName = "Kidneys",
-            CategoryIds = new List<string> { "cat1 "}
+            CategoryIds = new List<string> { "cat1" },
+            VendorUserId = "vendor1",
+            Price = 100,
+            Description = "Test product",
+            ImageUrl = "https://example.test/image.jpg"
         };
 
         //Act
@@ -28,6 +31,10 @@ public class CreateProductTests
         Assert.NotNull(repoStub.InsertedProduct);
         Assert.Equal("Kidneys", repoStub.InsertedProduct.ProductName);
         Assert.False(string.IsNullOrEmpty(repoStub.InsertedProduct.ProductId));
+        Assert.Equal("vendor1", repoStub.InsertedProduct.VendorUserId);
+        Assert.Equal(100, repoStub.InsertedProduct.Price);
+        Assert.Equal("Test product", repoStub.InsertedProduct.Description);
+        Assert.Equal("https://example.test/image.jpg", repoStub.InsertedProduct.ImageUrl);
     }
     
 }

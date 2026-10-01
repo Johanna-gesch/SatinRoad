@@ -35,8 +35,9 @@ public class ProductRepositoryStub : IProductRepository
         throw new NotImplementedException();
     }
 
-    public void DeleteByCategoryId(string categoryId)
+    public List<Product> GetByVendorUserId(string vendorUserId)
     {
-        throw new NotImplementedException();
+        return new List<Product>();
     }
+    
 }

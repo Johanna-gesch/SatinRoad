@@ -20,6 +20,9 @@ public class CategoryService
     
     public void CreateCategory(CreateCategoryRequestDto dto)
     {
+        if (string.IsNullOrWhiteSpace(dto.CategoryName))
+            throw new ValidationException("Category name is required");
+        
         var category = new Category
         {
             CategoryId = Guid.NewGuid().ToString(),
@@ -51,10 +54,9 @@ public class CategoryService
 
     public void DeleteCategory(string categoryId)
     {
-        productCategories.RemoveByCategory(categoryId);
-        
         var category = categories.GetById(categoryId)
                        ?? throw new ValidationException("Category doesn't exist");
+        productCategories.RemoveByCategory(categoryId);
         categories.Delete(category);
     }
 }
