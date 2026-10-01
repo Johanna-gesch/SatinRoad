@@ -25,6 +25,11 @@ public class ProductService
         {
             ProductId = Guid.NewGuid().ToString(),
             ProductName = dto.ProductName,
+            VendorUserId = dto.VendorUserId,
+            Price = dto.Price,
+            Description = dto.Description,
+            ImageUrl = dto.ImageUrl,
+            CreatedAt = DateTime.UtcNow,
         };
 
         if (dto.CategoryIds.Count == 0)

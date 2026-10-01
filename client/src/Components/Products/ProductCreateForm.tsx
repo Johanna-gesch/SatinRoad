@@ -23,10 +23,7 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
         useEffect(() => {
             MyApi.getAll.categoryGetAll().then(setCategories);
         }, []);
-
     function handleCreateProduct() {
-        MyApi.createProduct.productCreateProduct({ ProductName: productNameField, CategoryIds: [categoryId] })
-            .then(() => setProductNameField(""))
         if (!vendorUserId) return;
 
         MyApi.createProduct.productCreateProduct({
@@ -34,7 +31,7 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
             CategoryIds: [categoryId],
             VendorUserId: vendorUserId,
             Price: Number(price) || 0,
-            Description: description || null,
+            Description: description,
             ImageUrl: imageUrl,
         })
             .then(() => {
@@ -44,10 +41,20 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
                 setImageUrl("");
                 setFileName(null);
 
+                setCategoryId("");
                 onProductCreated();
             })
         if (!vendorUserId) {
             return<p>Sign in for creating a product</p>
+        }
+    }
+
+    function handleRemoveImage() {
+        setImageUrl("");
+        setFileName(null);
+
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
         }
     }
 
@@ -62,7 +69,8 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
             const compressedBlob = await  compressImage(file);
 
             const formData = new FormData();
-            formData.append("file", compressedBlob, file.name);
+            const imageFileName = `${file.name.replace(/\.[^/.]+$/, "")}.jpg`;
+            formData.append("file", compressedBlob, imageFileName);
 
             const res = await fetch (`${MyApi.baseUrl}/UploadImage`, {
                 method: "POST",
@@ -87,9 +95,6 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
             <input placeholder="Price" type="number" value={price} onChange={e => setPrice(e.target.value)} />
             <input placeholder="Description" type="textarea" value={description} onChange={e => setDescription(e.target.value)} />
 
-            <input type="file" onChange={handleFileChange} accept="image/jpeg,image/png,image/webp"/>
-            <span>{isUploading ? "Uploading..." : fileName}</span>
-
             <label htmlFor="imageUpload" className="fileBtn">
                 Browse...
             </label>
@@ -97,8 +102,20 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
                 id="imageUpload"
                 type="file"
                 className="fileInput"
-                onChange={e => setImageUrl(e.target.value)}
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept="image/jpeg,image/png,image/webp"
             />
+            <span>{isUploading ? "Uploading..." : fileName}</span>
+            {fileName && (
+                <button
+                    type="button"
+                    onClick={handleCreateProduct}
+                    disabled={isUploading}
+                    >
+                    Remove image
+                </button>
+            )}
             <select value={categoryId} onChange={e => setCategoryId(e.target.value)}>
                 <option value="">Select category</option>
                 {categories.map(c => (

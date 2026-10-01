@@ -50,7 +50,7 @@ public class ProductController(ProductService service) : ControllerBase
         var imageUrl = service.SaveProductImage(
             file.OpenReadStream(),
             file.FileName,
-            $"{Request.Scheme}:// {Request.Host}"
+            $"{Request.Scheme}://{Request.Host}"
         );
         // Return the saved  image's URL so the frontend can store it on the product
         return Ok(new { url = imageUrl });

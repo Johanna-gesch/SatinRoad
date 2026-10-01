@@ -320,3 +320,9 @@ code {
   display: flex;
   gap: 20px;
 }
+
+.productImage{
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
