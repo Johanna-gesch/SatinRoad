@@ -38,6 +38,7 @@ export interface Product {
 export interface User {
   userId: string;
   userName: string;
+  isAdmin: boolean;
 }
 
 export interface CategoryGetByIdParams {
@@ -45,8 +46,7 @@ export interface CategoryGetByIdParams {
 }
 
 export interface CategoryDeleteCategoryParams {
-  CategoryId?: string;
-  CategoryName?: string;
+  categoryId?: string;
 }
 
 export interface ProductGetProductByIdParams {

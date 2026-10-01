@@ -298,3 +298,9 @@ code {
   top: 0;
   right: 20px;
 }
+
+.adminBtn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
