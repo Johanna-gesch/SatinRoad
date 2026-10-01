@@ -31,8 +31,6 @@ export interface Product {
   isBought: boolean;
   /** @format date-time */
   boughtAt: string;
-  categoryId: string;
-  category: Category;
 }
 
 export interface User {
@@ -45,8 +43,7 @@ export interface CategoryGetByIdParams {
 }
 
 export interface CategoryDeleteCategoryParams {
-  CategoryId?: string;
-  CategoryName?: string;
+  categoryId?: string;
 }
 
 export interface ProductGetProductByIdParams {
@@ -55,12 +52,13 @@ export interface ProductGetProductByIdParams {
 
 export interface ProductCreateProductParams {
   ProductName?: string;
-  CategoryId?: string;
+  CategoryIds?: string[];
 }
 
 export interface ProductUpdateProductParams {
   ProductId?: string;
   ProductName?: string;
+  CategoryIds?: string[];
 }
 
 export interface ProductDeleteProductParams {

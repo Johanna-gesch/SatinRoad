@@ -3,5 +3,5 @@
 public class CreateProductDto
 {
     public string ProductName { get; set; }
-    public string CategoryId { get; set; }
+    public List<string> CategoryIds { get; set; } = new();
 }

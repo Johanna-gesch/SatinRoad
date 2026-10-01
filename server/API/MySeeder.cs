@@ -10,25 +10,15 @@ public class MySeeder(MyDataConnection dc)
         dc.CreateTable<Product>(tableOptions: TableOptions.CreateIfNotExists);
         dc.CreateTable<Category>(tableOptions: TableOptions.CreateIfNotExists);
         dc.CreateTable<User>(tableOptions: TableOptions.CreateIfNotExists);
+        dc.CreateTable<ProductCategory>(tableOptions: TableOptions.CreateIfNotExists);
         
         if (dc.Categories.Count() == 0)
             for (int i = 1; i <= 10; i++)
             {
                 dc.Insert(new Category
                 {
-                    CategoryId = i.ToString(),
+                    CategoryId = Guid.NewGuid().ToString(),
                     CategoryName = $"Category {i}"
-                });
-            }
-        
-        if (dc.Products.Count() == 0)
-            for (int i = 1; i <= 10; i++)
-            {
-                dc.Insert(new Product
-                {
-                    ProductId = i.ToString(),
-                    ProductName = $"Product {i}",
-                    CategoryId = i.ToString()
                 });
             }
         

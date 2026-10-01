@@ -17,7 +17,7 @@ export function ProductCreateForm({ setProducts }: {
         }, []);
 
     function handleCreateProduct() {
-        MyApi.createProduct.productCreateProduct({ ProductName: productNameField, CategoryId: categoryId })
+        MyApi.createProduct.productCreateProduct({ ProductName: productNameField, CategoryIds: [categoryId] })
             .then(() => setProductNameField(""))
             .then(() => {
                 MyApi.getProducts.productGetProducts().then(r => {
@@ -37,7 +37,7 @@ export function ProductCreateForm({ setProducts }: {
             <select value={categoryId} onChange={e => setCategoryId(e.target.value)}>
                 <option value="">Select category</option>
                 {categories.map(c => (
-                    <option key={c.categoryId} value={c.categoryId}>
+                    <option key={c.categoryId} value={c.categoryId.toString()}>
                         {c.categoryName}
                     </option>
                 ))}
