@@ -45,7 +45,7 @@ export function SellerPage() {
                         key={product.productId}
                         className="productCard"
                         onClick={() =>
-                            navigate(`/product/${product.productId}`)
+                            navigate(`/products/${product.productId}`)
                         }
                     >
                         {product.productName}

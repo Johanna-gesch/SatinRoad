@@ -50,7 +50,7 @@ export function ProductDetailsPage() {
                 <p>{product.description}</p>
             )}
 
-            <p>Category: {product.category?.categoryName ?? "No category"}</p>
+            <p>Category: {product.categories?.map(c => c.categoryName).join(", ") ?? "No category"}</p>
 
             <p>Created: {new Date(product.createdAt).toLocaleDateString()}</p>
 

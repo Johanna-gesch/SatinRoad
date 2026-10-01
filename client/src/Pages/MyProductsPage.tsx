@@ -28,6 +28,9 @@ export function MyProductsPage() {
             MyApi.updateProduct.productUpdateProduct({
                 ProductId: product.productId,
                 ProductName: product.productName,
+                Price: product.price,
+                Description: product.description,
+                CategoryIds: product.categories?.map(category => category.categoryId)
             })
                 .then(() => {
                     setEditingProductId(null);
