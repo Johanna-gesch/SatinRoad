@@ -38,8 +38,7 @@ export interface Product {
   createdAt: string;
   /** @format date-time */
   boughtAt?: string | null;
-  categoryId: string;
-  category: Category;
+  categories: Category[];
 }
 
 export interface User {
@@ -75,6 +74,10 @@ export interface ProductUpdateProductParams {
   ProductId?: string;
   ProductName?: string;
   CategoryIds?: string[];
+  /** @format decimal */
+  Price?: number | null;
+  Description?: string | null;
+  ImageUrl?: string | null;
 }
 
 export interface ProductDeleteProductParams {
@@ -495,7 +498,7 @@ export class Api<
       query: ProductGetProductByIdParams = {},
       params: RequestParams = {},
     ) =>
-      this.request<Product | null, any>({
+      this.request<Product, any>({
         path: `/GetProductById`,
         method: "GET",
         query: query,
@@ -576,6 +579,29 @@ export class Api<
         path: `/BuyProduct`,
         method: "PUT",
         query: query,
+        ...params,
+      }),
+  };
+  uploadImage = {
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductUploadImage
+     * @request POST:/UploadImage
+     */
+    productUploadImage: (
+      data: {
+        /** @format binary */
+        file?: File | null;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<Blob, any>({
+        path: `/UploadImage`,
+        method: "POST",
+        body: data,
+        type: ContentType.FormData,
         ...params,
       }),
   };

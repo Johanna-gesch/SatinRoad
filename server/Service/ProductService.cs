@@ -84,7 +84,7 @@ public class ProductService
         if (!string.IsNullOrWhiteSpace(dto.ProductName))
             product.ProductName = dto.ProductName;
 
-        if (dto.Price is not null)
+        if (dto.Price != null)
         {
             if (dto.Price < 0)
                 throw new ValidationException("Price cannot be negative.");
@@ -92,13 +92,13 @@ public class ProductService
             product.Price = dto.Price.Value;
         }
 
-        if (dto.Description is not null)
+        if (dto.Description != null)
             product.Description = dto.Description;
 
-        if (dto.ImageUrl is not null)
+        if (dto.ImageUrl !=null)
             product.ImageUrl = dto.ImageUrl;
 
-        if (dto.CategoryIds is not null)
+        if (dto.CategoryIds != null)
         {
             if (dto.CategoryIds.Count == 0 ||
                 dto.CategoryIds.Any(string.IsNullOrWhiteSpace))
