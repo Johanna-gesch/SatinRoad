@@ -3,7 +3,7 @@
   line-height: 1.5;
   color-scheme: light dark;
   color: #1E1212;
-  background-color: #D2C4B4;
+  background-color: #c4b9a8;
 }
 body {
   margin: 0;
@@ -226,12 +226,6 @@ code {
   gap: 20px;
 }
 
-.categories {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
 .buyBtn {
   width: 100px;
   height: 30px;
@@ -297,4 +291,32 @@ code {
   position: absolute;
   top: 0;
   right: 20px;
+}
+
+.adminBtn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileBtn {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid #767676;
+  border-radius: 2px;
+  background-color: #efefef;
+  color: black;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.AdminContainer {
+  display: flex;
+  gap: 20px;
 }

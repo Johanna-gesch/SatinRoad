@@ -4,7 +4,7 @@ import { Api, type User } from "@/api/Api.ts";
 const MyApi = new Api();
 
 type LoginPageProps = {
-    onLogin: (user: string) => void;
+    onLogin: (user: User) => void;
 };
 
 export function LoginPage({ onLogin }: LoginPageProps) {
@@ -18,8 +18,10 @@ export function LoginPage({ onLogin }: LoginPageProps) {
     }, []);
 
     function handleLogin() {
-        if (selectedUser) {
-            onLogin(selectedUser);
+        const user = users.find(u => u.userName === selectedUser);
+
+        if (user) {
+            onLogin(user);
         }
     }
 

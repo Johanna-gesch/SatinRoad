@@ -5,11 +5,11 @@ import {compressImage} from "@/Utils/CompressImage.tsx";
 export const MyApi = new Api();
 
 type ProductCreateFormState = {
-    setProducts: Dispatch<SetStateAction<Product[]>>;
     vendorUserId: string | null;
+    onProductCreated: () => void;
 }
 
-export function ProductCreateForm({ setProducts, vendorUserId }: ProductCreateFormState) {
+export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCreateFormState) {
     const [productNameField, setProductNameField] = useState("");
     const [categoryId, setCategoryId] = useState("");
     const [categories, setCategories] = useState<Category[]>([]);
@@ -25,11 +25,13 @@ export function ProductCreateForm({ setProducts, vendorUserId }: ProductCreateFo
         }, []);
 
     function handleCreateProduct() {
+        MyApi.createProduct.productCreateProduct({ ProductName: productNameField, CategoryIds: [categoryId] })
+            .then(() => setProductNameField(""))
         if (!vendorUserId) return;
 
         MyApi.createProduct.productCreateProduct({
             ProductName: productNameField,
-            CategoryId: categoryId,
+            CategoryIds: [categoryId],
             VendorUserId: vendorUserId,
             Price: Number(price) || 0,
             Description: description || null,
@@ -46,6 +48,8 @@ export function ProductCreateForm({ setProducts, vendorUserId }: ProductCreateFo
                 MyApi.getProducts.productGetProducts().then(r => {
                     setProducts(r);
                 });
+
+                onProductCreated();
             });
         if (!vendorUserId) {
             return<p>Sign in for creating a product</p>
@@ -91,10 +95,19 @@ export function ProductCreateForm({ setProducts, vendorUserId }: ProductCreateFo
             <input type="file" onChange={handleFileChange} accept="image/jpeg,image/png,image/webp"/>
             <span>{isUploading ? "Uploading..." : fileName}</span>
 
+            <label htmlFor="imageUpload" className="fileBtn">
+                Browse...
+            </label>
+            <input
+                id="imageUpload"
+                type="file"
+                className="fileInput"
+                onChange={e => setImageUrl(e.target.value)}
+            />
             <select value={categoryId} onChange={e => setCategoryId(e.target.value)}>
                 <option value="">Select category</option>
                 {categories.map(c => (
-                    <option key={c.categoryId} value={c.categoryId}>
+                    <option key={c.categoryId} value={c.categoryId.toString()}>
                         {c.categoryName}
                     </option>
                 ))}

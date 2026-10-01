@@ -14,9 +14,4 @@ public class Product
     [Column] public DateTime CreatedAt { get; set; }
 
     [Column] public DateTime? BoughtAt { get; set; }
-    [Column, NotNull] 
-    public string CategoryId { get; set; } = "";
-    
-    [Association(ThisKey = nameof(CategoryId), OtherKey = nameof(Category.CategoryId))]
-    public Category Category { get; set; }
 }

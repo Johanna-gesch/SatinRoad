@@ -29,7 +29,7 @@ export function CategoryList({ categories, setCategories, setProducts }: Categor
     }
 
     function deleteCategory(id: string) {
-        MyApi.deleteCategory.categoryDeleteCategory({ CategoryId: id })
+        MyApi.deleteCategory.categoryDeleteCategory({ categoryId: id })
             .then(() =>{
                 MyApi.getAll.categoryGetAll().then(setCategories);
                 MyApi.getProducts.productGetProducts().then(setProducts);
