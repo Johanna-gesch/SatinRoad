@@ -42,5 +42,18 @@ public class ProductController(ProductService service) : ControllerBase
     {
         service.Buy(dto);
     }
+
+    [HttpPost(nameof(UploadImage))]
+    public IActionResult UploadImage(IFormFile file)
+    {
+        // Pass the file's raw stream, its original name (for the extension) and the current host to the service
+        var imageUrl = service.SaveProductImage(
+            file.OpenReadStream(),
+            file.FileName,
+            $"{Request.Scheme}:// {Request.Host}"
+        );
+        // Return the saved  image's URL so the frontend can store it on the product
+        return Ok(new { url = imageUrl });
+    }
     
 }
