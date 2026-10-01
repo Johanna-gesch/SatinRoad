@@ -12,8 +12,8 @@ public class CreateCategoryServiceTests
     {
         //Arrange
         var stub = new CategoryRepositoryStub();
-        var productStub = new ProductRepositoryStub();
-        var service = new CategoryService(stub, productStub);
+        var productCategoryStub = new ProductCategoryRepositoryStub();
+        var service = new CategoryService(stub, productCategoryStub);
 
         var dto = new CreateCategoryRequestDto
         {
@@ -34,8 +34,8 @@ public class CreateCategoryServiceTests
     {
         //Arrange
         var stub = new CategoryRepositoryStub();
-        var productStub = new ProductRepositoryStub();
-        var service = new CategoryService(stub, productStub);
+        var productCategoryStub = new ProductCategoryRepositoryStub();
+        var service = new CategoryService(stub, productCategoryStub);
         
         stub.Categories.Add(new Category { CategoryId = "1", CategoryName = "Drugs"});
         stub.Categories.Add(new Category {CategoryId = "2", CategoryName = "Weapons"});
@@ -54,8 +54,8 @@ public class CreateCategoryServiceTests
     {
         //Arrange
         var stub = new CategoryRepositoryStub();
-        var productStub = new ProductRepositoryStub();
-        var service = new CategoryService(stub, productStub);
+        var productCategoryStub = new ProductCategoryRepositoryStub();
+        var service = new CategoryService(stub, productCategoryStub);
         
         stub.Categories.Add(new Category { CategoryId = "1", CategoryName = "Drugs"});
 
@@ -72,8 +72,8 @@ public class CreateCategoryServiceTests
     {
         //Arrange
         var stub = new CategoryRepositoryStub();
-        var productStub = new ProductRepositoryStub();
-        var service = new CategoryService(stub, productStub);
+        var productCategoryStub = new ProductCategoryRepositoryStub();
+        var service = new CategoryService(stub, productCategoryStub);
         
         stub.Categories.Add(new Category { CategoryId = "1", CategoryName = "Drugs"});
         stub.Categories.Add(new Category { CategoryId = "2", CategoryName = "Jewelry"});
