@@ -29,13 +29,24 @@ export interface Product {
   productId: string;
   productName: string;
   isBought: boolean;
+  /** @format decimal */
+  price: number;
+  description?: string | null;
+  imageUrl?: string | null;
+  vendorUserId: string;
   /** @format date-time */
-  boughtAt: string;
+  createdAt: string;
+  /** @format date-time */
+  boughtAt?: string | null;
+  categoryId: string;
+  category: Category;
 }
 
 export interface User {
   userId: string;
   userName: string;
+  isAdmin: boolean;
+  products: Product[];
 }
 
 export interface CategoryGetByIdParams {
@@ -53,6 +64,11 @@ export interface ProductGetProductByIdParams {
 export interface ProductCreateProductParams {
   ProductName?: string;
   CategoryIds?: string[];
+  VendorUserId?: string;
+  Description?: string | null;
+  /** @format decimal */
+  Price?: number;
+  ImageUrl?: string | null;
 }
 
 export interface ProductUpdateProductParams {
@@ -86,6 +102,10 @@ export interface UserUpdateUserParams {
 }
 
 export interface UserDeleteUserParams {
+  id?: string;
+}
+
+export interface UserGetUserWithProductsParams {
   id?: string;
 }
 
@@ -649,6 +669,26 @@ export class Api<
         path: `/DeleteUser`,
         method: "DELETE",
         query: query,
+        ...params,
+      }),
+  };
+  getUserWithProducts = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserGetUserWithProducts
+     * @request GET:/GetUserWithProducts
+     */
+    userGetUserWithProducts: (
+      query: UserGetUserWithProductsParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<User, any>({
+        path: `/GetUserWithProducts`,
+        method: "GET",
+        query: query,
+        format: "json",
         ...params,
       }),
   };

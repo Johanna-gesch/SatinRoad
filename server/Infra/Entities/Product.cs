@@ -7,6 +7,11 @@ public class Product
     [PrimaryKey] public string ProductId { get; set; } = "";
     [Column] public string ProductName { get; set; } = "";
     [Column] public bool IsBought { get; set; } = false;
-    [Column] public DateTime BoughtAt { get; set; }
-    
+    [Column] public decimal Price { get; set; }
+    [Column] public string? Description { get; set; }
+    [Column] public string? ImageUrl { get; set; }
+    [Column] public string VendorUserId { get; set; } = "";
+    [Column] public DateTime CreatedAt { get; set; }
+
+    [Column] public DateTime? BoughtAt { get; set; }
 }

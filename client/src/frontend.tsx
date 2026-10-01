@@ -7,12 +7,37 @@
 
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { App } from "./App";
+import { AdminPage } from "@/Pages/AdminPage.tsx";
+import {ProductDetailsPage} from "@/Pages/ProductDetailsPage.tsx";
+import {SellerPage} from "@/Pages/SellerPage.tsx";
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <App />,
+    },
+    {
+        path: "/admin",
+        element: <AdminPage />,
+    },
+
+    {
+        path: "/products/:productId",
+        element: <ProductDetailsPage/>,
+    },
+
+    {
+        path: "/users/:userId",
+        element: <SellerPage/>,
+    },
+]);
 
 const elem = document.getElementById("root")!;
 const app = (
   <StrictMode>
-    <App />
+    <RouterProvider router={router}/>
   </StrictMode>
 );
 

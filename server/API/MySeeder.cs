@@ -28,7 +28,8 @@ public class MySeeder(MyDataConnection dc)
                 dc.Insert(new User
                 {
                     UserId = i.ToString(),
-                    UserName = $"User {i}"
+                    UserName = $"User {i}",
+                    IsAdmin = i == 1
                 });
             }
 
