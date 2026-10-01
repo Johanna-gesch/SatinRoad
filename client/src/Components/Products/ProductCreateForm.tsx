@@ -43,14 +43,9 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
                 setDescription("");
                 setImageUrl("");
                 setFileName(null);
-            })
-            .then(() => {
-                MyApi.getProducts.productGetProducts().then(r => {
-                    setProducts(r);
-                });
 
                 onProductCreated();
-            });
+            })
         if (!vendorUserId) {
             return<p>Sign in for creating a product</p>
         }
