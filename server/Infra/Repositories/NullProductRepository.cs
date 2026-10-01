@@ -16,7 +16,6 @@ public class NullProductRepository : IProductRepository
     { }
 
     public List<Product> GetAll() => new();
-
-    public void DeleteByCategoryId(string categoryId)
-    { }
+    public List<Product> GetByVendorUserId(string vendorUserId) => null;
+    
 }

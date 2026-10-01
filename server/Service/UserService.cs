@@ -18,7 +18,7 @@ public class UserService (IUserRepository userRepo)
         userRepo.Insert(newUser);
     }
 
-    public User? GetById(string id)
+    public User GetById(string id)
     {
         if (string.IsNullOrWhiteSpace(id))
             throw new ValidationException("Id can't be empty");
@@ -28,7 +28,8 @@ public class UserService (IUserRepository userRepo)
 
     public void Update(UpdateUserDto dto)
     {
-        var user = userRepo.GetById(dto.UserId);
+        var user = userRepo.GetById(dto.UserId)
+                   ?? throw new ValidationException("User not found");
 
         if (!string.IsNullOrWhiteSpace(dto.UserName))
             user.UserName = dto.UserName;
@@ -40,6 +41,7 @@ public class UserService (IUserRepository userRepo)
     {
         var user = userRepo.GetById(id)
                    ?? throw new ValidationException("User not found");
+        
         userRepo.Delete(user);
     }
     

@@ -21,6 +21,21 @@ public class ProductService
 
     public void Insert(CreateProductDto dto)
     {
+        if (string.IsNullOrWhiteSpace(dto.ProductName))
+            throw new ValidationException("Product name is required");
+        
+        if (string.IsNullOrWhiteSpace(dto.VendorUserId))
+            throw new ValidationException("Vendor is required.");
+
+        if (dto.Price < 0)
+            throw new ValidationException("Price cannot be negative.");
+
+        if (dto.CategoryIds.Count == 0 ||
+            dto.CategoryIds.Any(string.IsNullOrWhiteSpace))
+        {
+            throw new ValidationException("Product must have at least one category.");
+        }
+        
         var newProduct = new Product
         {
             ProductId = Guid.NewGuid().ToString(),
@@ -31,10 +46,7 @@ public class ProductService
             ImageUrl = dto.ImageUrl,
             CreatedAt = DateTime.UtcNow,
         };
-
-        if (dto.CategoryIds.Count == 0)
-            throw new ValidationException("Product must have at least one category.");
-
+        
         productRepo.Insert(newProduct);
 
         foreach (var categoryId in dto.CategoryIds)
@@ -42,33 +54,68 @@ public class ProductService
             productCategoryRepo.Add(newProduct.ProductId, categoryId);
         }
     }
+    
+    public void DeleteAllForVendor(string vendorUserId)
+    {
+        foreach (var product in productRepo.GetByVendorUserId(vendorUserId))
+        {
+            productCategoryRepo.RemoveByProduct(product.ProductId);
+            productRepo.Delete(product);
+        }
+    }
 
     public Product? GetById(string id)
     {
-        return productRepo.GetById(id);
+        if (string.IsNullOrWhiteSpace(id))
+            throw new ValidationException("Product id is required");
+
+        var product = productRepo.GetById(id)
+                      ?? throw new ValidationException("Product not found");
+
+        product.Categories = productCategoryRepo.GetCategoriesForProduct(product.ProductId);
+        return product;
     }
 
     public void Update(UpdateProductDto dto)
     {
-        var product = productRepo.GetById(dto.ProductId) ??
-                      throw new ValidationException("Product not found");
+        var product = productRepo.GetById(dto.ProductId)
+                      ?? throw new ValidationException("Product not found");
 
         if (!string.IsNullOrWhiteSpace(dto.ProductName))
             product.ProductName = dto.ProductName;
-        
-        if (dto.CategoryIds.Count == 0)
-            throw new ValidationException("Product must have at least one category.");
+
+        if (dto.Price is not null)
+        {
+            if (dto.Price < 0)
+                throw new ValidationException("Price cannot be negative.");
+
+            product.Price = dto.Price.Value;
+        }
+
+        if (dto.Description is not null)
+            product.Description = dto.Description;
+
+        if (dto.ImageUrl is not null)
+            product.ImageUrl = dto.ImageUrl;
+
+        if (dto.CategoryIds is not null)
+        {
+            if (dto.CategoryIds.Count == 0 ||
+                dto.CategoryIds.Any(string.IsNullOrWhiteSpace))
+            {
+                throw new ValidationException(
+                    "Product must have at least one category.");
+            }
+
+            productCategoryRepo.RemoveByProduct(product.ProductId);
+
+            foreach (var categoryId in dto.CategoryIds.Distinct())
+            {
+                productCategoryRepo.Add(product.ProductId, categoryId);
+            }
+        }
 
         productRepo.Update(product);
-        
-        //Remove old links
-        productCategoryRepo.RemoveByProduct(dto.ProductId);
-
-        //Add new links
-        foreach (var categoryId in dto.CategoryIds)
-        {
-            productCategoryRepo.Add(dto.ProductId, categoryId);
-        }
     }
 
     public void Delete(string id)
@@ -84,7 +131,14 @@ public class ProductService
 
     public List<Product> GetAll()
     {
-        return productRepo.GetAll();
+        var products = productRepo.GetAll();
+
+        foreach (var product in products)
+        {
+            product.Categories =
+                productCategoryRepo.GetCategoriesForProduct(product.ProductId);
+        }
+        return products;
     }
 
     public void Buy(BuyProductDto dto)
