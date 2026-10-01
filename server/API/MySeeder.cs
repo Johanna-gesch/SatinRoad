@@ -1,7 +1,8 @@
 using Infra;
 using Infra.Entities;
 using LinqToDB;
-using LinqToDB.Data;
+
+namespace API;
 
 public class MySeeder(MyDataConnection dc)
 {
@@ -21,6 +22,17 @@ public class MySeeder(MyDataConnection dc)
                 });
             }
         
+        if (dc.Users.Count() == 0)
+            for (int i = 1; i <= 10; i++)
+            {
+                dc.Insert(new User
+                {
+                    UserId = i.ToString(),
+                    UserName = $"User {i}",
+                    IsAdmin = i == 1
+                });
+            }
+        
         if (dc.Products.Count() == 0)
             for (int i = 1; i <= 10; i++)
             {
@@ -28,19 +40,15 @@ public class MySeeder(MyDataConnection dc)
                 {
                     ProductId = i.ToString(),
                     ProductName = $"Product {i}",
-                    CategoryId = i.ToString()
+                    CategoryId = i.ToString(),
+                    VendorUserId = ((i % 10 ) + 1).ToString(),
+                    Price = 10 * i,
+                    Description = $"Description of product {i}",
+                    ImageUrl = null,
+                    CreatedAt = DateTime.UtcNow.AddDays(-i),
                 });
             }
         
-        if (dc.Users.Count() == 0)
-            for (int i = 1; i <= 10; i++)
-            {
-                dc.Insert(new User
-                {
-                    UserId = i.ToString(),
-                    UserName = $"User {i}"
-                });
-            }
 
     }
 }

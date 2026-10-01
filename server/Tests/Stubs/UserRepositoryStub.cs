@@ -1,9 +1,10 @@
 using Infra;
 using Infra.Entities;
+using Infra.Repositories;
 
 namespace Tests.Stubs;
 
-public class UserRepositoryStub : IRepository<User>
+public class UserRepositoryStub : IUserRepository
 {
     public User InsertedUser;
     public User? UpdatedUser;
@@ -34,5 +35,10 @@ public class UserRepositoryStub : IRepository<User>
     public List<User> GetAll()
     {
         return Users;
+    }
+
+    public User? GetByIdWithProducts(string id)
+    {
+        throw new NotImplementedException();
     }
 }

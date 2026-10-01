@@ -3,7 +3,7 @@ using LinqToDB;
 
 namespace Infra.Repositories;
 
-public class UserRepository (MyDataConnection dc) : IRepository<User>
+public class UserRepository (MyDataConnection dc) : IUserRepository
 {
     public void Insert(User entity)
     {
@@ -28,5 +28,12 @@ public class UserRepository (MyDataConnection dc) : IRepository<User>
     public List<User> GetAll()
     {
         return dc.Users.ToList();
+    }
+
+    public User? GetByIdWithProducts(string id)
+    {
+        return dc.Users
+            .LoadWith(u => u.Products)
+            .FirstOrDefault(u => u.UserId == id);
     }
 }
