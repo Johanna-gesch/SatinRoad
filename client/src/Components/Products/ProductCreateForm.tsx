@@ -1,5 +1,6 @@
 import {Api, type Product, type Category} from "@/api/Api.ts";
-import {useState, type Dispatch, type SetStateAction, useEffect} from "react";
+import {useState, type Dispatch, type SetStateAction, useEffect, useRef} from "react";
+import {compressImage} from "@/Utils/CompressImage.tsx";
 
 export const MyApi = new Api();
 
@@ -15,14 +16,14 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
     const [price, setPrice] = useState("");
     const [description, setDescription] = useState("");
     const [imageUrl, setImageUrl] = useState("");
+    const [isUploading, setIsUploading] = useState(false);
+    const [fileName, setFileName] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
         useEffect(() => {
             MyApi.getAll.categoryGetAll().then(setCategories);
         }, []);
-
     function handleCreateProduct() {
-        MyApi.createProduct.productCreateProduct({ ProductName: productNameField, CategoryIds: [categoryId] })
-            .then(() => setProductNameField(""))
         if (!vendorUserId) return;
 
         MyApi.createProduct.productCreateProduct({
@@ -30,19 +31,60 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
             CategoryIds: [categoryId],
             VendorUserId: vendorUserId,
             Price: Number(price) || 0,
-            Description: description || null,
-            ImageUrl: imageUrl || null,
+            Description: description,
+            ImageUrl: imageUrl,
         })
             .then(() => {
                 setProductNameField("");
                 setPrice("");
                 setDescription("");
                 setImageUrl("");
+                setFileName(null);
 
+                setCategoryId("");
                 onProductCreated();
-            });
+            })
         if (!vendorUserId) {
             return<p>Sign in for creating a product</p>
+        }
+    }
+
+    function handleRemoveImage() {
+        setImageUrl("");
+        setFileName(null);
+
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
+    }
+
+    async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>){
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setFileName(file.name);
+        setIsUploading(true);
+
+        try{
+            const compressedBlob = await  compressImage(file);
+
+            const formData = new FormData();
+            const imageFileName = `${file.name.replace(/\.[^/.]+$/, "")}.jpg`;
+            formData.append("file", compressedBlob, imageFileName);
+
+            const res = await fetch (`${MyApi.baseUrl}/UploadImage`, {
+                method: "POST",
+                body: formData,
+            });
+            if (!res.ok) throw new Error ("Upload failed.");
+
+            const data = await res.json();
+            setImageUrl(data.url);
+        }catch(err){
+            console.log(err);
+            setFileName(null);
+        }finally{
+            setIsUploading(false);
         }
     }
 
@@ -52,6 +94,7 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
             <input placeholder="Product Name" value={productNameField} onChange={e => setProductNameField(e.target.value)} />
             <input placeholder="Price" type="number" value={price} onChange={e => setPrice(e.target.value)} />
             <input placeholder="Description" type="textarea" value={description} onChange={e => setDescription(e.target.value)} />
+
             <label htmlFor="imageUpload" className="fileBtn">
                 Browse...
             </label>
@@ -59,8 +102,20 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
                 id="imageUpload"
                 type="file"
                 className="fileInput"
-                onChange={e => setImageUrl(e.target.value)}
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept="image/jpeg,image/png,image/webp"
             />
+            <span>{isUploading ? "Uploading..." : fileName}</span>
+            {fileName && (
+                <button
+                    type="button"
+                    onClick={handleCreateProduct}
+                    disabled={isUploading}
+                    >
+                    Remove image
+                </button>
+            )}
             <select value={categoryId} onChange={e => setCategoryId(e.target.value)}>
                 <option value="">Select category</option>
                 {categories.map(c => (
@@ -69,7 +124,7 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
                     </option>
                 ))}
             </select>
-            <button onClick={handleCreateProduct}>Create</button>
+            <button onClick={handleCreateProduct} disabled={isUploading}> Create </button>
         </div>
     );
 }
