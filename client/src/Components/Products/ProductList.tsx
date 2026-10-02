@@ -22,9 +22,9 @@ export function ProductList({products, setProducts, activeUser}: ProductListProp
 
     function handleBuy(product: Product) {
         MyApi.buyProduct.productBuyProduct({
-            ProductId: product.productId,
-            IsBought: true,
-            BoughtAt: new Date().toISOString(),
+            productId: product.productId,
+            isBought: true,
+            boughtAt: new Date().toISOString(),
         }).then(r => {
             MyApi.getProducts.productGetProducts().then(r => {
                 setProducts(r)

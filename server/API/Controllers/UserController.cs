@@ -8,7 +8,7 @@ namespace API.Controllers;
 public class UserController (UserService userService, ProductService productService) : ControllerBase
 {
     [HttpPost(nameof(CreateUser))]
-    public void CreateUser(CreateUserDto dto)
+    public void CreateUser([FromBody]CreateUserDto dto)
     {
         userService.Insert(dto);
     }
@@ -26,7 +26,7 @@ public class UserController (UserService userService, ProductService productServ
     }
 
     [HttpPut(nameof(UpdateUser))]
-    public void UpdateUser(UpdateUserDto dto)
+    public void UpdateUser([FromBody]UpdateUserDto dto)
     {
         userService.Update(dto);
     }

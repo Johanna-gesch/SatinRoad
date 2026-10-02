@@ -17,6 +17,7 @@ public class CreateProductTests
 
         var dto = new CreateProductDto
         {
+            ProductName = "Kidneys",
             CategoryIds = new List<string> { "cat1" },
             VendorUserId = "vendor1",
             Price = 100,

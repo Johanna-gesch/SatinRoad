@@ -15,7 +15,7 @@ export function CategoryCreateForm({ setCategories }: CategoryCreateFormProps) {
             .then(() => {
                 setName("");
 
-                MyApi.getAll.categoryGetAll().then(setCategories);
+                MyApi.getAllCategories.categoryGetAllCategories().then(setCategories);
             });
     }
 

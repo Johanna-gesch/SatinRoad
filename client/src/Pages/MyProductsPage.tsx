@@ -26,11 +26,11 @@ export function MyProductsPage() {
     function handleEditOrSaveProduct(product: Product) {
         if (editingProductId === product.productId) {
             MyApi.updateProduct.productUpdateProduct({
-                ProductId: product.productId,
-                ProductName: product.productName,
-                Price: product.price,
-                Description: product.description,
-                CategoryIds: product.categories?.map(category => category.categoryId)
+                productId: product.productId,
+                productName: product.productName,
+                price: product.price,
+                description: product.description,
+                categoryIds: product.categories?.map(category => category.categoryId)
             })
                 .then(() => {
                     setEditingProductId(null);
