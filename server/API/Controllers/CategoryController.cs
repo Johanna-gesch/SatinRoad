@@ -13,8 +13,8 @@ public class CategoryController(CategoryService service) : ControllerBase
         service.CreateCategory(dto);
     }
 
-    [HttpGet(nameof(GetAll))]
-    public List<Category> GetAll()
+    [HttpGet(nameof(GetAllCategories))]
+    public List<Category> GetAllCategories()
     {
         return service.GetAll();
     }
