@@ -1,6 +1,7 @@
 import {Api, type Product, type User} from "@/api/Api.ts";
 import {type Dispatch, type SetStateAction, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {useCartActions} from "@/Hooks/UseCartActions.tsx";
 
 export const MyApi = new Api();
 
@@ -12,6 +13,7 @@ type ProductListProps = {
 
 export function ProductList({products, setProducts, activeUser}: ProductListProps) {
     const [purchaseMessage, setPurchaseMessage] = useState<string | null>(null);
+    const { addToCart } = useCartActions();
     const [policeRaid, setPoliceRaid] = useState(false);
     const [policeRaidInfo, setPoliceRaidInfo] = useState<{
         vendorName: string;
@@ -29,7 +31,7 @@ export function ProductList({products, setProducts, activeUser}: ProductListProp
         MyApi.buyProduct.productBuyProduct({
             productId: product.productId,
             isBought: true,
-            boughtAt: new Date().toISOString(),
+            //boughtAt: new Date().toISOString(),
         }).then(r => {
 
             if(r.policeRaid) {
@@ -125,6 +127,10 @@ export function ProductList({products, setProducts, activeUser}: ProductListProp
                                 {new Date(product.boughtAt).toLocaleDateString()}
                             </p>
                         )}
+
+                        <button onClick={() => addToCart(product)}>
+                            Add to cart 🛒
+                        </button>
 
                         <button
                             className="buyBtn"

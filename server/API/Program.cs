@@ -17,6 +17,7 @@ builder.Services.AddScoped<MyDataConnection>(_ => new MyDataConnection(dataOptio
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<CartService>();
 
 builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();

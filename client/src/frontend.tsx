@@ -14,6 +14,7 @@ import {ProductDetailsPage} from "@/Pages/ProductDetailsPage.tsx";
 import {SellerPage} from "@/Pages/SellerPage.tsx";
 import {RootLayout} from "@/RootLayout.tsx";
 import {MyProductsPage} from "@/Pages/MyProductsPage.tsx";
+import {CartPage} from "@/Pages/cartPage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
                 path: "users/:userId/products",
                 element: <MyProductsPage />,
             },
+            {
+                path: "/cart",
+                element: <CartPage />
+            }
         ]
     },
 
