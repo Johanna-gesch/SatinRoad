@@ -20,13 +20,13 @@ public class ProductController(ProductService service) : ControllerBase
     }
 
     [HttpPost(nameof(CreateProduct))]
-    public void CreateProduct(CreateProductDto dto)
+    public void CreateProduct([FromBody]CreateProductDto dto)
     {
         service.Insert(dto);
     }
 
     [HttpPut(nameof(UpdateProduct))]
-    public void UpdateProduct(UpdateProductDto dto)
+    public void UpdateProduct([FromBody]UpdateProductDto dto)
     {
         service.Update(dto);
     }
@@ -38,7 +38,7 @@ public class ProductController(ProductService service) : ControllerBase
     }
 
     [HttpPut(nameof(BuyProduct))]
-    public BuyResultDto BuyProduct(BuyProductDto dto)
+    public BuyResultDto BuyProduct([FromBody]BuyProductDto dto)
     {
         return service.Buy(dto);
     }

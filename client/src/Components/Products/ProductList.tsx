@@ -27,8 +27,9 @@ export function ProductList({products, setProducts, activeUser}: ProductListProp
 
     function handleBuy(product: Product) {
         MyApi.buyProduct.productBuyProduct({
-            ProductId: product.productId,
-            IsBought: true
+            productId: product.productId,
+            isBought: true,
+            boughtAt: new Date().toISOString(),
         }).then(r => {
 
             if(r.policeRaid) {

@@ -10,7 +10,7 @@ export function CategoriesPage() {
     const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
-        MyApi.getAll.categoryGetAll().then(setCategories);
+        MyApi.getAllCategories.categoryGetAllCategories().then(setCategories);
         MyApi.getProducts.productGetProducts().then(setProducts);
     }, []);
     return (

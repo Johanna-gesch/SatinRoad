@@ -21,18 +21,18 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
     const fileInputRef = useRef<HTMLInputElement>(null);
 
         useEffect(() => {
-            MyApi.getAll.categoryGetAll().then(setCategories);
+            MyApi.getAllCategories.categoryGetAllCategories().then(setCategories);
         }, []);
     function handleCreateProduct() {
         if (!vendorUserId) return;
 
         MyApi.createProduct.productCreateProduct({
-            ProductName: productNameField,
-            CategoryIds: [categoryId],
-            VendorUserId: vendorUserId,
-            Price: Number(price) || 0,
-            Description: description,
-            ImageUrl: imageUrl,
+            productName: productNameField,
+            categoryIds: [categoryId],
+            vendorUserId: vendorUserId,
+            price: Number(price) || 0,
+            description: description,
+            imageUrl: imageUrl,
         })
             .then(() => {
                 setProductNameField("");

@@ -24,14 +24,14 @@ export function CategoryList({ categories, setCategories, setProducts }: Categor
             newCategoryName: editingName
         }).then(() => {
             setEditingId(null);
-            MyApi.getAll.categoryGetAll().then(setCategories);
+            MyApi.getAllCategories.categoryGetAllCategories().then(setCategories);
         })
     }
 
     function deleteCategory(id: string) {
         MyApi.deleteCategory.categoryDeleteCategory({ categoryId: id })
             .then(() =>{
-                MyApi.getAll.categoryGetAll().then(setCategories);
+                MyApi.getAllCategories.categoryGetAllCategories().then(setCategories);
                 MyApi.getProducts.productGetProducts().then(setProducts);
             });
     }

@@ -46,6 +46,35 @@ export interface BuyResultDto {
   deletedVendorUserId?: string | null;
   deletedVendorName?: string | null;
   deletedProductNames: string[];
+export interface CreateProductDto {
+  productName: string;
+  categoryIds: string[];
+  vendorUserId: string;
+  description?: string | null;
+  /** @format decimal */
+  price: number;
+  imageUrl?: string | null;
+}
+
+export interface UpdateProductDto {
+  productId: string;
+  productName: string;
+  categoryIds: string[];
+  /** @format decimal */
+  price?: number | null;
+  description?: string | null;
+  imageUrl?: string | null;
+}
+
+export interface BuyProductDto {
+  productId: string;
+  isBought: boolean;
+  /** @format date-time */
+  boughtAt: string;
+}
+
+export interface CreateUserDto {
+  userName: string;
 }
 
 export interface User {
@@ -53,6 +82,11 @@ export interface User {
   userName: string;
   isAdmin: boolean;
   products: Product[];
+}
+
+export interface UpdateUserDto {
+  userId: string;
+  userName: string;
 }
 
 export interface CategoryGetByIdParams {
@@ -65,26 +99,6 @@ export interface CategoryDeleteCategoryParams {
 
 export interface ProductGetProductByIdParams {
   id?: string;
-}
-
-export interface ProductCreateProductParams {
-  ProductName?: string;
-  CategoryIds?: string[];
-  VendorUserId?: string;
-  Description?: string | null;
-  /** @format decimal */
-  Price?: number;
-  ImageUrl?: string | null;
-}
-
-export interface ProductUpdateProductParams {
-  ProductId?: string;
-  ProductName?: string;
-  CategoryIds?: string[];
-  /** @format decimal */
-  Price?: number | null;
-  Description?: string | null;
-  ImageUrl?: string | null;
 }
 
 export interface ProductDeleteProductParams {
@@ -102,11 +116,6 @@ export interface UserCreateUserParams {
 
 export interface UserGetUserByIdParams {
   userId?: string;
-}
-
-export interface UserUpdateUserParams {
-  UserId?: string;
-  UserName?: string;
 }
 
 export interface UserDeleteUserParams {
@@ -400,17 +409,17 @@ export class Api<
         ...params,
       }),
   };
-  getAll = {
+  getAllCategories = {
     /**
      * No description
      *
      * @tags Category
-     * @name CategoryGetAll
-     * @request GET:/GetAll
+     * @name CategoryGetAllCategories
+     * @request GET:/GetAllCategories
      */
-    categoryGetAll: (params: RequestParams = {}) =>
+    categoryGetAllCategories: (params: RequestParams = {}) =>
       this.request<Category[], any>({
-        path: `/GetAll`,
+        path: `/GetAllCategories`,
         method: "GET",
         format: "json",
         ...params,
@@ -520,13 +529,14 @@ export class Api<
      * @request POST:/CreateProduct
      */
     productCreateProduct: (
-      query: ProductCreateProductParams = {},
+      data: CreateProductDto,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
         path: `/CreateProduct`,
         method: "POST",
-        query: query,
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
   };
@@ -539,13 +549,14 @@ export class Api<
      * @request PUT:/UpdateProduct
      */
     productUpdateProduct: (
-      query: ProductUpdateProductParams = {},
+      data: UpdateProductDto,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
         path: `/UpdateProduct`,
         method: "PUT",
-        query: query,
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
   };
@@ -585,6 +596,12 @@ export class Api<
         method: "PUT",
         query: query,
         format: "json",
+    productBuyProduct: (data: BuyProductDto, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/BuyProduct`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
   };
@@ -619,14 +636,12 @@ export class Api<
      * @name UserCreateUser
      * @request POST:/CreateUser
      */
-    userCreateUser: (
-      query: UserCreateUserParams = {},
-      params: RequestParams = {},
-    ) =>
+    userCreateUser: (data: CreateUserDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/CreateUser`,
         method: "POST",
-        query: query,
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
   };
@@ -674,14 +689,12 @@ export class Api<
      * @name UserUpdateUser
      * @request PUT:/UpdateUser
      */
-    userUpdateUser: (
-      query: UserUpdateUserParams = {},
-      params: RequestParams = {},
-    ) =>
+    userUpdateUser: (data: UpdateUserDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/UpdateUser`,
         method: "PUT",
-        query: query,
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
   };
