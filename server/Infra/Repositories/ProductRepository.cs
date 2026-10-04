@@ -33,4 +33,12 @@ public class ProductRepository(MyDataConnection dc) : IProductRepository
             .Where(p => p.IsBought == false)
             .ToList();
     }
+
+    public List<Product> GetByVendorUserId(string vendorUserId)
+    {
+        return dc.Products
+            .Where(product => product.VendorUserId == vendorUserId)
+            .ToList();
+    }
+    
 }

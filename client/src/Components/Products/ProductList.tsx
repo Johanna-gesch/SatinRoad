@@ -12,6 +12,11 @@ type ProductListProps = {
 
 export function ProductList({products, setProducts, activeUser}: ProductListProps) {
     const [purchaseMessage, setPurchaseMessage] = useState<string | null>(null);
+    const [policeRaid, setPoliceRaid] = useState(false);
+    const [policeRaidInfo, setPoliceRaidInfo] = useState<{
+        vendorName: string;
+        productNames: string[];
+    } | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -22,17 +27,27 @@ export function ProductList({products, setProducts, activeUser}: ProductListProp
 
     function handleBuy(product: Product) {
         MyApi.buyProduct.productBuyProduct({
-            ProductId: product.productId,
-            IsBought: true,
-            BoughtAt: new Date().toISOString(),
+            productId: product.productId,
+            isBought: true,
+            boughtAt: new Date().toISOString(),
         }).then(r => {
+
+            if(r.policeRaid) {
+                setPoliceRaid(true);
+
+                setPoliceRaidInfo({
+                    vendorName: r.deletedVendorName ?? "Unknown vendor",
+                    productNames: r.deletedProductNames ?? []
+                });
+            } else {
+                setPurchaseMessage(product.productName);
+            }
+
             MyApi.getProducts.productGetProducts().then(r => {
                 setProducts(r)
             })
+
         })
-
-        setPurchaseMessage(product.productName);
-
     }
 
     return (
@@ -43,6 +58,32 @@ export function ProductList({products, setProducts, activeUser}: ProductListProp
                     You successfully bought {purchaseMessage}
                     <br/>
                     😈
+                </div>
+            )}
+
+            {policeRaid && (
+                <div className="purchasePopup">
+                    <button
+                        className="closeBtn"
+                        onClick={() => {
+                            setPoliceRaid(false);
+                            setPoliceRaidInfo(null);
+                        }}
+                    >
+                        X
+                    </button>
+
+                    <p>
+                        🚨 WOOP WOOP! It's the sound of the Police!! 🚨
+                    </p>
+                    <p> It's now your fault that <b>{policeRaidInfo?.vendorName}</b> has been shut down and arrested, and you now no longer can buy:</p>
+                    <div>
+                        {policeRaidInfo?.productNames.map(productName => (
+                            <div key={productName}>
+                                {productName}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             )}
 

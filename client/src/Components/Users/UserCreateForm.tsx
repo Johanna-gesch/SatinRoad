@@ -10,7 +10,7 @@ export function UserCreateForm({setUsers}:{
     const [userNameField, setUserNameField] = useState("");
 
     function handleCreateUser(){
-        MyApi.createUser.userCreateUser({UserName: userNameField})
+        MyApi.createUser.userCreateUser({userName: userNameField})
             .then(() => setUserNameField(""))
             .then(() =>{
                 MyApi.getUsers.userGetUsers().then(r => {

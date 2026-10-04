@@ -13,12 +13,20 @@ public class CreateProductTests
         //Arrange
         var repoStub = new ProductRepositoryStub();
         var productCategoryRepo = new ProductCategoryRepositoryStub();
-        var service = new ProductService(repoStub, productCategoryRepo);
+        var userRepo = new UserRepositoryStub();
+        var rndStub = new RandomStub();
+        var clockStub = new ClockStub();
+        
+        var service = new ProductService(repoStub, productCategoryRepo, userRepo, rndStub, clockStub);
 
         var dto = new CreateProductDto
         {
-            ProductName = "Kidneys",
-            CategoryIds = new List<string> { "cat1 "}
+            ProductName =  "Kidneys",
+            CategoryIds = new List<string> { "cat1" },
+            VendorUserId = "vendor1",
+            Price = 100,
+            Description = "Test product",
+            ImageUrl = "https://example.test/image.jpg"
         };
 
         //Act
@@ -28,6 +36,10 @@ public class CreateProductTests
         Assert.NotNull(repoStub.InsertedProduct);
         Assert.Equal("Kidneys", repoStub.InsertedProduct.ProductName);
         Assert.False(string.IsNullOrEmpty(repoStub.InsertedProduct.ProductId));
+        Assert.Equal("vendor1", repoStub.InsertedProduct.VendorUserId);
+        Assert.Equal(100, repoStub.InsertedProduct.Price);
+        Assert.Equal("Test product", repoStub.InsertedProduct.Description);
+        Assert.Equal("https://example.test/image.jpg", repoStub.InsertedProduct.ImageUrl);
     }
     
 }

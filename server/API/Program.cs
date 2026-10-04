@@ -2,6 +2,7 @@ using API;
 using Infra;
 using Infra.Entities;
 using Infra.Repositories;
+using Infra.Repositories.Interfaces;
 using LinqToDB;
 using Service;
 
@@ -24,6 +25,9 @@ builder.Services.AddScoped<IRepository<Category>, CategoryRepository>();
 builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+
+builder.Services.AddScoped<IRandom, RandomGenerator>();
+builder.Services.AddScoped<IClock, Clock>();
 
 builder.Services.AddExceptionHandler<ProblemExceptionHandler>();
 builder.Services.AddOpenApiDocument(settings => settings.SchemaSettings.SchemaProcessors.Add(new RequireNotNullableSchemaProcessor()));

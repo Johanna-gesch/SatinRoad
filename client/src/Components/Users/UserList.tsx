@@ -15,8 +15,8 @@ export function UserList({users, setUsers}: UsersListProps) {
     function handleEditOrSaveUser(user: User) {
         if (editingUserId === user.userId) {
             MyApi.updateUser.userUpdateUser({
-                UserId: user.userId,
-                UserName: user.userName,
+                userId: user.userId,
+                userName: user.userName,
             })
                 .then(() => setEditingUserId(null))
                 .then(() => {

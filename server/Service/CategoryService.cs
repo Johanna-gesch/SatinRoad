@@ -20,6 +20,9 @@ public class CategoryService
     
     public void CreateCategory(CreateCategoryRequestDto dto)
     {
+        if (string.IsNullOrWhiteSpace(dto.CategoryName))
+            throw new ValidationException("Category name is required");
+        
         var category = new Category
         {
             CategoryId = Guid.NewGuid().ToString(),
@@ -43,7 +46,7 @@ public class CategoryService
     {
         var category = categories.GetById(dto.CategoryIdForLookup)
                        ?? throw new ValidationException("Category doesn't exist");
-        if (dto.NewCategoryName is not null)
+        if (dto.NewCategoryName != null)
             category.CategoryName = dto.NewCategoryName;
         
         categories.Update(category);
@@ -51,10 +54,9 @@ public class CategoryService
 
     public void DeleteCategory(string categoryId)
     {
-        productCategories.RemoveByCategory(categoryId);
-        
         var category = categories.GetById(categoryId)
                        ?? throw new ValidationException("Category doesn't exist");
+        productCategories.RemoveByCategory(categoryId);
         categories.Delete(category);
     }
 }

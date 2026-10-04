@@ -10,6 +10,7 @@ public class ProductRepositoryStub : IProductRepository
     public Product? ExistingProduct;
     public Product? UpdatedProduct;
     public Product? DeletedProduct;
+    public List<Product> VendorProducts { get; set; } = new();
     public void Insert(Product entity)
     {
         InsertedProduct = entity;
@@ -35,8 +36,9 @@ public class ProductRepositoryStub : IProductRepository
         throw new NotImplementedException();
     }
 
-    public void DeleteByCategoryId(string categoryId)
+    public List<Product> GetByVendorUserId(string vendorUserId)
     {
-        throw new NotImplementedException();
+        return VendorProducts;
     }
+    
 }
