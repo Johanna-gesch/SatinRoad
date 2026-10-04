@@ -10,6 +10,7 @@ public class ProductRepositoryStub : IProductRepository
     public Product? ExistingProduct;
     public Product? UpdatedProduct;
     public Product? DeletedProduct;
+    public List<Product> VendorProducts { get; set; } = new();
     public void Insert(Product entity)
     {
         InsertedProduct = entity;
@@ -37,7 +38,7 @@ public class ProductRepositoryStub : IProductRepository
 
     public List<Product> GetByVendorUserId(string vendorUserId)
     {
-        return new List<Product>();
+        return VendorProducts;
     }
     
 }

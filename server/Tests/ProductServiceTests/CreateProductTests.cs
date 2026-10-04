@@ -13,11 +13,15 @@ public class CreateProductTests
         //Arrange
         var repoStub = new ProductRepositoryStub();
         var productCategoryRepo = new ProductCategoryRepositoryStub();
-        var service = new ProductService(repoStub, productCategoryRepo);
+        var userRepo = new UserRepositoryStub();
+        var rndStub = new RandomStub();
+        var clockStub = new ClockStub();
+        
+        var service = new ProductService(repoStub, productCategoryRepo, userRepo, rndStub, clockStub);
 
         var dto = new CreateProductDto
         {
-            ProductName = "Kidneys",
+            ProductName =  "Kidneys",
             CategoryIds = new List<string> { "cat1" },
             VendorUserId = "vendor1",
             Price = 100,
