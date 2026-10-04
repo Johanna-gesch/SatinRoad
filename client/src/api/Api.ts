@@ -10,19 +10,20 @@
  * ---------------------------------------------------------------
  */
 
-export interface CreateCategoryRequestDto {
-  categoryName: string;
+export interface CartItem {
+  cartItemId: string;
+  userId: string;
+  productId: string;
+  user: User;
+  product: Product;
 }
 
-export interface Category {
-  categoryId: string;
-  categoryName: string;
-}
-
-export interface UpdateCategoryRequestDto {
-  /** @minLength 1 */
-  categoryIdForLookup: string;
-  newCategoryName?: string | null;
+export interface User {
+  userId: string;
+  userName: string;
+  isAdmin: boolean;
+  products: Product[];
+  cart: CartItem[];
 }
 
 export interface Product {
@@ -41,11 +42,21 @@ export interface Product {
   categories: Category[];
 }
 
-export interface BuyResultDto {
-  policeRaid: boolean;
-  deletedVendorUserId?: string | null;
-  deletedVendorName?: string | null;
-  deletedProductNames: string[];
+export interface Category {
+  categoryId: string;
+  categoryName: string;
+}
+
+export interface CreateCategoryRequestDto {
+  categoryName: string;
+}
+
+export interface UpdateCategoryRequestDto {
+  /** @minLength 1 */
+  categoryIdForLookup: string;
+  newCategoryName?: string | null;
+}
+
 export interface CreateProductDto {
   productName: string;
   categoryIds: string[];
@@ -66,27 +77,39 @@ export interface UpdateProductDto {
   imageUrl?: string | null;
 }
 
+export interface BuyResultDto {
+  policeRaid: boolean;
+  deletedVendorUserId?: string | null;
+  deletedVendorName?: string | null;
+  deletedProductNames: string[];
+}
+
 export interface BuyProductDto {
   productId: string;
   isBought: boolean;
-  /** @format date-time */
-  boughtAt: string;
 }
 
 export interface CreateUserDto {
   userName: string;
 }
 
-export interface User {
-  userId: string;
-  userName: string;
-  isAdmin: boolean;
-  products: Product[];
-}
-
 export interface UpdateUserDto {
   userId: string;
   userName: string;
+}
+
+export interface CartAddToCartParams {
+  UserId?: string;
+  ProductId?: string;
+}
+
+export interface CartRemoveFromCartParams {
+  UserId?: string;
+  ProductId?: string;
+}
+
+export interface CartGetCartParams {
+  userId?: string;
 }
 
 export interface CategoryGetByIdParams {
@@ -103,15 +126,6 @@ export interface ProductGetProductByIdParams {
 
 export interface ProductDeleteProductParams {
   id?: string;
-}
-
-export interface ProductBuyProductParams {
-  ProductId?: string;
-  IsBought?: boolean;
-}
-
-export interface UserCreateUserParams {
-  UserName?: string;
 }
 
 export interface UserGetUserByIdParams {
@@ -389,6 +403,61 @@ export class HttpClient<SecurityDataType = unknown> {
 export class Api<
   SecurityDataType extends unknown,
 > extends HttpClient<SecurityDataType> {
+  addToCart = {
+    /**
+     * No description
+     *
+     * @tags Cart
+     * @name CartAddToCart
+     * @request POST:/AddToCart
+     */
+    cartAddToCart: (
+      query: CartAddToCartParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/AddToCart`,
+        method: "POST",
+        query: query,
+        ...params,
+      }),
+  };
+  removeFromCart = {
+    /**
+     * No description
+     *
+     * @tags Cart
+     * @name CartRemoveFromCart
+     * @request DELETE:/RemoveFromCart
+     */
+    cartRemoveFromCart: (
+      query: CartRemoveFromCartParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/RemoveFromCart`,
+        method: "DELETE",
+        query: query,
+        ...params,
+      }),
+  };
+  getCart = {
+    /**
+     * No description
+     *
+     * @tags Cart
+     * @name CartGetCart
+     * @request GET:/GetCart
+     */
+    cartGetCart: (query: CartGetCartParams = {}, params: RequestParams = {}) =>
+      this.request<CartItem[], any>({
+        path: `/GetCart`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+  };
   createCategory = {
     /**
      * No description
@@ -587,21 +656,13 @@ export class Api<
      * @name ProductBuyProduct
      * @request PUT:/BuyProduct
      */
-    productBuyProduct: (
-      query: ProductBuyProductParams = {},
-      params: RequestParams = {},
-    ) =>
-      this.request<BuyResultDto, any>({
-        path: `/BuyProduct`,
-        method: "PUT",
-        query: query,
-        format: "json",
     productBuyProduct: (data: BuyProductDto, params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<BuyResultDto, any>({
         path: `/BuyProduct`,
         method: "PUT",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
