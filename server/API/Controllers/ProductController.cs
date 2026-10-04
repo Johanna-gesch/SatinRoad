@@ -38,9 +38,9 @@ public class ProductController(ProductService service) : ControllerBase
     }
 
     [HttpPut(nameof(BuyProduct))]
-    public void BuyProduct(BuyProductDto dto)
+    public BuyResultDto BuyProduct(BuyProductDto dto)
     {
-        service.Buy(dto);
+        return service.Buy(dto);
     }
 
     [HttpPost(nameof(UploadImage))]

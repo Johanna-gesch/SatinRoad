@@ -41,6 +41,13 @@ export interface Product {
   categories: Category[];
 }
 
+export interface BuyResultDto {
+  policeRaid: boolean;
+  deletedVendorUserId?: string | null;
+  deletedVendorName?: string | null;
+  deletedProductNames: string[];
+}
+
 export interface User {
   userId: string;
   userName: string;
@@ -87,8 +94,6 @@ export interface ProductDeleteProductParams {
 export interface ProductBuyProductParams {
   ProductId?: string;
   IsBought?: boolean;
-  /** @format date-time */
-  BoughtAt?: string;
 }
 
 export interface UserCreateUserParams {
@@ -575,10 +580,11 @@ export class Api<
       query: ProductBuyProductParams = {},
       params: RequestParams = {},
     ) =>
-      this.request<void, any>({
+      this.request<BuyResultDto, any>({
         path: `/BuyProduct`,
         method: "PUT",
         query: query,
+        format: "json",
         ...params,
       }),
   };

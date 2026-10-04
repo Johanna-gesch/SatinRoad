@@ -1,6 +1,7 @@
 ﻿using Infra;
 using Infra.Entities;
 using Infra.Repositories;
+using Infra.Repositories.Interfaces;
 using Service.DTOs.ProductDTOs;
 using ValidationException = Infra.ValidationException;
 
@@ -10,13 +11,22 @@ public class ProductService
 {
     private readonly IProductRepository productRepo;
     private readonly IProductCategoryRepository productCategoryRepo;
+    private readonly IUserRepository userRepo;
+    private readonly IRandom rnd;
+    private readonly IClock clock;
 
     public ProductService(
         IProductRepository productRepo,
-        IProductCategoryRepository productCategoryRepo)
+        IProductCategoryRepository productCategoryRepo,
+        IUserRepository userRepo,
+        IRandom rnd,
+        IClock clock)
     {
         this.productRepo = productRepo;
         this.productCategoryRepo = productCategoryRepo;
+        this.userRepo =  userRepo;
+        this.rnd = rnd;
+        this.clock = clock;
     }
 
     public void Insert(CreateProductDto dto)
@@ -141,18 +151,50 @@ public class ProductService
         return products;
     }
 
-    public void Buy(BuyProductDto dto)
+    public BuyResultDto Buy(BuyProductDto dto)
     {
         var product = productRepo.GetById(dto.ProductId) ??
                       throw new ValidationException("Product not found");
 
         if (product.IsBought)
             throw new ValidationException("Product has already been bought");
-
+        
+        if (rnd.Next(1, 101) == 1) //POLICE RAID
+        {
+            try
+            {
+                User vendor = userRepo.GetById(product.VendorUserId);
+                
+                var productNames = productRepo.GetByVendorUserId(vendor.UserId)
+                    .Select(p => p.ProductName)
+                    .ToList();
+                
+                DeleteAllForVendor(vendor.UserId);
+                userRepo.Delete(vendor);
+                
+                return new BuyResultDto
+                {
+                    PoliceRaid = true,
+                    DeletedVendorUserId = vendor.UserId,
+                    DeletedVendorName = vendor.UserName,
+                    DeletedProductNames = productNames
+                };
+            }
+            catch
+            {
+                throw new ConflictException("Police raid failed...");
+            }
+        }
+        
         product.IsBought = true;
-        product.BoughtAt = DateTime.UtcNow;
+        product.BoughtAt = clock.UtcNow;
 
         productRepo.Update(product);
+
+        return new BuyResultDto
+        {
+            PoliceRaid = false,
+        };
     }
 
     public string SaveProductImage(Stream fileStream, string originalFileName, string baseUrl)
