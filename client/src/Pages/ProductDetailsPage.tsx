@@ -1,7 +1,8 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import type {Product} from "@/api/Api.ts";
+import {useNavigate, useOutletContext, useParams} from "react-router-dom";
+import {type Dispatch, type SetStateAction, useEffect, useState} from "react";
+import type {CartItem, Product, User} from "@/api/Api.ts";
 import {MyApi} from "@/Components/Products/ProductList.tsx";
+import {useCartActions} from "@/Hooks/UseCartActions.tsx";
 
 /**
  * ProductDetailsPage
@@ -16,6 +17,12 @@ export function ProductDetailsPage() {
     const {productId} = useParams(); // id from URL
     const navigate = useNavigate(); // used for switching page
     const [product, setProduct] = useState<Product | null>(null);
+    const {selectedUser, cart, setCart} = useOutletContext<{
+        selectedUser: User | null;
+        cart: CartItem[];
+        setCart: Dispatch<SetStateAction<CartItem[]>>
+    }>();
+    const { addToCart } = useCartActions();
 
     // Fetch the product whenever the id in the URL changes
     useEffect(() => {
@@ -49,6 +56,10 @@ export function ProductDetailsPage() {
             {product.description && (
                 <p>{product.description}</p>
             )}
+            <button
+                onClick={() => addToCart(product)}>
+                Add to cart 🛒
+            </button>
 
             <p>Category: {product.categories?.map(c => c.categoryName).join(", ") ?? "No category"}</p>
 

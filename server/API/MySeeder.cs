@@ -11,6 +11,7 @@ public class MySeeder(MyDataConnection dc)
         dc.CreateTable<Category>(tableOptions: TableOptions.CreateIfNotExists);
         dc.CreateTable<User>(tableOptions: TableOptions.CreateIfNotExists);
         dc.CreateTable<ProductCategory>(tableOptions: TableOptions.CreateIfNotExists);
+        dc.CreateTable<CartItem>(tableOptions: TableOptions.CreateIfNotExists);
         
         if (dc.Categories.Count() == 0)
             for (int i = 1; i <= 10; i++)

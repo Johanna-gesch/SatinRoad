@@ -8,19 +8,19 @@ namespace API.Controllers;
 public class CartController(CartService service) : ControllerBase
 {
     [HttpPost(nameof(AddToCart))]
-    public void AddToCart(AddToCartDto dto)
+    public void AddToCart([FromQuery]AddToCartDto dto)
     {
         service.AddToCart(dto.UserId, dto.ProductId);
     }
     
     [HttpDelete(nameof(RemoveFromCart))]
-    public void RemoveFromCart(RemoveFromCartDto dto)
+    public void RemoveFromCart([FromQuery]RemoveFromCartDto dto)
     {
         service.RemoveFromCart(dto.UserId, dto.ProductId);
     }
 
     [HttpGet(nameof(GetCart))]
-    public List<CartItem> GetCart(string userId)
+    public List<CartItem> GetCart([FromQuery]string userId)
     {
         return service.GetCart(userId);
     }
