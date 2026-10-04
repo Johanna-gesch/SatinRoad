@@ -9,13 +9,16 @@ public class CategoryService
 {
     private readonly IRepository<Category> categories;
     private readonly IProductCategoryRepository productCategories;
+    private readonly IProductRepository productRepo;
 
     public CategoryService(
         IRepository<Category> categories,
-        IProductCategoryRepository productCategories)
+        IProductCategoryRepository productCategories,
+        IProductRepository productRepo)
     {
         this.categories = categories;
         this.productCategories = productCategories;
+        this.productRepo = productRepo;
     }
     
     public void CreateCategory(CreateCategoryRequestDto dto)
@@ -56,7 +59,20 @@ public class CategoryService
     {
         var category = categories.GetById(categoryId)
                        ?? throw new ValidationException("Category doesn't exist");
+
+        var productsInCategory = productCategories.GetProductsForCategory(categoryId);
+        
         productCategories.RemoveByCategory(categoryId);
+
+        foreach (var product in productsInCategory)
+        {
+            var remainingCategories = productCategories.GetCategoriesForProduct(product.ProductId);
+
+            if (remainingCategories.Count == 0)
+            {
+                productRepo.Delete(product);
+            }
+        }
         categories.Delete(category);
     }
 }
