@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Infra.Entities;
 using Infra.Repositories;
+using ValidationException = Infra.ValidationException;
 
 namespace Service;
 
