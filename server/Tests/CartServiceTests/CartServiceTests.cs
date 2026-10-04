@@ -37,7 +37,7 @@ public class CartServiceTests
         var cartRepo = new CartItemRepositoryStub();
         var service = new CartService(cartRepo, productRepo);
 
-        Assert.Throws<ValidationException>(() => service.AddToCart("u1", "missing")
+        Assert.Throws<Infra.ValidationException>(() => service.AddToCart("u1", "missing")
         );
     }
 
@@ -54,7 +54,7 @@ public class CartServiceTests
 
         var service = new CartService(cartRepo, productRepo);
 
-        Assert.Throws<System.ComponentModel.DataAnnotations.ValidationException>(() => service.AddToCart("u1", "p1")
+        Assert.Throws<Infra.ValidationException>(() => service.AddToCart("u1", "p1")
         );
     }
  
