@@ -43,7 +43,12 @@ public class UserController (UserService userService, ProductService productServ
     {
         return userService.GetIdWithProducts(id);
     }
-    
+
+    [HttpGet(nameof(GetTopsellers))]
+    public UserReturnDto GetTopsellers()
+    {
+        return userService.GetTopSellers();
+    }
     
     
     

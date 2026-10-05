@@ -57,6 +57,26 @@ public class UserService (IUserRepository userRepo)
         return userRepo.GetByIdWithProducts(id)
                ?? throw new NotFoundException($"User with this id '{id}' is not found");
     }
+
+    public UserReturnDto GetTopSellers()
+    {
+        List<string> topsellers = new List<string>();
+        
+        foreach (User user in userRepo.GetAll())
+        {
+            var userWProducts = userRepo.GetByIdWithProducts(user.UserId);
+            
+            if (userWProducts.Products.Count(p => p.IsBought) > 99)
+            {
+                topsellers.Add(user.UserName);
+            }
+        }
+
+        return new UserReturnDto
+        {
+            TopSellerNames = topsellers
+        };
+    }
     
     
 }

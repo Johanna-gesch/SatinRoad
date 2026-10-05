@@ -98,6 +98,10 @@ export interface UpdateUserDto {
   userName: string;
 }
 
+export interface UserReturnDto {
+  topSellerNames: string[];
+}
+
 export interface CartAddToCartParams {
   UserId?: string;
   ProductId?: string;
@@ -794,6 +798,22 @@ export class Api<
         path: `/GetUserWithProducts`,
         method: "GET",
         query: query,
+        format: "json",
+        ...params,
+      }),
+  };
+  getTopsellers = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserGetTopsellers
+     * @request GET:/GetTopsellers
+     */
+    userGetTopsellers: (params: RequestParams = {}) =>
+      this.request<UserReturnDto, any>({
+        path: `/GetTopsellers`,
+        method: "GET",
         format: "json",
         ...params,
       }),
