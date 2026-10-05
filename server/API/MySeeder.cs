@@ -43,7 +43,7 @@ public class MySeeder(MyDataConnection dc)
                     ProductName = $"Product {i}",
                     VendorUserId = "1",
                     QuantitySold = 1,
-                    QuantityAvailable = 1,
+                    QuantityAvailable = 0,
                     CreatedAt = DateTime.Now
                 });
             }
