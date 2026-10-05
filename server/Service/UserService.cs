@@ -6,8 +6,20 @@ using ValidationException = Infra.ValidationException;
 
 namespace Service;
 
-public class UserService (IUserRepository userRepo)
+public class UserService
 {
+    private readonly IUserRepository userRepo;
+    private readonly IProductCategoryRepository productCategoryRepo;
+
+    public UserService(
+        IProductCategoryRepository productCategoryRepo,
+        IUserRepository userRepo)
+    {
+        this.productCategoryRepo = productCategoryRepo;
+        this.userRepo = userRepo;
+    }
+
+
     public void Insert(CreateUserDto dto)
     {
         var newUser = new User
@@ -54,8 +66,16 @@ public class UserService (IUserRepository userRepo)
     {
         if (string.IsNullOrWhiteSpace(id))
             throw new ValidationException("Id can't be empty");
-        return userRepo.GetByIdWithProducts(id)
-               ?? throw new NotFoundException($"User with this id '{id}' is not found");
+
+        var user = userRepo.GetByIdWithProducts(id) ??
+                   throw new NotFoundException($"$User with this id '{id}'  is not found");
+        foreach (var product in user.Products)
+        {
+            product.Categories =
+                productCategoryRepo.GetCategoriesForProduct(product.ProductId);
+        }
+
+        return user;
     }
     
     
