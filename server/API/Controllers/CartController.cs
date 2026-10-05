@@ -12,6 +12,12 @@ public class CartController(CartService service) : ControllerBase
     {
         service.AddToCart(dto.UserId, dto.ProductId);
     }
+
+    [HttpPut(nameof(UpdateQuantity))]
+    public void UpdateQuantity([FromQuery] UpdateQuantityDto dto)
+    {
+        service.UpdateQuantity(dto.UserId, dto.ProductId, dto.Quantity);
+    }
     
     [HttpDelete(nameof(RemoveFromCart))]
     public void RemoveFromCart([FromQuery]RemoveFromCartDto dto)

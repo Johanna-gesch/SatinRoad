@@ -15,5 +15,7 @@ public class Product
 
     [Column] public DateTime? BoughtAt { get; set; }
 
+    [Column] public int QuantityAvailable { get; set; } = 10;
+
     [NotColumn] public List<Category> Categories { get; set; } = new();
 }

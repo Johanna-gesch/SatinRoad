@@ -11,10 +11,38 @@ public class CartService(ICartItemRepository cartItemRepository, IProductReposit
     {
         var product = productRepository.GetById(productId)
                       ?? throw new ValidationException("Product not found");
-        if (cartItemRepository.Exists(userId, productId))
-            throw new ValidationException("Already in cart");
+        var existing = cartItemRepository.GetCartItem(userId, productId);
 
-        cartItemRepository.Add(userId, productId);
+        if (existing != null)
+        {
+            if (existing.Quantity + 1 > product.QuantityAvailable)
+                throw new ValidationException("Not enough stock");
+            
+            cartItemRepository.UpdateQuantity(userId, productId, existing.Quantity + 1);
+        }
+        else
+        {
+            if (product.QuantityAvailable < 1)
+                throw new ValidationException("Out of stock");
+            cartItemRepository.Add(userId, productId);
+        }
+    }
+
+    public void UpdateQuantity(string userId, string productId, int quantity)
+    {
+        var product = productRepository.GetById(productId)
+                      ?? throw new ValidationException("Product not found");
+
+        if (quantity > product.QuantityAvailable)
+            throw new ValidationException("Not enough stock");
+        
+        if (quantity <= 0)
+        {
+            cartItemRepository.Remove(userId, productId);
+            return;
+        }
+        
+        cartItemRepository.UpdateQuantity(userId, productId, quantity);
     }
 
     public void RemoveFromCart(string userId, string productId)
