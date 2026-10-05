@@ -14,6 +14,8 @@ export interface CartItem {
   cartItemId: string;
   userId: string;
   productId: string;
+  /** @format int32 */
+  quantity: number;
   user: User;
   product: Product;
 }
@@ -39,6 +41,8 @@ export interface Product {
   createdAt: string;
   /** @format date-time */
   boughtAt?: string | null;
+  /** @format int32 */
+  quantityAvailable: number;
   categories: Category[];
 }
 
@@ -101,6 +105,13 @@ export interface UpdateUserDto {
 export interface CartAddToCartParams {
   UserId?: string;
   ProductId?: string;
+}
+
+export interface CartUpdateQuantityParams {
+  UserId?: string;
+  ProductId?: string;
+  /** @format int32 */
+  Quantity?: number;
 }
 
 export interface CartRemoveFromCartParams {
@@ -418,6 +429,25 @@ export class Api<
       this.request<void, any>({
         path: `/AddToCart`,
         method: "POST",
+        query: query,
+        ...params,
+      }),
+  };
+  updateQuantity = {
+    /**
+     * No description
+     *
+     * @tags Cart
+     * @name CartUpdateQuantity
+     * @request PUT:/UpdateQuantity
+     */
+    cartUpdateQuantity: (
+      query: CartUpdateQuantityParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/UpdateQuantity`,
+        method: "PUT",
         query: query,
         ...params,
       }),
