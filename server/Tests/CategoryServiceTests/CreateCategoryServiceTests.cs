@@ -13,7 +13,8 @@ public class CreateCategoryServiceTests
         //Arrange
         var stub = new CategoryRepositoryStub();
         var productCategoryStub = new ProductCategoryRepositoryStub();
-        var service = new CategoryService(stub, productCategoryStub);
+        var productRepo = new ProductRepositoryStub();
+        var service = new CategoryService(stub, productCategoryStub, productRepo);
 
         var dto = new CreateCategoryRequestDto
         {
@@ -35,7 +36,8 @@ public class CreateCategoryServiceTests
         //Arrange
         var stub = new CategoryRepositoryStub();
         var productCategoryStub = new ProductCategoryRepositoryStub();
-        var service = new CategoryService(stub, productCategoryStub);
+        var productRepo = new ProductRepositoryStub();
+        var service = new CategoryService(stub, productCategoryStub, productRepo);
         
         stub.Categories.Add(new Category { CategoryId = "1", CategoryName = "Drugs"});
         stub.Categories.Add(new Category {CategoryId = "2", CategoryName = "Weapons"});
@@ -55,7 +57,8 @@ public class CreateCategoryServiceTests
         //Arrange
         var stub = new CategoryRepositoryStub();
         var productCategoryStub = new ProductCategoryRepositoryStub();
-        var service = new CategoryService(stub, productCategoryStub);
+        var productRepo = new ProductRepositoryStub();
+        var service = new CategoryService(stub, productCategoryStub, productRepo);
         
         stub.Categories.Add(new Category { CategoryId = "1", CategoryName = "Drugs"});
 
@@ -73,7 +76,8 @@ public class CreateCategoryServiceTests
         //Arrange
         var stub = new CategoryRepositoryStub();
         var productCategoryStub = new ProductCategoryRepositoryStub();
-        var service = new CategoryService(stub, productCategoryStub);
+        var productRepo = new ProductRepositoryStub();
+        var service = new CategoryService(stub, productCategoryStub, productRepo);
         
         stub.Categories.Add(new Category { CategoryId = "1", CategoryName = "Drugs"});
         stub.Categories.Add(new Category { CategoryId = "2", CategoryName = "Jewelry"});
