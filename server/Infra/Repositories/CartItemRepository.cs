@@ -1,18 +1,34 @@
-﻿using Infra.Entities;
+﻿using System.Runtime.InteropServices.ComTypes;
+using Infra.Entities;
 using LinqToDB;
 
 namespace Infra.Repositories;
 
 public class CartItemRepository(MyDataConnection dc) : ICartItemRepository
 {
+    public CartItem? GetCartItem(string userId, string productId)
+    {
+        return dc.GetTable<CartItem>()
+            .FirstOrDefault(ci => ci.UserId == userId && ci.ProductId == productId);
+    }
+    
     public void Add(string userId, string productid)
     {
         dc.Insert(new CartItem
         {
             CartItemId = Guid.NewGuid().ToString(),
             UserId = userId,
-            ProductId = productid
+            ProductId = productid,
+            Quantity = 1
         });
+    }
+
+    public void UpdateQuantity(string userId, string productId, int quantity)
+    {
+        dc.GetTable<CartItem>()
+            .Where(ci => ci.UserId == userId && ci.ProductId == productId)
+            .Set(ci => ci.Quantity, quantity)
+            .Update();
     }
 
     public void Remove(string userId, string productId)

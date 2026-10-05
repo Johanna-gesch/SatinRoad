@@ -14,6 +14,8 @@ export interface CartItem {
   cartItemId: string;
   userId: string;
   productId: string;
+  /** @format int32 */
+  quantity: number;
   user: User;
   product: Product;
 }
@@ -29,7 +31,6 @@ export interface User {
 export interface Product {
   productId: string;
   productName: string;
-  isBought: boolean;
   /** @format decimal */
   price: number;
   description?: string | null;
@@ -37,8 +38,14 @@ export interface Product {
   vendorUserId: string;
   /** @format date-time */
   createdAt: string;
+  /** @format int32 */
+  quantityAvailable: number;
+  /** @format int32 */
+  quantitySold: number;
   /** @format date-time */
-  boughtAt?: string | null;
+  firstBoughtAt?: string | null;
+  /** @format date-time */
+  lastBoughtAt?: string | null;
   categories: Category[];
 }
 
@@ -65,6 +72,8 @@ export interface CreateProductDto {
   /** @format decimal */
   price: number;
   imageUrl?: string | null;
+  /** @format int32 */
+  quantityAvailable: number;
 }
 
 export interface UpdateProductDto {
@@ -75,6 +84,8 @@ export interface UpdateProductDto {
   price?: number | null;
   description?: string | null;
   imageUrl?: string | null;
+  /** @format int32 */
+  quantityAvailable?: number | null;
 }
 
 export interface BuyResultDto {
@@ -86,7 +97,8 @@ export interface BuyResultDto {
 
 export interface BuyProductDto {
   productId: string;
-  isBought: boolean;
+  /** @format int32 */
+  quantity: number;
 }
 
 export interface CreateUserDto {
@@ -105,6 +117,13 @@ export interface UserReturnDto {
 export interface CartAddToCartParams {
   UserId?: string;
   ProductId?: string;
+}
+
+export interface CartUpdateQuantityParams {
+  UserId?: string;
+  ProductId?: string;
+  /** @format int32 */
+  Quantity?: number;
 }
 
 export interface CartRemoveFromCartParams {
@@ -422,6 +441,25 @@ export class Api<
       this.request<void, any>({
         path: `/AddToCart`,
         method: "POST",
+        query: query,
+        ...params,
+      }),
+  };
+  updateQuantity = {
+    /**
+     * No description
+     *
+     * @tags Cart
+     * @name CartUpdateQuantity
+     * @request PUT:/UpdateQuantity
+     */
+    cartUpdateQuantity: (
+      query: CartUpdateQuantityParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/UpdateQuantity`,
+        method: "PUT",
         query: query,
         ...params,
       }),

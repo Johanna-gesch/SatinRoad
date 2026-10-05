@@ -55,6 +55,8 @@ public class ProductService
             Description = dto.Description,
             ImageUrl = dto.ImageUrl,
             CreatedAt = DateTime.UtcNow,
+            QuantityAvailable = dto.QuantityAvailable,
+            QuantitySold = 0,
         };
         
         productRepo.Insert(newProduct);
@@ -125,6 +127,14 @@ public class ProductService
             }
         }
 
+        if (dto.QuantityAvailable != null)
+        {
+            if (dto.QuantityAvailable < 0)
+                throw new ValidationException("Quantity can't be negative");
+
+            product.QuantityAvailable = dto.QuantityAvailable.Value;
+        }
+
         productRepo.Update(product);
     }
 
@@ -156,8 +166,11 @@ public class ProductService
         var product = productRepo.GetById(dto.ProductId) ??
                       throw new ValidationException("Product not found");
 
-        if (product.IsBought)
-            throw new ValidationException("Product has already been bought");
+        if (dto.Quantity <= 0)
+            throw new ValidationException("Quantity must be at least 1");
+
+        if (dto.Quantity > product.QuantityAvailable)
+            throw new ValidationException("Not enough stock available");
         
         if (rnd.Next(1, 101) == 1) //POLICE RAID
         {
@@ -185,9 +198,14 @@ public class ProductService
                 throw new ConflictException("Police raid failed...");
             }
         }
-        
-        product.IsBought = true;
-        product.BoughtAt = clock.UtcNow;
+
+        product.QuantityAvailable -= dto.Quantity;
+        product.QuantitySold += dto.Quantity;
+
+        if (product.FirstBoughtAt == null)
+            product.FirstBoughtAt = clock.UtcNow;
+
+        product.LastBoughtAt = clock.UtcNow;
 
         productRepo.Update(product);
 

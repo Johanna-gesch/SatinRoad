@@ -19,6 +19,7 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
     const [isUploading, setIsUploading] = useState(false);
     const [fileName, setFileName] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [quantityAvailable, setQuantityAvailable] = useState("");
 
         useEffect(() => {
             MyApi.getAllCategories.categoryGetAllCategories().then(setCategories);
@@ -33,6 +34,7 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
             price: Number(price) || 0,
             description: description,
             imageUrl: imageUrl,
+            quantityAvailable: Number(quantityAvailable) || 0,
         })
             .then(() => {
                 setProductNameField("");
@@ -124,6 +126,12 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
                     </option>
                 ))}
             </select>
+            <input
+                placeholder="Quantity Available"
+                type="number"
+                value={quantityAvailable}
+                onChange={e => setQuantityAvailable(e.target.value)}
+            />
             <button onClick={handleCreateProduct} disabled={isUploading}> Create </button>
         </div>
     );

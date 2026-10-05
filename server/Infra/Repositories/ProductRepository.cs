@@ -30,7 +30,7 @@ public class ProductRepository(MyDataConnection dc) : IProductRepository
     public List<Product> GetAll()
     {
         return dc.Products
-            .Where(p => p.IsBought == false)
+            .Where(p => p.QuantityAvailable > 0)
             .ToList();
     }
 

@@ -14,7 +14,8 @@ type ProductListProps = {
 
 export function ProductList({products, setProducts, activeUser, selectedCategory}: ProductListProps) {
     const [purchaseMessage, setPurchaseMessage] = useState<string | null>(null);
-    const { addToCart } = useCartActions();
+    const {addToCart} = useCartActions();
+    const [quantities, setQuantities] = useState<Record<string, number>>({});
     const [policeRaid, setPoliceRaid] = useState(false);
     const [search, setSearch] = useState("");
     const [policeRaidInfo, setPoliceRaidInfo] = useState<{
@@ -30,13 +31,14 @@ export function ProductList({products, setProducts, activeUser, selectedCategory
     }, []);
 
     function handleBuy(product: Product) {
+        const qty = quantities[product.productId] ?? 1;
+
         MyApi.buyProduct.productBuyProduct({
             productId: product.productId,
-            isBought: true,
-            //boughtAt: new Date().toISOString(),
+            quantity: qty,
         }).then(r => {
 
-            if(r.policeRaid) {
+            if (r.policeRaid) {
                 setPoliceRaid(true);
 
                 setPoliceRaidInfo({
@@ -51,6 +53,18 @@ export function ProductList({products, setProducts, activeUser, selectedCategory
                 setProducts(r)
             })
 
+        })
+    }
+
+    function changeQty(productId: string, delta: number, max: number) {
+        setQuantities(q => {
+            const current = q[productId] ?? 1;
+            const updated = current + delta;
+
+            return {
+                ...q,
+                [productId]: Math.max(1, Math.min(max, updated))
+            };
         })
     }
 
@@ -86,7 +100,8 @@ export function ProductList({products, setProducts, activeUser, selectedCategory
                     <p>
                         🚨 WOOP WOOP! It's the sound of the Police!! 🚨
                     </p>
-                    <p> It's now your fault that <b>{policeRaidInfo?.vendorName}</b> has been shut down and arrested, and you now no longer can buy:</p>
+                    <p> It's now your fault that <b>{policeRaidInfo?.vendorName}</b> has been shut down and arrested,
+                        and you now no longer can buy:</p>
                     <div>
                         {policeRaidInfo?.productNames.map(productName => (
                             <div key={productName}>
@@ -114,53 +129,97 @@ export function ProductList({products, setProducts, activeUser, selectedCategory
                         )
                     )
                     .map(product => (
-                    <div
-                        key={product.productId}
-                        className="productCard"
-                    >
-                        {product.imageUrl && (
-                            <img
-                                src={product.imageUrl}
-                                alt={product.productName}
-                                className="productImage"
-                            />
-                        )}
-
-                        <button
-                            className="productNameBtn"
-                            onClick={() => navigate(`/products/${product.productId}`)}
+                        <div
+                            key={product.productId}
+                            className="productCard"
                         >
-                            {product.productName}
-                        </button>
+                            {product.imageUrl && (
+                                <img
+                                    src={product.imageUrl}
+                                    alt={product.productName}
+                                    className="productImage"
+                                />
+                            )}
 
-                        <p className="productPrice">
-                            {product.price} kr.
-                        </p>
+                            <button
+                                className="productNameBtn"
+                                onClick={() => navigate(`/products/${product.productId}`)}
+                            >
+                                {product.productName}
+                            </button>
 
-                        <p className="productTimestamp">
-                            Created:{" "}
-                            {new Date(product.createdAt).toLocaleDateString()}
-                        </p>
-
-                        {product.isBought && product.boughtAt && (
-                            <p className="productBoughtAt">
-                                Bought:{" "}
-                                {new Date(product.boughtAt).toLocaleDateString()}
+                            <p className="productPrice">
+                                {product.price} kr.
                             </p>
-                        )}
 
-                        <button onClick={() => addToCart(product)}>
-                            Add to cart 🛒
-                        </button>
+                            <p className="productTimestamp">
+                                Created:{" "}
+                                {new Date(product.createdAt).toLocaleDateString()}
+                            </p>
 
-                        <button
-                            className="buyBtn"
-                            onClick={() => handleBuy(product)}
-                        >
-                            BUY NOW!
-                        </button>
-                    </div>
-                ))}
+                            {product.quantitySold > 0 && (
+                                <div className="productBoughtInfo">
+                                    <p>Sold: {product.quantitySold}</p>
+
+                                    {product.firstBoughtAt && (
+                                        <p>
+                                            First bought:{" "}
+                                            {new Date(product.firstBoughtAt).toLocaleDateString()}
+                                        </p>
+                                    )}
+
+                                    {product.lastBoughtAt && (
+                                        <p>
+                                            Last bought:{" "}
+                                            {new Date(product.lastBoughtAt).toLocaleDateString()}
+                                        </p>
+                                    )}
+
+                                    {product.quantityAvailable === 0 && (
+                                        <p className="soldOut">Sold out</p>
+                                    )}
+                                </div>
+                            )}
+
+
+                            <div className="qtySelector">
+                                <button
+                                    disabled={(quantities[product.productId] ?? 1) <= 1}
+                                    onClick={() =>
+                                        changeQty(product.productId, -1, product.quantityAvailable)
+                                    }
+                                >
+                                    -
+                                </button>
+                                <span>{quantities[product.productId] ?? 1}</span>
+
+                                <button disabled={(quantities[product.productId] ?? 1) >= product.quantityAvailable}
+                                        onClick={() =>
+                                            changeQty(product.productId, +1, product.quantityAvailable)}>
+                                    +
+                                </button>
+                            </div>
+                            <button
+                                onClick={async () => {
+                                    const qty = quantities[product.productId] ?? 1;
+                                    try {
+                                        await addToCart(product, qty);
+                                    } catch (err: any) {
+                                        alert(err?.message ?? "Could not add to cart");
+                                    }
+                                }}
+                            >
+                                Add to cart 🛒
+                            </button>
+
+                            <button
+                                className="buyBtn"
+                                onClick={() => handleBuy(product)}
+                            >
+                                BUY NOW!
+                            </button>
+                        </div>
+                    ))}
             </div>
         </>
     );

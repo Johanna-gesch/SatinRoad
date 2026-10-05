@@ -769,3 +769,21 @@ div:has(> .fileBtn) > :first-child {
     transition: none !important;
   }
 }
+.cartFloating {
+  position: absolute;
+  top: 0;
+  right: 120px;
+
+  background-color: #C86432;
+  color: #720000;
+  border: 2px solid #8B0000;
+  border-radius: 5px;
+  padding: 6px 12px;
+
+  font-weight: bold;
+  font-size: 16px;
+
+  cursor: pointer;
+  z-index: 1500;
+}
+
