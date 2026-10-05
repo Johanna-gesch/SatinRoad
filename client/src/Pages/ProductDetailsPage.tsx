@@ -23,6 +23,7 @@ export function ProductDetailsPage() {
         setCart: Dispatch<SetStateAction<CartItem[]>>
     }>();
     const { addToCart } = useCartActions();
+    const [qty, setQty] = useState(1);
 
     // Fetch the product whenever the id in the URL changes
     useEffect(() => {
@@ -56,8 +57,18 @@ export function ProductDetailsPage() {
             {product.description && (
                 <p>{product.description}</p>
             )}
+            <div className="qtySelector">
+                <button disabled={qty <= 1} onClick={() => setQty(qty - 1)}>-</button>
+                <span>{qty}</span>
+                <button disabled={qty >= product.quantityAvailable} onClick={() => setQty(qty + 1)}>
+                    +
+                </button>
+            </div>
             <button
-                onClick={() => addToCart(product)}>
+                onClick={() =>{
+                    addToCart(product, qty);
+                    setQty(1);
+                }}>
                 Add to cart 🛒
             </button>
 

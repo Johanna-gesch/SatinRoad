@@ -14,6 +14,7 @@ type ProductListProps = {
 export function ProductList({products, setProducts, activeUser}: ProductListProps) {
     const [purchaseMessage, setPurchaseMessage] = useState<string | null>(null);
     const { addToCart } = useCartActions();
+    const [qty, setQty] = useState(1);
     const [policeRaid, setPoliceRaid] = useState(false);
     const [policeRaidInfo, setPoliceRaidInfo] = useState<{
         vendorName: string;
@@ -128,7 +129,18 @@ export function ProductList({products, setProducts, activeUser}: ProductListProp
                             </p>
                         )}
 
-                        <button onClick={() => addToCart(product)}>
+                        <div className="qtySelector">
+                            <button disabled={qty <= 1} onClick={() => setQty(qty - 1)}>-</button>
+                            <span>{qty}</span>
+                            <button disabled={qty >= product.quantityAvailable} onClick={() => setQty(qty + 1)}>
+                                +
+                            </button>
+                        </div>
+                        <button
+                            onClick={() =>{
+                                addToCart(product, qty);
+                                setQty(1);
+                            }}>
                             Add to cart 🛒
                         </button>
 
