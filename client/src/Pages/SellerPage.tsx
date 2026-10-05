@@ -48,6 +48,13 @@ export function SellerPage() {
                             navigate(`/products/${product.productId}`)
                         }
                     >
+                        {product.imageUrl && (
+                            <img
+                                src={product.imageUrl}
+                                alt={product.productName}
+                                className="productImage"
+                                />
+                        )}
                         {product.productName}
                     </div>
                 ))}
