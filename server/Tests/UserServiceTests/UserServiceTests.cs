@@ -23,7 +23,8 @@ public class UserServiceTests
             ExistingUser = existingUser
         };
 
-        var service = new UserService(repoStub);
+        var productCategoryStub = new ProductCategoryRepositoryStub();
+        var service = new UserService(productCategoryStub, repoStub);
         
         //Act 
         service.Delete("1");
@@ -41,7 +42,8 @@ public class UserServiceTests
             ExistingUser = null
         };
 
-        var service = new UserService(repoStub);
+        var productCategoryStub = new ProductCategoryRepositoryStub();
+        var service = new UserService(productCategoryStub, repoStub);
         
         //Act & Assert
         var exception = Assert.Throws<ValidationException>(
@@ -58,7 +60,8 @@ public class UserServiceTests
     {
         // Arrange
         var repoStub = new UserRepositoryStub();
-        var service = new UserService(repoStub);
+        var productCategoryStub = new ProductCategoryRepositoryStub();
+        var service = new UserService(productCategoryStub, repoStub);
 
         var dto = new CreateUserDto
         {
@@ -81,7 +84,8 @@ public class UserServiceTests
         var repoStub = new UserRepositoryStub();
         repoStub.Users.Add(new User{UserId = "u1", UserName = "Per"});
         repoStub.Users.Add(new User{UserId = "u2", UserName = "Bob"});
-        var service = new UserService(repoStub);
+        var productCategoryStub = new ProductCategoryRepositoryStub();
+        var service = new UserService(productCategoryStub, repoStub);
         
         //act
         var result = service.GetAll();
@@ -97,7 +101,8 @@ public class UserServiceTests
         // Arrange
         var repoStub = new UserRepositoryStub();
         repoStub.Users.Add(new User{UserId = "u1", UserName = "Per"});
-        var service = new UserService(repoStub);
+        var productCategoryStub = new ProductCategoryRepositoryStub();
+        var service = new UserService(productCategoryStub, repoStub);
         
         // Act
         var result = service.GetById("u1");
@@ -113,7 +118,8 @@ public class UserServiceTests
     {
         // arrange
         var repoStub = new UserRepositoryStub();
-        var service = new UserService(repoStub);
+        var productCategoryStub = new ProductCategoryRepositoryStub();
+        var service = new UserService(productCategoryStub, repoStub);
         
         // Act & Assert
         Assert.Throws<ValidationException>(() => service.GetById(" "));
@@ -124,7 +130,8 @@ public class UserServiceTests
     {
         // arrange
         var repoStub = new UserRepositoryStub();
-        var service = new UserService(repoStub);
+        var productCategoryStub = new ProductCategoryRepositoryStub();
+        var service = new UserService(productCategoryStub, repoStub);
         
         // Act & Assert
         Assert.Throws<NotFoundException>(() => service.GetById("Missing"));
@@ -145,8 +152,10 @@ public class UserServiceTests
             ExistingUser = existingUser
         };
 
-        var service = new UserService(repoStub);
+        var productCategoryStub = new ProductCategoryRepositoryStub();
+        var service = new UserService(productCategoryStub, repoStub);
 
+        
         var dto = new UpdateUserDto
         {
             UserId = "1",
