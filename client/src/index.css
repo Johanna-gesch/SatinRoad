@@ -159,7 +159,7 @@ button:active,
 }
 
 button:disabled {
-  border-color: rgba(216, 207, 180, 0.16);
+  border-color: rgba(127, 35, 22, 0.96);
   background: #171411;
   color: #6f6655;
   cursor: not-allowed;

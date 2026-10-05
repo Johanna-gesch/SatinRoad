@@ -71,8 +71,8 @@ export function MyProductsPage() {
     }
 
     const displayedProducts = user.products.filter(product => showBoughtProducts
-        ? product.isBought
-        : !product.isBought)
+        ? product.quantityAvailable === 0
+        : product.quantityAvailable !== 0)
 
     return (
         <div>
@@ -155,10 +155,10 @@ export function MyProductsPage() {
                             {new Date(product.createdAt).toLocaleDateString()}
                         </p>
 
-                        {product.isBought && product.boughtAt && (
+                        {product.quantitySold > 0 && product.lastBoughtAt && (
                             <p className="productBoughtAt">
                                 Bought:{" "}
-                                {new Date(product.boughtAt).toLocaleDateString()}
+                                {new Date(product.lastBoughtAt).toLocaleDateString()}
                             </p>
                         )}
 
