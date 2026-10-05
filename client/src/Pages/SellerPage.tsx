@@ -40,7 +40,9 @@ export function SellerPage() {
             <h2>Products for sale</h2>
 
             <div className="products">
-                {user.products.map(product => (
+                {user.products
+                    .filter(product => !product.isBought)
+                    .map(product => (
                     <div
                         key={product.productId}
                         className="productCard"

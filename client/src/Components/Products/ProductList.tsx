@@ -1,4 +1,4 @@
-import {Api, type Product, type User} from "@/api/Api.ts";
+import {Api, type Category, type Product, type User} from "@/api/Api.ts";
 import {type Dispatch, type SetStateAction, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useCartActions} from "@/Hooks/UseCartActions.tsx";
@@ -9,12 +9,14 @@ type ProductListProps = {
     products: Product[];
     setProducts: Dispatch<SetStateAction<Product[]>>;
     activeUser: User | null;
+    selectedCategory: string | null;
 };
 
-export function ProductList({products, setProducts, activeUser}: ProductListProps) {
+export function ProductList({products, setProducts, activeUser, selectedCategory}: ProductListProps) {
     const [purchaseMessage, setPurchaseMessage] = useState<string | null>(null);
     const { addToCart } = useCartActions();
     const [policeRaid, setPoliceRaid] = useState(false);
+    const [search, setSearch] = useState("");
     const [policeRaidInfo, setPoliceRaidInfo] = useState<{
         vendorName: string;
         productNames: string[];
@@ -54,6 +56,12 @@ export function ProductList({products, setProducts, activeUser}: ProductListProp
 
     return (
         <>
+            <input
+                placeholder={"Search"}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+            />
+
             {purchaseMessage && (
                 <div className="purchasePopup">
                     <button className={"closeBtn"} onClick={() => setPurchaseMessage(null)}>X</button>
@@ -92,6 +100,19 @@ export function ProductList({products, setProducts, activeUser}: ProductListProp
             <div className={"products"}>
                 {products
                     .filter(product => product.vendorUserId !== activeUser?.userId)
+
+                    // Search-feltet
+                    .filter(product =>
+                        product.productName.toLowerCase().includes(search.toLowerCase())
+                    )
+
+                    // Category-filter
+                    .filter(product =>
+                        selectedCategory === null ||
+                        product.categories?.some(
+                            category => category.categoryId === selectedCategory
+                        )
+                    )
                     .map(product => (
                     <div
                         key={product.productId}
