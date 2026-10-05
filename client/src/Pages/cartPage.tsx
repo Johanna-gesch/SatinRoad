@@ -14,16 +14,18 @@ export function CartPage() {
 
     return (
         <div>
+            <button
+                onClick={() => navigate("/")}
+                style={{marginBottom: "20px"}}
+            >
+                Back to products
+            </button>
             <h2>Your cart</h2>
             {cart.length === 0 && <p>Your cart is empty</p>}
 
             {cart.map(item => (
                 <CartItemView key={item.cartItemId} item={item} />
             ))}
-
-            <button onClick={() => navigate("/")}>
-                Back to products
-            </button>
         </div>
     )
 }

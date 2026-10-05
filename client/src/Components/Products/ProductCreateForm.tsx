@@ -96,7 +96,7 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
             <input placeholder="Description" type="textarea" value={description} onChange={e => setDescription(e.target.value)} />
 
             <label htmlFor="imageUpload" className="fileBtn">
-                Browse...
+                Upload Image...
             </label>
             <input
                 id="imageUpload"

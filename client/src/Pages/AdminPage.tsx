@@ -9,6 +9,9 @@ export function AdminPage() {
 
     return (
         <>
+            <button onClick={() => navigate("/")}>
+                Back to products
+            </button>
             <div className={"AdminContainer"}>
                 <div>
                     <h1>Categories</h1>
@@ -19,9 +22,6 @@ export function AdminPage() {
                     <UsersPage/>
                 </div>
             </div>
-            <button onClick={() => navigate("/")}>
-                Back to products
-            </button>
         </>
     );
 }

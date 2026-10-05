@@ -76,6 +76,12 @@ export function MyProductsPage() {
 
     return (
         <div>
+            <button
+                onClick={() => navigate("/")}
+                style={{ marginBottom: "20px" }}
+            >
+                Back to products
+            </button>
             <ProductCreateForm vendorUserId={user.userId} onProductCreated={reloadUser} />
             <h1>My Products</h1>
 
@@ -178,10 +184,6 @@ export function MyProductsPage() {
                     </div>
                 ))}
             </div>
-
-            <button onClick={() => navigate("/")}>
-                Back to products
-            </button>
         </div>
     );
 }

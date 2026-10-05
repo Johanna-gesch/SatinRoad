@@ -25,7 +25,7 @@ export function UserCreateForm({setUsers}:{
                 placeholder={"Username"}
                 value={userNameField}
                 onChange={(e) => setUserNameField(e.target.value)}
-                ></input>/
+            />
             <button onClick={handleCreateUser}>Create User</button>
         </div>
     )
