@@ -22,7 +22,7 @@ public class MySeeder(MyDataConnection dc)
                     CategoryName = $"Category {i}"
                 });
             }
-        
+
         if (dc.Users.Count() == 0)
             for (int i = 1; i <= 10; i++)
             {
@@ -32,7 +32,20 @@ public class MySeeder(MyDataConnection dc)
                     UserName = $"User {i}",
                     IsAdmin = i == 1
                 });
+            } 
+            
+        if(dc.Products.Count() == 0)
+            for (int i = 1; i <= 101; i++)
+            {
+                dc.Insert(new Product
+                {
+                    ProductId = Guid.NewGuid().ToString(),
+                    ProductName = $"Product {i}",
+                    VendorUserId = "1",
+                    IsBought = true,
+                    CreatedAt = DateTime.Now
+                });
             }
-
+        
     }
 }
