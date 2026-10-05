@@ -64,6 +64,12 @@ export function CartPage() {
 
     return (
         <div>
+            <button
+                onClick={() => navigate("/")}
+                style={{marginBottom: "20px"}}
+            >
+                Back to products
+            </button>
             {purchaseMessage && (
                 <div className="purchasePopup">
                     <button className={"closeBtn"} onClick={() => setPurchaseMessage(null)}>X</button>
@@ -116,10 +122,6 @@ export function CartPage() {
                     BUY NOW!
                 </button>
             )}
-
-            <button onClick={() => navigate("/")}>
-                Back to products
-            </button>
         </div>
     )
 }

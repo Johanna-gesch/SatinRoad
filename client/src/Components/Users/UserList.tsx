@@ -9,7 +9,7 @@ type UsersListProps = {
 };
 
 export function UserList({users, setUsers}: UsersListProps) {
-    const [editingUserId, setEditingUserId] = useState<string | null>();
+    const [editingUserId, setEditingUserId] = useState<string | null>(null);
 
 
     function handleEditOrSaveUser(user: User) {
@@ -47,25 +47,32 @@ export function UserList({users, setUsers}: UsersListProps) {
     return (
         <div>
             {users.map(user => (
-                <div key={user.userId}>
-                    {editingUserId === user.userId ? (
-                        <input
-                            value={user.userName}
-                            onChange={e => {
-                                setUsers(users.map(u =>
-                                    u.userId === user.userId
-                                        ? {...u, userName: e.target.value}
-                                        : u
-                                ));
-                            }}
-                        />
-                    ) : (
-                        <>{user.userName}</>
-                    )}
-                    <button onClick={() => handleEditOrSaveUser(user)}>
-                        {editingUserId === user.userId ? "Save" : "Edit"}
-                    </button>
-                    <button onClick={() => handleDelete(user)}>Delete User</button>
+                <div
+                    key={user.userId}
+                    className={"adminLists"}
+                >
+                    <div>
+                        {editingUserId === user.userId ? (
+                            <input
+                                value={user.userName}
+                                onChange={e => {
+                                    setUsers(users.map(u =>
+                                        u.userId === user.userId
+                                            ? {...u, userName: e.target.value}
+                                            : u
+                                    ));
+                                }}
+                            />
+                        ) : (
+                            <>{user.userName}</>
+                        )}
+                    </div>
+                    <div className={"adminListsBtns"}>
+                        <button onClick={() => handleEditOrSaveUser(user)}>
+                            {editingUserId === user.userId ? "Save" : "Edit"}
+                        </button>
+                        <button onClick={() => handleDelete(user)}>Delete User</button>
+                    </div>
                 </div>
             ))}
         </div>

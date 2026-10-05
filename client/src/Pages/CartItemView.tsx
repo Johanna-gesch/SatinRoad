@@ -35,7 +35,7 @@ export function CartItemView({ item }: { item: CartItem }){
     return (
         <div className="cart-item">
             <h3>{item.product.productName}</h3>
-            <h3>Price: {item.product.price} kr</h3>
+            <h4>Price: {item.product.price} kr</h4>
 
             <div className="qtySelector">
                 <button

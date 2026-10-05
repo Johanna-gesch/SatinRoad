@@ -43,6 +43,12 @@ export function ProductDetailsPage() {
     // which is what "View seller " navigates to
     return (
         <div>
+            <button
+                onClick={() => navigate("/")}
+                style={{marginTop: "20px"}}
+            >
+                Back to products
+            </button>
             <h1> {product.productName}</h1>
             {product.imageUrl && (
                 <img
@@ -64,14 +70,14 @@ export function ProductDetailsPage() {
                     +
                 </button>
             </div>
-            <button
-                onClick={async () =>{
+            {selectedUser?.userId !== product.vendorUserId && (
+                <button onClick={async () =>{
                     await addToCart(product, qty);
                     setQty(1);
                 }}>
-                Add to cart 🛒
-            </button>
-
+                    Add to cart 🛒
+                </button>
+            )}
             {product.quantitySold > 0 && (
                 <div className="productBoughtInfo">
                     <p>Sold: {product.quantitySold}</p>
@@ -102,11 +108,9 @@ export function ProductDetailsPage() {
 
             <button
                 onClick={() => navigate(`/users/${product.vendorUserId}`)}
+                style={{marginRight: "10px"}}
             >
                 View seller
-            </button>
-            <button onClick={() => navigate("/")}>
-                Back to products
             </button>
         </div>
     );

@@ -35,12 +35,18 @@ export function SellerPage() {
     // Each product card navigates to /product/:productId on click
     return (
         <div>
+            <button onClick={() => navigate("/")}>
+                Back to products
+            </button>
+
             <h1>{user.userName}</h1>
 
             <h2>Products for sale</h2>
 
             <div className="products">
-                {user.products.map(product => (
+                {user.products
+                    .filter(product => !product.isBought)
+                    .map(product => (
                     <div
                         key={product.productId}
                         className="productCard"
@@ -59,10 +65,6 @@ export function SellerPage() {
                     </div>
                 ))}
             </div>
-
-            <button onClick={() => navigate("/")}>
-                Back to products
-            </button>
         </div>
     );
 }

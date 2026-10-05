@@ -40,25 +40,32 @@ export function CategoryList({ categories, setCategories, setProducts }: Categor
         <div className={"categories"}>
             {/*Map all categories*/}
             {categories.map(c => (
-                <div key={c.categoryId}>
+                <div
+                    key={c.categoryId}
+                    className={"adminLists"}
+                >
                     {/* If this category is currently being edited, show input and save button */}
-                    {editingId === c.categoryId ? (
-                        <>
-                            <input
-                                value={editingName}
-                                onChange={e => setEditingName(e.target.value)}
-                            />
-                            <button onClick={save}>Save</button>
-                        </>
-                    ) : (
-                        <>
-                            {/* Normal view mode. Shows the category name */}
-                            {c.categoryName}
-                            <button onClick={() => startEditing(c)}>Edit</button>
-                            
-                            <button onClick={() => deleteCategory(c.categoryId)}>Delete</button>
-                        </>
-                    )}
+                    <div>
+                        {editingId === c.categoryId ? (
+                            <>
+                                <input
+                                    value={editingName}
+                                    onChange={e => setEditingName(e.target.value)}
+                                />
+                                <button onClick={save}>Save</button>
+                            </>
+                        ) : (
+                            <>
+                                {/* Normal view mode. Shows the category name */}
+                                {c.categoryName}
+                            </>
+                        )}
+                    </div>
+                    <div className={"adminListsBtns"}>
+                        <button onClick={() => startEditing(c)}>Edit</button>
+
+                        <button onClick={() => deleteCategory(c.categoryId)}>Delete</button>
+                    </div>
                 </div>
             ))}
         </div>
