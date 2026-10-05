@@ -44,12 +44,14 @@ export function App() {
                         Admin
                     </button>
                 )}
-                {selectedUser && (
-                    <button className="cartFloating" onClick={() => navigate(`/cart`)}>Cart 🛒({cart.reduce((sum, item) => sum + item.quantity, 0)})</button>
-                )}
-                {selectedUser && (
-                    <button className={"loggedInUser"} onClick={() => navigate(`/users/${selectedUser.userId}/products`)}>{selectedUser.userName}</button>
-                )}
+                <div className={"topBarRight"}>
+                    {selectedUser && (
+                        <button className="cartFloating" onClick={() => navigate(`/cart`)}>Cart 🛒({cart.reduce((sum, item) => sum + item.quantity, 0)})</button>
+                    )}
+                    {selectedUser && (
+                        <button className={"loggedInUser"} onClick={() => navigate(`/users/${selectedUser.userId}/products`)}>{selectedUser.userName}</button>
+                    )}
+                </div>
 
                 <h1>Satin Road</h1>
 

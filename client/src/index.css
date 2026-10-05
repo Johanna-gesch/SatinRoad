@@ -221,11 +221,11 @@ select {
 }
 
 .adminBtn {
-  left: 0;
+  position: static;
 }
 
 .loggedInUser {
-  right: 0;
+  position: static;
   border-color: rgba(117, 138, 81, 0.7);
   background:
     linear-gradient(180deg, rgba(67, 78, 45, 0.94), rgba(25, 31, 20, 0.98));
@@ -770,20 +770,22 @@ div:has(> .fileBtn) > :first-child {
   }
 }
 .cartFloating {
-  position: absolute;
-  top: 0;
-  right: 120px;
-
   background-color: #C86432;
   color: #720000;
   border: 2px solid #8B0000;
   border-radius: 5px;
   padding: 6px 12px;
-
   font-weight: bold;
   font-size: 16px;
-
   cursor: pointer;
-  z-index: 1500;
+}
+
+.topBarRight {
+  position: absolute;
+  top: 28px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
