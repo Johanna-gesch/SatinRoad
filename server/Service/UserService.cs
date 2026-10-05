@@ -77,6 +77,26 @@ public class UserService
 
         return user;
     }
+
+    public UserReturnDto GetTopSellers()
+    {
+        List<string> topsellers = new List<string>();
+        
+        foreach (User user in userRepo.GetAll())
+        {
+            var userWProducts = userRepo.GetByIdWithProducts(user.UserId);
+            
+            if (userWProducts.Products.Count(p => p.IsBought) > 99)
+            {
+                topsellers.Add(user.UserName);
+            }
+        }
+
+        return new UserReturnDto
+        {
+            TopSellerNames = topsellers
+        };
+    }
     
     
 }

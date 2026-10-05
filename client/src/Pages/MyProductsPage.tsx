@@ -10,6 +10,7 @@ export function MyProductsPage() {
 
     const [user, setUser] = useState<User | null>(null);
     const [editingProductId, setEditingProductId] = useState<string | null>(null);
+    const [showBoughtProducts, setShowBoughtProducts] = useState(false)
 
     useEffect(() => {
         if (!userId) return;
@@ -69,15 +70,29 @@ export function MyProductsPage() {
         }).then(setUser);
     }
 
+    const displayedProducts = user.products.filter(product => showBoughtProducts
+        ? product.isBought
+        : !product.isBought)
+
     return (
         <div>
             <ProductCreateForm vendorUserId={user.userId} onProductCreated={reloadUser} />
             <h1>My Products</h1>
 
+            <div>
+                <button
+                    onClick={() => setShowBoughtProducts(false)}
+                    disabled={!showBoughtProducts}
+                >Active Products</button>
+                <button onClick={() => setShowBoughtProducts(true)}
+                disabled={showBoughtProducts}
+                >Bought Products</button>
+            </div>
+
             <p>Products belonging to {user.userName}</p>
 
             <div className="products">
-                {user.products.map(product => (
+                {displayedProducts.map(product => (
                     <div
                         key={product.productId}
                         className="productCard"
