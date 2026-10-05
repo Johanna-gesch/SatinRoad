@@ -23,7 +23,8 @@ export function useCartActions() {
 
         await MyApi.addToCart.cartAddToCart({
             UserId: selectedUser.userId,
-            ProductId: product.productId
+            ProductId: product.productId,
+
         });
 
         await MyApi.updateQuantity.cartUpdateQuantity({

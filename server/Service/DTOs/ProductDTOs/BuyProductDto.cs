@@ -5,5 +5,5 @@ namespace Service.DTOs.ProductDTOs;
 public class BuyProductDto
 {
     [NotNull] public string ProductId { get; set; } = "";
-    public bool IsBought { get; set; } = false;
+    public int Quantity { get; set; } = 1;
 }

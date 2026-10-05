@@ -31,7 +31,6 @@ export interface User {
 export interface Product {
   productId: string;
   productName: string;
-  isBought: boolean;
   /** @format decimal */
   price: number;
   description?: string | null;
@@ -39,10 +38,14 @@ export interface Product {
   vendorUserId: string;
   /** @format date-time */
   createdAt: string;
-  /** @format date-time */
-  boughtAt?: string | null;
   /** @format int32 */
   quantityAvailable: number;
+  /** @format int32 */
+  quantitySold: number;
+  /** @format date-time */
+  firstBoughtAt?: string | null;
+  /** @format date-time */
+  lastBoughtAt?: string | null;
   categories: Category[];
 }
 
@@ -69,6 +72,8 @@ export interface CreateProductDto {
   /** @format decimal */
   price: number;
   imageUrl?: string | null;
+  /** @format int32 */
+  quantityAvailable: number;
 }
 
 export interface UpdateProductDto {
@@ -79,6 +84,8 @@ export interface UpdateProductDto {
   price?: number | null;
   description?: string | null;
   imageUrl?: string | null;
+  /** @format int32 */
+  quantityAvailable?: number | null;
 }
 
 export interface BuyResultDto {
@@ -90,7 +97,8 @@ export interface BuyResultDto {
 
 export interface BuyProductDto {
   productId: string;
-  isBought: boolean;
+  /** @format int32 */
+  quantity: number;
 }
 
 export interface CreateUserDto {

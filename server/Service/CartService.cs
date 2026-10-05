@@ -15,17 +15,12 @@ public class CartService(ICartItemRepository cartItemRepository, IProductReposit
 
         if (existing != null)
         {
-            if (existing.Quantity + 1 > product.QuantityAvailable)
-                throw new ValidationException("Not enough stock");
-            
-            cartItemRepository.UpdateQuantity(userId, productId, existing.Quantity + 1);
+            return;
         }
-        else
-        {
-            if (product.QuantityAvailable < 1)
-                throw new ValidationException("Out of stock");
-            cartItemRepository.Add(userId, productId);
-        }
+
+        if (product.QuantityAvailable < 1)
+            throw new ValidationException("Out of stock");
+        cartItemRepository.Add(userId, productId);
     }
 
     public void UpdateQuantity(string userId, string productId, int quantity)
@@ -35,14 +30,23 @@ public class CartService(ICartItemRepository cartItemRepository, IProductReposit
 
         if (quantity > product.QuantityAvailable)
             throw new ValidationException("Not enough stock");
-        
         if (quantity <= 0)
         {
             cartItemRepository.Remove(userId, productId);
             return;
         }
-        
-        cartItemRepository.UpdateQuantity(userId, productId, quantity);
+
+        var existing = cartItemRepository.GetCartItem(userId, productId);
+
+        if (existing == null)
+            throw new ValidationException("Item not in cart");
+
+        var newQuantity = existing.Quantity + quantity;
+
+        if (newQuantity > product.QuantityAvailable)
+            throw new ValidationException("Not enough stock");
+
+        cartItemRepository.UpdateQuantity(userId, productId, newQuantity);
     }
 
     public void RemoveFromCart(string userId, string productId)

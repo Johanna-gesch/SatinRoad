@@ -65,20 +65,40 @@ export function ProductDetailsPage() {
                 </button>
             </div>
             <button
-                onClick={() =>{
-                    addToCart(product, qty);
+                onClick={async () =>{
+                    await addToCart(product, qty);
                     setQty(1);
                 }}>
                 Add to cart 🛒
             </button>
 
+            {product.quantitySold > 0 && (
+                <div className="productBoughtInfo">
+                    <p>Sold: {product.quantitySold}</p>
+
+                    {product.firstBoughtAt && (
+                        <p>
+                            First bought:{" "}
+                            {new Date(product.firstBoughtAt).toLocaleDateString()}
+                        </p>
+                    )}
+
+                    {product.lastBoughtAt && (
+                        <p>
+                            Last bought:{" "}
+                            {new Date(product.lastBoughtAt).toLocaleDateString()}
+                        </p>
+                    )}
+
+                    {product.quantityAvailable === 0 && (
+                        <p className="soldOut">Sold out</p>
+                    )}
+                </div>
+            )}
+
             <p>Category: {product.categories?.map(c => c.categoryName).join(", ") ?? "No category"}</p>
 
             <p>Created: {new Date(product.createdAt).toLocaleDateString()}</p>
-
-            {product.isBought && product.boughtAt && (
-                <p>Bought: {new Date(product.boughtAt).toLocaleDateString()}</p>
-            )}
 
             <button
                 onClick={() => navigate(`/users/${product.vendorUserId}`)}

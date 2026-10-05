@@ -36,6 +36,9 @@ export function App() {
                     </button>
                 )}
                 {selectedUser && (
+                    <button className="cartFloating" onClick={() => navigate(`/cart`)}>Cart 🛒({cart.reduce((sum, item) => sum + item.quantity, 0)})</button>
+                )}
+                {selectedUser && (
                     <button className={"loggedInUser"} onClick={() => navigate(`/users/${selectedUser.userId}/products`)}>{selectedUser.userName}</button>
                 )}
 
@@ -44,9 +47,6 @@ export function App() {
 
                 {!selectedUser && ( // if there is no selectedUser - show loginPage
                     <LoginPage onLogin={setSelectedUser}/>
-                )}
-                {selectedUser && (
-                    <button onClick={() => navigate(`/cart`)}>Cart ({cart.length})</button>
                 )}
             </div>
         </>
