@@ -86,7 +86,7 @@ public class UserService
         {
             var userWProducts = userRepo.GetByIdWithProducts(user.UserId);
             
-            if (userWProducts.Products.Count(p => p.IsBought) > 99)
+            if (userWProducts.Products.Sum(p => p.QuantitySold) > 99)
             {
                 topsellers.Add(user.UserName);
             }

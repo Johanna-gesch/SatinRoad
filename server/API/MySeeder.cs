@@ -42,7 +42,8 @@ public class MySeeder(MyDataConnection dc)
                     ProductId = Guid.NewGuid().ToString(),
                     ProductName = $"Product {i}",
                     VendorUserId = "1",
-                    IsBought = true,
+                    QuantitySold = 1,
+                    QuantityAvailable = 1,
                     CreatedAt = DateTime.Now
                 });
             }
