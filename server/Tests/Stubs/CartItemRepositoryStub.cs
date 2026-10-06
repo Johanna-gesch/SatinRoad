@@ -15,19 +15,21 @@ public class CartItemRepositoryStub : ICartItemRepository
         
     }
 
-    public void Add(string userId, string productid)
+    public void Add(string userId, string productid, int quantity)
     {
         Store.Add(new CartItem
         {
             CartItemId = Guid.NewGuid().ToString(),
             UserId = userId,
-            ProductId = productid
+            ProductId = productid,
+            Quantity = quantity
         });
     }
 
     public void UpdateQuantity(string userId, string productId, int quantity)
     {
-        throw new NotImplementedException();
+        var item = Store.FirstOrDefault(c => c.UserId == userId && c.ProductId == productId);
+        if (item != null) item.Quantity = quantity;
     }
 
     public void Remove(string userId, string productId)

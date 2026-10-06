@@ -117,6 +117,8 @@ export interface UserReturnDto {
 export interface CartAddToCartParams {
   UserId?: string;
   ProductId?: string;
+  /** @format int32 */
+  Quantity?: number;
 }
 
 export interface CartUpdateQuantityParams {

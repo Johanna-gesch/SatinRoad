@@ -10,7 +10,7 @@ public class CartController(CartService service) : ControllerBase
     [HttpPost(nameof(AddToCart))]
     public void AddToCart([FromQuery]AddToCartDto dto)
     {
-        service.AddToCart(dto.UserId, dto.ProductId);
+        service.AddToCart(dto.UserId, dto.ProductId, dto.Quantity);
     }
 
     [HttpPut(nameof(UpdateQuantity))]

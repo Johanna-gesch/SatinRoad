@@ -4,7 +4,7 @@ import type {Dispatch, SetStateAction} from "react";
 import {MyApi} from "@/Components/Products/ProductList.tsx";
 
 export function useCartActions() {
-    const {selectedUser, cart, setCart} = useOutletContext<{
+    const {selectedUser, setCart} = useOutletContext<{
         selectedUser: User | null;
         cart: CartItem[];
         setCart: Dispatch<SetStateAction<CartItem[]>>;
@@ -24,14 +24,10 @@ export function useCartActions() {
         await MyApi.addToCart.cartAddToCart({
             UserId: selectedUser.userId,
             ProductId: product.productId,
+            Quantity: qty,
 
         });
 
-        await MyApi.updateQuantity.cartUpdateQuantity({
-            UserId: selectedUser.userId,
-            ProductId: product.productId,
-            Quantity: qty
-        });
 
         const updatedCart = await MyApi.getCart.cartGetCart({
             userId: selectedUser.userId
