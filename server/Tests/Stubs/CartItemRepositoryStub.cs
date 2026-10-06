@@ -7,7 +7,14 @@ public class CartItemRepositoryStub : ICartItemRepository
 {
 
     public List<CartItem> Store = new();
-    
+
+    public CartItem? GetCartItem(string userId, string productId)
+    {
+        return Store.FirstOrDefault(ci =>
+            ci.UserId == userId && ci.ProductId == productId);
+        
+    }
+
     public void Add(string userId, string productid)
     {
         Store.Add(new CartItem
@@ -16,6 +23,11 @@ public class CartItemRepositoryStub : ICartItemRepository
             UserId = userId,
             ProductId = productid
         });
+    }
+
+    public void UpdateQuantity(string userId, string productId, int quantity)
+    {
+        throw new NotImplementedException();
     }
 
     public void Remove(string userId, string productId)

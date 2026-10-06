@@ -15,7 +15,7 @@ public class CartService(ICartItemRepository cartItemRepository, IProductReposit
 
         if (existing != null)
         {
-            return;
+            throw new ValidationException("Product is already in this cart");
         }
 
         if (product.QuantityAvailable < 1)
