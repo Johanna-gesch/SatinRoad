@@ -1,4 +1,6 @@
-﻿using Infra.Entities;
+﻿using Infra;
+using Infra.Entities;
+using Infra.Repositories;
 using Service;
 using Service.DTOs.ProductDTOs;
 using Tests.Stubs;
@@ -9,13 +11,17 @@ public class BuyProductTests
 {
 
     [Fact]
-    public void BuyProduct_NoPolice_SetsIsBoughtToTrueAndTimeBoughtAt()
+    public void BuyProduct_NoPolice_UpdatesQuantityAndTimestamps()
     {
         //Arrange
         var product = new Product 
         {
             ProductId = "1",
-            IsBought = false,
+            ProductName = "Test",
+            VendorUserId = "Bob",
+            QuantityAvailable = 10,
+            QuantitySold = 0,
+            
         };
 
         var repoStub = new ProductRepositoryStub
@@ -41,7 +47,7 @@ public class BuyProductTests
         var dto = new BuyProductDto
         {
             ProductId = product.ProductId,
-            IsBought = product.IsBought,
+            Quantity = 1
         };
         
         // Act
@@ -49,8 +55,12 @@ public class BuyProductTests
         
         //Assert
         Assert.False(result.PoliceRaid);
-        Assert.True(product.IsBought);
-        Assert.NotNull(product.BoughtAt);
+        
+        Assert.Equal(9, product.QuantityAvailable);
+        Assert.Equal(1, product.QuantitySold);
+        Assert.Equal(clockStub.UtcNow, product.FirstBoughtAt);
+        Assert.Equal(clockStub.UtcNow, product.LastBoughtAt);
+        
         Assert.Same(product, repoStub.UpdatedProduct);
     }
 
@@ -69,7 +79,8 @@ public class BuyProductTests
             ProductId = "1",
             ProductName = "Kidneys",
             VendorUserId = "1",
-            IsBought = false,
+            QuantityAvailable = 10,
+            QuantitySold = 0,
         };
         
         var product2 = new Product
@@ -77,7 +88,8 @@ public class BuyProductTests
             ProductId = "2",
             ProductName = "Stolen Necklace",
             VendorUserId = "1",
-            IsBought = false,
+            QuantityAvailable = 5,
+            QuantitySold = 0,
         };
         
         var repoStub = new ProductRepositoryStub
@@ -111,7 +123,7 @@ public class BuyProductTests
         var dto = new BuyProductDto
         {
             ProductId = product.ProductId,
-            IsBought = product.IsBought,
+            Quantity = 1
         };
         
         //Act
@@ -127,11 +139,56 @@ public class BuyProductTests
 
         Assert.Same(vendor, userRepo.DeletedUser);
 
-        // Make sure the normal purchase code was NOT reached
-        Assert.False(product.IsBought);
-        Assert.Null(product.BoughtAt);
+        
+        Assert.Equal(10, product.QuantityAvailable);
+        Assert.Equal(0, product.QuantitySold);
+        Assert.Null(product.FirstBoughtAt);
+        Assert.Null(product.LastBoughtAt);
         Assert.Null(repoStub.UpdatedProduct);
+    }
 
+    [Fact]
+    public void BuyProduct_Throws_WhenQuantityIsZero()
+    {
+        var product = new Product
+        {
+            ProductId = "1",
+            QuantityAvailable = 10
+        };
+        var repoStub = new ProductRepositoryStub { ExistingProduct = product };
+        var service = new ProductService(
+            repoStub,
+            new ProductCategoryRepositoryStub(),
+            new UserRepositoryStub(),
+            new RandomStub { Value = 50 },
+            new ClockStub { UtcNow = DateTime.UtcNow });
+
+        var dto = new BuyProductDto { ProductId = "1", Quantity = 0 };
+        
+        var ex = Assert.Throws<ValidationException>(() => service.Buy(dto));
+        Assert.Equal("Quantity must be at least 1", ex.Message);
+    }
+    
+    [Fact]
+    public void BuyProduct_Throws_WhenNotEnoughStock()
+    {
+        var product = new Product
+        {
+            ProductId = "1",
+            QuantityAvailable = 10
+        };
+        var repoStub = new ProductRepositoryStub { ExistingProduct = product };
+        var service = new ProductService(
+            repoStub,
+            new ProductCategoryRepositoryStub(),
+            new UserRepositoryStub(),
+            new RandomStub { Value = 50 },
+            new ClockStub { UtcNow = DateTime.UtcNow });
+
+        var dto = new BuyProductDto { ProductId = "1", Quantity = 15 };
+
+        var ex = Assert.Throws<ValidationException>(() => service.Buy(dto));
+        Assert.Equal("Not enough stock available", ex.Message);
     }
     
 }
