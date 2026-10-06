@@ -58,60 +58,72 @@ export function ProductDetailsPage() {
                 />
             )}
 
-            <p>{product.price} kr.</p>
+            <p>Category: {product.categories?.map(c => c.categoryName).join(", ") ?? "No category"}</p>
+
+            <p>Price: {product.price} kr.</p>
 
             {product.description && (
-                <p>{product.description}</p>
+                <p>Description: {product.description}</p>
             )}
-            <div className="qtySelector">
-                <button disabled={qty <= 1} onClick={() => setQty(qty - 1)}>-</button>
-                <span>{qty}</span>
-                <button disabled={qty >= product.quantityAvailable} onClick={() => setQty(qty + 1)}>
-                    +
-                </button>
-            </div>
-            {selectedUser?.userId !== product.vendorUserId && (
-                <button onClick={async () =>{
-                    await addToCart(product, qty);
-                    setQty(1);
-                }}>
-                    Add to cart 🛒
-                </button>
-            )}
-            {product.quantitySold > 0 && (
-                <div className="productBoughtInfo">
-                    <p>Sold: {product.quantitySold}</p>
-
-                    {product.firstBoughtAt && (
-                        <p>
-                            First bought:{" "}
-                            {new Date(product.firstBoughtAt).toLocaleDateString()}
-                        </p>
-                    )}
-
-                    {product.lastBoughtAt && (
-                        <p>
-                            Last bought:{" "}
-                            {new Date(product.lastBoughtAt).toLocaleDateString()}
-                        </p>
-                    )}
-
-                    {product.quantityAvailable === 0 && (
-                        <p className="soldOut">Sold out</p>
-                    )}
-                </div>
-            )}
-
-            <p>Category: {product.categories?.map(c => c.categoryName).join(", ") ?? "No category"}</p>
 
             <p>Created: {new Date(product.createdAt).toLocaleDateString()}</p>
 
-            <button
-                onClick={() => navigate(`/users/${product.vendorUserId}`)}
-                style={{marginRight: "10px"}}
-            >
-                View seller
-            </button>
+            <br/>
+
+            {selectedUser?.userId !== product.vendorUserId && (
+                <>
+                    <div className="qtySelector">
+                        <button disabled={qty <= 1} onClick={() => setQty(qty - 1)}>-</button>
+                        <span>{qty}</span>
+                        <button disabled={qty >= product.quantityAvailable} onClick={() => setQty(qty + 1)}>
+                            +
+                        </button>
+                    </div>
+
+                    <br/>
+
+                    {product.quantitySold > 0 && (
+                        <div className="productBoughtInfo">
+                            <p>Sold: {product.quantitySold}</p>
+
+                            {product.firstBoughtAt && (
+                                <p>
+                                    First bought:{" "}
+                                    {new Date(product.firstBoughtAt).toLocaleDateString()}
+                                </p>
+                            )}
+
+                            {product.lastBoughtAt && (
+                                <p>
+                                    Last bought:{" "}
+                                    {new Date(product.lastBoughtAt).toLocaleDateString()}
+                                </p>
+                            )}
+
+                            {product.quantityAvailable === 0 && (
+                                <p className="soldOut">Sold out</p>
+                            )}
+                        </div>
+                    )}
+
+                    <button onClick={async () =>{
+                        await addToCart(product, qty);
+                        setQty(1);
+                    }}>
+                        Add to cart 🛒
+                    </button>
+
+                    <br/><br/>
+
+                    <button
+                        onClick={() => navigate(`/users/${product.vendorUserId}`)}
+                        style={{marginRight: "10px"}}
+                    >
+                        View seller
+                    </button>
+                </>
+            )}
+
         </div>
     );
 }

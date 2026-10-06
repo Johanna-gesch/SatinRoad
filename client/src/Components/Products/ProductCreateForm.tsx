@@ -11,8 +11,8 @@ type ProductCreateFormState = {
 
 export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCreateFormState) {
     const [productNameField, setProductNameField] = useState("");
-    const [categoryId, setCategoryId] = useState("");
-    const [categories, setCategories] = useState<Category[]>([]);
+    const [categoryIds, setCategoryIds] = useState<string[]>([]); // For sending chosen categories back to db
+    const [categories, setCategories] = useState<Category[]>([]); // For getting the categories from db
     const [price, setPrice] = useState("");
     const [description, setDescription] = useState("");
     const [imageUrl, setImageUrl] = useState("");
@@ -21,15 +21,30 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [quantityAvailable, setQuantityAvailable] = useState("");
 
-        useEffect(() => {
-            MyApi.getAllCategories.categoryGetAllCategories().then(setCategories);
-        }, []);
+    const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+
+    useEffect(() => {
+        MyApi.getAllCategories.categoryGetAllCategories().then(setCategories);
+    }, []);
+
+    function handleCategoryToggle(categoryId: string) {
+        setCategoryIds(currentIds => {
+            // If the category is already selected, remove it.
+            if (currentIds.includes(categoryId)) {
+                return currentIds.filter(id => id !== categoryId);
+            }
+
+            // Otherwise add it to the selected categories.
+            return [...currentIds, categoryId];
+        });
+    }
+
     function handleCreateProduct() {
         if (!vendorUserId) return;
 
         MyApi.createProduct.productCreateProduct({
             productName: productNameField,
-            categoryIds: [categoryId],
+            categoryIds: categoryIds,
             vendorUserId: vendorUserId,
             price: Number(price) || 0,
             description: description,
@@ -43,7 +58,7 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
                 setImageUrl("");
                 setFileName(null);
 
-                setCategoryId("");
+                setCategoryIds([]);
                 onProductCreated();
             })
         if (!vendorUserId) {
@@ -97,35 +112,101 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
             <input placeholder="Price" type="number" value={price} onChange={e => setPrice(e.target.value)} />
             <input placeholder="Description" type="textarea" value={description} onChange={e => setDescription(e.target.value)} />
 
-            <label htmlFor="imageUpload" className="fileBtn">
-                Upload Image...
-            </label>
-            <input
-                id="imageUpload"
-                type="file"
-                className="fileInput"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                accept="image/jpeg,image/png,image/webp"
-            />
-            <span>{isUploading ? "Uploading..." : fileName}</span>
-            {fileName && (
+            {fileName ? (
                 <button
                     type="button"
-                    onClick={handleCreateProduct}
+                    className="fileBtn"
+                    onClick={handleRemoveImage}
                     disabled={isUploading}
-                    >
+                >
                     Remove image
                 </button>
+            ) : (
+                <>
+                    <label htmlFor="imageUpload" className="fileBtn">
+                        Upload Image...
+                    </label>
+
+                    <input
+                        id="imageUpload"
+                        type="file"
+                        className="fileInput"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        accept="image/jpeg,image/png,image/webp"
+                    />
+                </>
             )}
-            <select value={categoryId} onChange={e => setCategoryId(e.target.value)}>
-                <option value="">Select category</option>
-                {categories.map(c => (
-                    <option key={c.categoryId} value={c.categoryId.toString()}>
-                        {c.categoryName}
-                    </option>
-                ))}
-            </select>
+
+            <span>
+                {isUploading ? "Uploading..." : fileName}
+            </span>
+
+            {/* Category multi-select */}
+            <div className="categoryDropdown">
+                <button
+                    type="button"
+                    className="categorySelect"
+                    onClick={() =>
+                        setIsCategoryDropdownOpen(
+                            current => !current
+                        )
+                    }
+                >
+                    {categoryIds.length === 0
+                        ? "Select categories"
+                        : categories
+                            .filter(category =>
+                                categoryIds.includes(
+                                    category.categoryId.toString()
+                                )
+                            )
+                            .map(category => category.categoryName)
+                            .join(", ")
+                    }
+
+                    <span className={"categoryArrow"}>
+                        {isCategoryDropdownOpen ? "▲" : "▼"}
+                    </span>
+                </button>
+
+                {isCategoryDropdownOpen && (
+                    <div className="categoryDropdownMenu">
+
+                        {categories.map(category => {
+                            const isSelected =
+                                categoryIds.includes(
+                                    category.categoryId.toString()
+                                );
+
+                            return (
+                                <button
+                                    type="button"
+                                    key={category.categoryId}
+                                    className={`categoryOption ${
+                                        isSelected
+                                            ? "selected"
+                                            : ""
+                                    }`}
+                                    onClick={() =>
+                                        handleCategoryToggle(
+                                            category.categoryId.toString()
+                                        )
+                                    }
+                                >
+                                    <span className="categoryCheckmark">
+                                        {isSelected ? "✓" : ""}
+                                    </span>
+
+                                    <span>
+                                        {category.categoryName}
+                                    </span>
+                                </button>
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
             <input
                 placeholder="Quantity Available"
                 type="number"

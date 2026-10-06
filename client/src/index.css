@@ -231,6 +231,12 @@ select {
     linear-gradient(180deg, rgba(67, 78, 45, 0.94), rgba(25, 31, 20, 0.98));
 }
 
+.qtySelector {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
 #root > div > div > h1 + div:not(:has(.category-sidebar)) {
   display: flex;
   flex-wrap: wrap;
@@ -789,3 +795,150 @@ div:has(> .fileBtn) > :first-child {
   gap: 8px;
 }
 
+.categoryDropdown {
+  position: relative;
+  width: 100%;
+}
+
+.categorySelect {
+  width: 100%;
+  min-height: 38px;
+
+  padding: 6px 10px;
+
+  background:
+          linear-gradient(180deg, rgba(90, 28, 18, 0.92), rgba(38, 22, 15, 0.98));
+  box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.06),
+          0 2px 0 rgba(0, 0, 0, 0.55);
+  color: #ead9a2;
+  font: 700 0.78rem "Courier New", Courier, monospace;
+  letter-spacing: 0;
+  line-height: 1.15;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.categoryArrow {
+  margin-left: 10px;
+  font-size: 15px;
+}
+
+.categoryDropdownMenu {
+  position: absolute;
+
+  top: 100%;
+  left: 0;
+  right: 0;
+
+  background-color: #080705;
+  border: 1px solid #767676;
+  border-top: none;
+
+  z-index: 1000;
+
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.categoryOption {
+  width: 100%;
+
+  padding: 7px 10px;
+
+  background-color: #080705;
+  border: none;
+
+  display: flex;
+  align-items: center;
+
+  text-align: left;
+  font: inherit;
+
+  cursor: pointer;
+}
+
+.categoryOption:hover {
+  background-color: #f0f0f0;
+}
+
+.categoryCheckmark {
+  width: 20px;
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.editPopupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  z-index: 1000;
+}
+
+.editPopup {
+  background-color: #080705;
+  padding: 30px;
+  border-radius: 10px;
+  border: 2px solid rgb(60, 29, 20);
+
+  width: 500px;
+  max-width: 90%;
+
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.editPopup label {
+  display: block;
+  margin-bottom: 15px;
+}
+
+.editPopupButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.txtArea {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid rgba(196, 154, 75, 0.36);
+  border-radius: 4px;
+  padding: 9px 11px;
+  background: #0e0c0a;
+  color: #efe6c9;
+  font: 0.92rem "Courier New", Courier, monospace;
+  outline: none;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.45);
+}
+
+.txtArea::placeholder {
+  color: #70664f;
+}
+
+.txtArea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgba(196, 154, 75, 0.14);
+}
+
+.editProductImage {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  display: block;
+  margin-bottom: 10px;
+}
