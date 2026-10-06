@@ -16,7 +16,7 @@ export function compressImage(file: File, maxDimension = 600, quality = 0.7): Pr
             let {width, height} = img;
 
             // Scale down proportionally so the longer side never exceeds maxDimension,
-            // keeping the original aspect ration intact
+            // keeping the original aspect ratio intact
             if (width > height && width > maxDimension){
                 height = (height * maxDimension) / width;
                 width = maxDimension;
