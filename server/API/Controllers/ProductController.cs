@@ -37,12 +37,6 @@ public class ProductController(ProductService service) : ControllerBase
         service.Delete(id);
     }
 
-    [HttpPut(nameof(BuyProduct))]
-    public BuyResultDto BuyProduct([FromBody]BuyProductDto dto)
-    {
-        return service.Buy(dto);
-    }
-
     [HttpPost(nameof(UploadImage))]
     public IActionResult UploadImage(IFormFile file)
     {
