@@ -1,4 +1,6 @@
-﻿using Infra.Entities;
+﻿using Infra;
+using Infra.Entities;
+using Infra.Repositories;
 using Service;
 using Service.DTOs.ProductDTOs;
 using Tests.Stubs;
@@ -9,7 +11,7 @@ public class BuyProductTests
 {
 
     [Fact]
-    public void BuyProduct_NoPolice_SetsIsBoughtToTrueAndTimeBoughtAt()
+    public void BuyProduct_NoPolice_UpdatesQuantityAndTimestamps()
     {
         //Arrange
         var product = new Product 
@@ -143,6 +145,50 @@ public class BuyProductTests
         Assert.Null(product.FirstBoughtAt);
         Assert.Null(product.LastBoughtAt);
         Assert.Null(repoStub.UpdatedProduct);
+    }
+
+    [Fact]
+    public void BuyProduct_Throws_WhenQuantityIsZero()
+    {
+        var product = new Product
+        {
+            ProductId = "1",
+            QuantityAvailable = 10
+        };
+        var repoStub = new ProductRepositoryStub { ExistingProduct = product };
+        var service = new ProductService(
+            repoStub,
+            new ProductCategoryRepositoryStub(),
+            new UserRepositoryStub(),
+            new RandomStub { Value = 50 },
+            new ClockStub { UtcNow = DateTime.UtcNow });
+
+        var dto = new BuyProductDto { ProductId = "1", Quantity = 0 };
+        
+        var ex = Assert.Throws<ValidationException>(() => service.Buy(dto));
+        Assert.Equal("Quantity must be at least 1", ex.Message);
+    }
+    
+    [Fact]
+    public void BuyProduct_Throws_WhenNotEnoughStock()
+    {
+        var product = new Product
+        {
+            ProductId = "1",
+            QuantityAvailable = 10
+        };
+        var repoStub = new ProductRepositoryStub { ExistingProduct = product };
+        var service = new ProductService(
+            repoStub,
+            new ProductCategoryRepositoryStub(),
+            new UserRepositoryStub(),
+            new RandomStub { Value = 50 },
+            new ClockStub { UtcNow = DateTime.UtcNow });
+
+        var dto = new BuyProductDto { ProductId = "1", Quantity = 15 };
+
+        var ex = Assert.Throws<ValidationException>(() => service.Buy(dto));
+        Assert.Equal("Not enough stock available", ex.Message);
     }
     
 }
