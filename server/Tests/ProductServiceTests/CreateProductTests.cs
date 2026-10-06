@@ -13,11 +13,8 @@ public class CreateProductTests
         //Arrange
         var repoStub = new ProductRepositoryStub();
         var productCategoryRepo = new ProductCategoryRepositoryStub();
-        var userRepo = new UserRepositoryStub();
-        var rndStub = new RandomStub();
-        var clockStub = new ClockStub();
         
-        var service = new ProductService(repoStub, productCategoryRepo, userRepo, rndStub, clockStub);
+        var service = new ProductService(repoStub, productCategoryRepo);
 
         var dto = new CreateProductDto
         {

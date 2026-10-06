@@ -69,12 +69,6 @@ export function CartPage() {
                 setPurchaseMessage(
                     r.purchasedProductNames ?? []
                 )
-
-                setPurchasePrices({
-                    totalPrice: r.totalPrice ?? 0,
-                    discountAmount: r.discountAmount ?? 0,
-                    finalPrice: r.finalPrice ?? 0
-                })
             }
 
             setCart([])

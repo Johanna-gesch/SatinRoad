@@ -22,11 +22,8 @@ public class DeleteProductTests
             ExistingProduct = existingProduct
         };
         var productCategoryStub = new ProductCategoryRepositoryStub();
-        var userRepoStub = new UserRepositoryStub();
-        var rndStub = new RandomStub();
-        var clockStub = new ClockStub();
 
-        var service = new ProductService(repoStub, productCategoryStub, userRepoStub, rndStub, clockStub);
+        var service = new ProductService(repoStub, productCategoryStub);
 
         // Act
         service.Delete("1");
@@ -45,11 +42,8 @@ public class DeleteProductTests
         };
 
         var productCategoryStub = new ProductCategoryRepositoryStub();
-        var userRepoStub = new UserRepositoryStub();
-        var rndStub = new RandomStub();
-        var clockStub = new ClockStub();
 
-        var service = new ProductService(repoStub, productCategoryStub, userRepoStub, rndStub, clockStub);
+        var service = new ProductService(repoStub, productCategoryStub);
 
         // Act & Assert
         var exception = Assert.Throws<ValidationException>(
