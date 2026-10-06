@@ -13,15 +13,9 @@ type ProductListProps = {
 };
 
 export function ProductList({products, setProducts, activeUser, selectedCategory}: ProductListProps) {
-    const [purchaseMessage, setPurchaseMessage] = useState<string | null>(null);
     const {addToCart} = useCartActions();
     const [quantities, setQuantities] = useState<Record<string, number>>({});
-    const [policeRaid, setPoliceRaid] = useState(false);
     const [search, setSearch] = useState("");
-    const [policeRaidInfo, setPoliceRaidInfo] = useState<{
-        vendorName: string;
-        productNames: string[];
-    } | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -30,31 +24,6 @@ export function ProductList({products, setProducts, activeUser, selectedCategory
         });
     }, []);
 
-    function handleBuy(product: Product) {
-        const qty = quantities[product.productId] ?? 1;
-
-        MyApi.buyProduct.productBuyProduct({
-            productId: product.productId,
-            quantity: qty,
-        }).then(r => {
-
-            if (r.policeRaid) {
-                setPoliceRaid(true);
-
-                setPoliceRaidInfo({
-                    vendorName: r.deletedVendorName ?? "Unknown vendor",
-                    productNames: r.deletedProductNames ?? []
-                });
-            } else {
-                setPurchaseMessage(product.productName);
-            }
-
-            MyApi.getProducts.productGetProducts().then(r => {
-                setProducts(r)
-            })
-
-        })
-    }
 
     function changeQty(productId: string, delta: number, max: number) {
         setQuantities(q => {
@@ -75,42 +44,6 @@ export function ProductList({products, setProducts, activeUser, selectedCategory
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
             />
-
-            {purchaseMessage && (
-                <div className="purchasePopup">
-                    <button className={"closeBtn"} onClick={() => setPurchaseMessage(null)}>X</button>
-                    You successfully bought {purchaseMessage}
-                    <br/>
-                    😈
-                </div>
-            )}
-
-            {policeRaid && (
-                <div className="purchasePopup">
-                    <button
-                        className="closeBtn"
-                        onClick={() => {
-                            setPoliceRaid(false);
-                            setPoliceRaidInfo(null);
-                        }}
-                    >
-                        X
-                    </button>
-
-                    <p>
-                        🚨 WOOP WOOP! It's the sound of the Police!! 🚨
-                    </p>
-                    <p> It's now your fault that <b>{policeRaidInfo?.vendorName}</b> has been shut down and arrested,
-                        and you now no longer can buy:</p>
-                    <div>
-                        {policeRaidInfo?.productNames.map(productName => (
-                            <div key={productName}>
-                                {productName}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
 
             <div className={"products"}>
                 {products
@@ -213,13 +146,6 @@ export function ProductList({products, setProducts, activeUser, selectedCategory
                                 }}
                             >
                                 Add to cart 🛒
-                            </button>
-
-                            <button
-                                className="buyBtn"
-                                onClick={() => handleBuy(product)}
-                            >
-                                BUY NOW!
                             </button>
                         </div>
                     ))}

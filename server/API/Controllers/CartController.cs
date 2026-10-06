@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Service;
 using Service.DTOs.CartDTOs;
+using Service.DTOs.ProductDTOs;
 
 namespace API.Controllers;
 
@@ -29,5 +30,17 @@ public class CartController(CartService service) : ControllerBase
     public List<CartItem> GetCart([FromQuery]string userId)
     {
         return service.GetCart(userId);
+    }
+    
+    [HttpPost(nameof(Buy))]
+    public BuyResultDto Buy([FromQuery] string userId)
+    {
+        return service.Buy(userId);
+    }
+
+    [HttpGet(nameof(GetCartPrice))]
+    public PriceResultDto GetCartPrice([FromQuery] string userId)
+    {
+        return service.GetCartPrice(userId);
     }
 }

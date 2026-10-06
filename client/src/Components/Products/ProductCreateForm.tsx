@@ -57,7 +57,7 @@ export function ProductCreateForm({ vendorUserId, onProductCreated }: ProductCre
                 setDescription("");
                 setImageUrl("");
                 setFileName(null);
-
+                setQuantityAvailable("")
                 setCategoryIds([]);
                 onProductCreated();
             })

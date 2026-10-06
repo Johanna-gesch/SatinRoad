@@ -54,6 +54,22 @@ export interface Category {
   categoryName: string;
 }
 
+export interface BuyResultDto {
+  policeRaid: boolean;
+  deletedVendorUserIds: string[];
+  deletedVendorNames: string[];
+  purchasedProductNames: string[];
+}
+
+export interface PriceResultDto {
+  /** @format decimal */
+  totalPrice: number;
+  /** @format decimal */
+  discountAmount: number;
+  /** @format decimal */
+  finalPrice: number;
+}
+
 export interface CreateCategoryRequestDto {
   categoryName: string;
 }
@@ -86,19 +102,6 @@ export interface UpdateProductDto {
   imageUrl?: string | null;
   /** @format int32 */
   quantityAvailable?: number | null;
-}
-
-export interface BuyResultDto {
-  policeRaid: boolean;
-  deletedVendorUserId?: string | null;
-  deletedVendorName?: string | null;
-  deletedProductNames: string[];
-}
-
-export interface BuyProductDto {
-  productId: string;
-  /** @format int32 */
-  quantity: number;
 }
 
 export interface CreateUserDto {
@@ -134,6 +137,14 @@ export interface CartRemoveFromCartParams {
 }
 
 export interface CartGetCartParams {
+  userId?: string;
+}
+
+export interface CartBuyParams {
+  userId?: string;
+}
+
+export interface CartGetCartPriceParams {
   userId?: string;
 }
 
@@ -502,6 +513,43 @@ export class Api<
         ...params,
       }),
   };
+  buy = {
+    /**
+     * No description
+     *
+     * @tags Cart
+     * @name CartBuy
+     * @request POST:/Buy
+     */
+    cartBuy: (query: CartBuyParams = {}, params: RequestParams = {}) =>
+      this.request<BuyResultDto, any>({
+        path: `/Buy`,
+        method: "POST",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+  };
+  getCartPrice = {
+    /**
+     * No description
+     *
+     * @tags Cart
+     * @name CartGetCartPrice
+     * @request GET:/GetCartPrice
+     */
+    cartGetCartPrice: (
+      query: CartGetCartPriceParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<PriceResultDto, any>({
+        path: `/GetCartPrice`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+  };
   createCategory = {
     /**
      * No description
@@ -689,24 +737,6 @@ export class Api<
         path: `/DeleteProduct`,
         method: "DELETE",
         query: query,
-        ...params,
-      }),
-  };
-  buyProduct = {
-    /**
-     * No description
-     *
-     * @tags Product
-     * @name ProductBuyProduct
-     * @request PUT:/BuyProduct
-     */
-    productBuyProduct: (data: BuyProductDto, params: RequestParams = {}) =>
-      this.request<BuyResultDto, any>({
-        path: `/BuyProduct`,
-        method: "PUT",
-        body: data,
-        type: ContentType.Json,
-        format: "json",
         ...params,
       }),
   };

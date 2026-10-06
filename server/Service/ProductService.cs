@@ -11,22 +11,14 @@ public class ProductService
 {
     private readonly IProductRepository productRepo;
     private readonly IProductCategoryRepository productCategoryRepo;
-    private readonly IUserRepository userRepo;
-    private readonly IRandom rnd;
-    private readonly IClock clock;
 
     public ProductService(
         IProductRepository productRepo,
-        IProductCategoryRepository productCategoryRepo,
-        IUserRepository userRepo,
-        IRandom rnd,
-        IClock clock)
+        IProductCategoryRepository productCategoryRepo
+    )
     {
         this.productRepo = productRepo;
         this.productCategoryRepo = productCategoryRepo;
-        this.userRepo =  userRepo;
-        this.rnd = rnd;
-        this.clock = clock;
     }
 
     public void Insert(CreateProductDto dto)
@@ -159,60 +151,6 @@ public class ProductService
                 productCategoryRepo.GetCategoriesForProduct(product.ProductId);
         }
         return products;
-    }
-
-    public BuyResultDto Buy(BuyProductDto dto)
-    {
-        var product = productRepo.GetById(dto.ProductId) ??
-                      throw new ValidationException("Product not found");
-
-        if (dto.Quantity <= 0)
-            throw new ValidationException("Quantity must be at least 1");
-
-        if (dto.Quantity > product.QuantityAvailable)
-            throw new ValidationException("Not enough stock available");
-        
-        if (rnd.Next(1, 101) == 1) //POLICE RAID
-        {
-            try
-            {
-                User vendor = userRepo.GetById(product.VendorUserId);
-                
-                var productNames = productRepo.GetByVendorUserId(vendor.UserId)
-                    .Select(p => p.ProductName)
-                    .ToList();
-                
-                DeleteAllForVendor(vendor.UserId);
-                userRepo.Delete(vendor);
-                
-                return new BuyResultDto
-                {
-                    PoliceRaid = true,
-                    DeletedVendorUserId = vendor.UserId,
-                    DeletedVendorName = vendor.UserName,
-                    DeletedProductNames = productNames
-                };
-            }
-            catch
-            {
-                throw new ConflictException("Police raid failed...");
-            }
-        }
-
-        product.QuantityAvailable -= dto.Quantity;
-        product.QuantitySold += dto.Quantity;
-
-        if (product.FirstBoughtAt == null)
-            product.FirstBoughtAt = clock.UtcNow;
-
-        product.LastBoughtAt = clock.UtcNow;
-
-        productRepo.Update(product);
-
-        return new BuyResultDto
-        {
-            PoliceRaid = false,
-        };
     }
 
     public string SaveProductImage(Stream fileStream, string originalFileName, string baseUrl)
