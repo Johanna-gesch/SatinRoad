@@ -181,6 +181,9 @@ export function ProductList({products, setProducts, activeUser, selectedCategory
                                 </div>
                             )}
 
+                            <p className="productStock">
+                                In stock: {product.quantityAvailable}
+                            </p>
 
                             <div className="qtySelector">
                                 <button

@@ -12,14 +12,14 @@ public class CartItemRepository(MyDataConnection dc) : ICartItemRepository
             .FirstOrDefault(ci => ci.UserId == userId && ci.ProductId == productId);
     }
     
-    public void Add(string userId, string productid)
+    public void Add(string userId, string productid, int quantity = 1)
     {
         dc.Insert(new CartItem
         {
             CartItemId = Guid.NewGuid().ToString(),
             UserId = userId,
             ProductId = productid,
-            Quantity = 1
+            Quantity = quantity
         });
     }
 
