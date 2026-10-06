@@ -15,7 +15,11 @@ public class BuyProductTests
         var product = new Product 
         {
             ProductId = "1",
-            IsBought = false,
+            ProductName = "Test",
+            VendorUserId = "Bob",
+            QuantityAvailable = 10,
+            QuantitySold = 0,
+            
         };
 
         var repoStub = new ProductRepositoryStub
@@ -41,7 +45,7 @@ public class BuyProductTests
         var dto = new BuyProductDto
         {
             ProductId = product.ProductId,
-            IsBought = product.IsBought,
+            Quantity = 1
         };
         
         // Act
@@ -49,8 +53,12 @@ public class BuyProductTests
         
         //Assert
         Assert.False(result.PoliceRaid);
-        Assert.True(product.IsBought);
-        Assert.NotNull(product.BoughtAt);
+        
+        Assert.Equal(9, product.QuantityAvailable);
+        Assert.Equal(1, product.QuantitySold);
+        Assert.Equal(clockStub.UtcNow, product.FirstBoughtAt);
+        Assert.Equal(clockStub.UtcNow, product.LastBoughtAt);
+        
         Assert.Same(product, repoStub.UpdatedProduct);
     }
 
@@ -69,7 +77,8 @@ public class BuyProductTests
             ProductId = "1",
             ProductName = "Kidneys",
             VendorUserId = "1",
-            IsBought = false,
+            QuantityAvailable = 10,
+            QuantitySold = 0,
         };
         
         var product2 = new Product
@@ -77,7 +86,8 @@ public class BuyProductTests
             ProductId = "2",
             ProductName = "Stolen Necklace",
             VendorUserId = "1",
-            IsBought = false,
+            QuantityAvailable = 5,
+            QuantitySold = 0,
         };
         
         var repoStub = new ProductRepositoryStub
@@ -111,7 +121,7 @@ public class BuyProductTests
         var dto = new BuyProductDto
         {
             ProductId = product.ProductId,
-            IsBought = product.IsBought,
+            Quantity = 1
         };
         
         //Act
@@ -127,11 +137,12 @@ public class BuyProductTests
 
         Assert.Same(vendor, userRepo.DeletedUser);
 
-        // Make sure the normal purchase code was NOT reached
-        Assert.False(product.IsBought);
-        Assert.Null(product.BoughtAt);
+        
+        Assert.Equal(10, product.QuantityAvailable);
+        Assert.Equal(0, product.QuantitySold);
+        Assert.Null(product.FirstBoughtAt);
+        Assert.Null(product.LastBoughtAt);
         Assert.Null(repoStub.UpdatedProduct);
-
     }
     
 }
