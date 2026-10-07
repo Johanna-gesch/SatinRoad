@@ -2,6 +2,6 @@
 
 public class ProductCategory
 {
-    public string ProductId { get; set; }
-    public string CategoryId { get; set; }
+    public string ProductId { get; set; } = "";
+    public string CategoryId { get; set; } = "";
 }

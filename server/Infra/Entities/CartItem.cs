@@ -10,8 +10,8 @@ public class CartItem
     [Column] public int Quantity { get; set; }
 
     [Association(ThisKey = nameof(UserId), OtherKey = nameof(User.UserId))]
-    public User User { get; set; }
+    public User User { get; set; } = null!;
 
     [Association(ThisKey = nameof(ProductId), OtherKey = nameof(Product.ProductId))]
-    public Product Product { get; set; }
+    public Product Product { get; set; } = null!;
 }
