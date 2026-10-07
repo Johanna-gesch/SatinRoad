@@ -18,8 +18,7 @@ public class UserService
         this.productCategoryRepo = productCategoryRepo;
         this.userRepo = userRepo;
     }
-
-
+    
     public void Insert(CreateUserDto dto)
     {
         var newUser = new User
@@ -74,7 +73,6 @@ public class UserService
             product.Categories =
                 productCategoryRepo.GetCategoriesForProduct(product.ProductId);
         }
-
         return user;
     }
 
@@ -97,6 +95,4 @@ public class UserService
             TopSellerNames = topsellers
         };
     }
-    
-    
 }

@@ -19,10 +19,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="CategoryServiceTests\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Infra\Infra.csproj" />
       <ProjectReference Include="..\Service\Service.csproj" />
     </ItemGroup>
