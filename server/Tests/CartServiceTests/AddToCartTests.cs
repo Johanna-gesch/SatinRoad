@@ -5,7 +5,7 @@ using Tests.Stubs;
 
 namespace Tests.CartServiceTests;
 
-public class CartServiceTests
+public class AddToCartTests
 {
     private static Product ProductWithStock(int stock = 5) =>
         new() { ProductId = "p1", QuantityAvailable = stock };
@@ -87,6 +87,4 @@ public class CartServiceTests
         Assert.Throws<ValidationException>(() => service.AddToCart("u1", "p1", 2));
         Assert.Equal(2, cartRepo.Store[0].Quantity);
     }
-
-    
 }
