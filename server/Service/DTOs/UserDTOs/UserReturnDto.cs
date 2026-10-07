@@ -2,5 +2,5 @@
 
 public class UserReturnDto
 {
-    public List<string> TopSellerNames { get; set; }
+    public List<string> TopSellerNames { get; set; } = new();
 }

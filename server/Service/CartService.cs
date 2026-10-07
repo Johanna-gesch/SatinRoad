@@ -142,6 +142,7 @@ public class CartService(
             foreach (var vendorId in vendorIds)
             {
                 var vendor = userRepository.GetById(vendorId);
+                if (vendor == null) continue;
 
                 deletedVendorUserIds.Add(vendor.UserId);
                 deletedVendorNames.Add(vendor.UserName);

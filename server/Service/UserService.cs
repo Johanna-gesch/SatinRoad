@@ -83,6 +83,7 @@ public class UserService
         foreach (User user in userRepo.GetAll())
         {
             var userWProducts = userRepo.GetByIdWithProducts(user.UserId);
+            if (userWProducts == null) continue;
             
             if (userWProducts.Products.Sum(p => p.QuantitySold) > 99)
             {
