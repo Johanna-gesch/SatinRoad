@@ -1,7 +1,11 @@
 import {useEffect, useState} from "react";
 import { Api, type User } from "@/api/Api.ts";
 
-const MyApi = new Api();
+export const MyApi = new Api({
+    baseUrl: process.env.NODE_ENV === "production"
+        ? "https://SATINROAD-API.fly.dev"   // ret når backend er deployet
+        : "http://localhost:5000"
+});
 
 type LoginPageProps = {
     onLogin: (user: User) => void;

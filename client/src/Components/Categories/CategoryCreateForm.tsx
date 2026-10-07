@@ -1,7 +1,11 @@
 import {Api, type Category} from "@/api/Api.ts";
 import {useState} from "react";
 
-export const MyApi = new Api();
+export const MyApi = new Api({
+    baseUrl: process.env.NODE_ENV === "production"
+        ? "https://SATINROAD-API.fly.dev"   // ret når backend er deployet
+        : "http://localhost:5000"
+});
 
 interface CategoryCreateFormProps {
     setCategories: (value: Category[]) => void;

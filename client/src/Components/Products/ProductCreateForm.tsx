@@ -2,7 +2,11 @@ import {Api, type Product, type Category} from "@/api/Api.ts";
 import {useState, type Dispatch, type SetStateAction, useEffect, useRef} from "react";
 import {compressImage} from "@/Utils/CompressImage.tsx";
 
-export const MyApi = new Api();
+export const MyApi = new Api({
+    baseUrl: process.env.NODE_ENV === "production"
+        ? "https://SATINROAD-API.fly.dev"
+        : "http://localhost:5000"
+});
 
 type ProductCreateFormState = {
     vendorUserId: string | null;

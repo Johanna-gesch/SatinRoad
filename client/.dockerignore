@@ -1,0 +1,10 @@
+node_modules
+dist
+out
+.git
+.idea
+.env
+.env.*
+*.log
+.DS_Store
+fly.toml

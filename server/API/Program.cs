@@ -7,8 +7,8 @@ using LinqToDB;
 using Service;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = "Data Source=dev.db";
-var options= new DataOptions().UseSQLite(connectionString);
+//var connectionString = "Data Source=dev.db";
+var options= new DataOptions().UseSQLite(builder.Configuration["DB"] ?? "Data Source=dev.db");
 var dataOptions = new DataOptions<MyDataConnection>(options);
 
 

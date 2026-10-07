@@ -2,7 +2,11 @@ import {Api, type User} from "@/api/Api.ts";
 import {type Dispatch, type SetStateAction, useState} from "react";
 
 
-export const MyApi = new Api();
+export const MyApi = new Api({
+    baseUrl: process.env.NODE_ENV === "production"
+        ? "https://SATINROAD-API.fly.dev"   
+        : "http://localhost:5000"
+});
 
 export function UserCreateForm({setUsers}:{
     setUsers: Dispatch<SetStateAction<User[]>>;

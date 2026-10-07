@@ -3,7 +3,11 @@ import {type Dispatch, type SetStateAction, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useCartActions} from "@/Hooks/UseCartActions.tsx";
 
-export const MyApi = new Api();
+export const MyApi = new Api({
+    baseUrl: process.env.NODE_ENV === "production"
+        ? "https://SATINROAD-API.fly.dev"
+        : "http://localhost:5000"
+});
 
 type ProductListProps = {
     products: Product[];

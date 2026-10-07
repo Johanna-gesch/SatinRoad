@@ -1,7 +1,11 @@
 import {useEffect, useState} from "react";
 import {Api, type Category, type Product} from "@/api/Api.ts";
 
-export const MyApi = new Api();
+export const MyApi = new Api({
+    baseUrl: process.env.NODE_ENV === "production"
+        ? "https://SATINROAD-API.fly.dev"   // ret når backend er deployet
+        : "http://localhost:5000"
+});
 
 interface CategoryListProps {
     categories: Category[];

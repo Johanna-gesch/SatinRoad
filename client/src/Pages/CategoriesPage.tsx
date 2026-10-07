@@ -3,7 +3,11 @@ import {CategoryList } from "@/Components/Categories/CategoryList.tsx"
 import {Api, type Category, type Product} from "@/api/Api.ts";
 import {useEffect, useState} from "react";
 
-export const MyApi = new Api();
+export const MyApi = new Api({
+    baseUrl: process.env.NODE_ENV === "production"
+        ? "https://SATINROAD-API.fly.dev"
+        : "http://localhost:5000"
+});
 
 export function CategoriesPage() {
     const [categories, setCategories] = useState<Category[]>([]);

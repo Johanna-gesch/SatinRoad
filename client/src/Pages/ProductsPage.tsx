@@ -9,7 +9,11 @@ type ProductsPageProps = {
     activeUser: User | null;
 }
 
-export const MyApi = new Api();
+export const MyApi = new Api({
+    baseUrl: process.env.NODE_ENV === "production"
+        ? "https://SATINROAD-API.fly.dev"
+        : "http://localhost:5000"
+});
 
 export function ProductsPage({activeUser}: ProductsPageProps) {
     const [products, setProducts] = useState<Product[]>([]);
